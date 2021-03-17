@@ -1,0 +1,8 @@
+C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.deps.json
+C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.pdb
+C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.AssemblyInfoInputs.cache
+C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.AssemblyInfo.cs
+C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.csproj.CoreCompileInputs.cache
+C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.pdb

@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "ComsiteDesk.ERP.DB.Core/1.0.0": {
+        "runtime": {
+          "ComsiteDesk.ERP.DB.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ComsiteDesk.ERP.DB.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
