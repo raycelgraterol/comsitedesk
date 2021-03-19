@@ -6,3 +6,4 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.Util\obj\Debug\netcoreapp3.1\Comsite
 C:\repositories\comsitedesk\ComsiteDesk.ERP.Util\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.Util.csproj.CoreCompileInputs.cache
 C:\repositories\comsitedesk\ComsiteDesk.ERP.Util\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.Util.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.Util\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.Util.pdb
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Util\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.Util.csprojAssemblyReference.cache
