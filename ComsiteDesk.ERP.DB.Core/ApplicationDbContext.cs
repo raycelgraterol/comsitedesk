@@ -1,4 +1,5 @@
 ﻿using ComsiteDesk.ERP.DB.Core.Authentication;
+using ComsiteDesk.ERP.DB.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,25 @@ namespace ComsiteDesk.ERP.DB.Core
             builder.Entity<IdentityUserToken<long>>().ToTable("UserToken");
             builder.Entity<IdentityRoleClaim<long>>().ToTable("RoleClaim");
 
-
-
+            builder.Entity<ClientTypes>()
+               .HasData(
+                   new ClientTypes
+                   {
+                       Id = 1,
+                       Name = "Natural",
+                       Code = "N"
+                   },
+                   new ClientTypes
+                   {
+                       Id = 2,
+                       Name = "Juridicada",
+                       Code = "J"
+                   }
+               );
         }
+
+        public DbSet<Organizations> Organizations { get; set; }
+        public DbSet<Clients> Clients { get; set; }
+        public DbSet<ClientTypes> ClientTypes { get; set; }        
     }
 }

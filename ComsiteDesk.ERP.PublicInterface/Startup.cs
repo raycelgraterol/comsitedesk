@@ -1,3 +1,4 @@
+using ComsiteDesk.ERP.Data;
 using ComsiteDesk.ERP.DB.Core;
 using ComsiteDesk.ERP.DB.Core.Authentication;
 using ComsiteDesk.ERP.Service;
@@ -52,6 +53,9 @@ namespace ComsiteDesk.ERP.PublicInterface
             // Inversion of Control(DI)
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IClientsService, ClientsService>();
+            services.AddScoped<IClientsRepo, ClientsRepo>();
 
 
             // configure jwt authentication

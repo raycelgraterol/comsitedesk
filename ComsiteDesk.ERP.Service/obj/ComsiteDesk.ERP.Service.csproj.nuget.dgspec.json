@@ -4,6 +4,64 @@
     "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Service\\ComsiteDesk.ERP.Service.csproj": {}
   },
   "projects": {
+    "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Data\\ComsiteDesk.ERP.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Data\\ComsiteDesk.ERP.Data.csproj",
+        "projectName": "ComsiteDesk.ERP.Data",
+        "projectPath": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Data\\ComsiteDesk.ERP.Data.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.DB.Core\\ComsiteDesk.ERP.DB.Core.csproj": {
+                "projectPath": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.DB.Core\\ComsiteDesk.ERP.DB.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.DB.Core\\ComsiteDesk.ERP.DB.Core.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -102,8 +160,14 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
+              "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Data\\ComsiteDesk.ERP.Data.csproj": {
+                "projectPath": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Data\\ComsiteDesk.ERP.Data.csproj"
+              },
               "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.DB.Core\\ComsiteDesk.ERP.DB.Core.csproj": {
                 "projectPath": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.DB.Core\\ComsiteDesk.ERP.DB.Core.csproj"
+              },
+              "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Util\\ComsiteDesk.ERP.Util.csproj": {
+                "projectPath": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Util\\ComsiteDesk.ERP.Util.csproj"
               }
             }
           }
@@ -117,6 +181,72 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.2.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Util\\ComsiteDesk.ERP.Util.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Util\\ComsiteDesk.ERP.Util.csproj",
+        "projectName": "ComsiteDesk.ERP.Util",
+        "projectPath": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Util\\ComsiteDesk.ERP.Util.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\repositories\\comsitedesk\\ComsiteDesk.ERP.Util\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[6.2.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

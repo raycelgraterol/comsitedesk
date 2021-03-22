@@ -10,3 +10,7 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\obj\Debug\netcoreapp3.1\Coms
 C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.pdb
 C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.Service.csproj.CopyComplete
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.Data.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.Util.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.Data.pdb
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.Util.pdb

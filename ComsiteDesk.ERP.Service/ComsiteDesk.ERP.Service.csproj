@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ComsiteDesk.ERP.Data\ComsiteDesk.ERP.Data.csproj" />
     <ProjectReference Include="..\ComsiteDesk.ERP.DB.Core\ComsiteDesk.ERP.DB.Core.csproj" />
+    <ProjectReference Include="..\ComsiteDesk.ERP.Util\ComsiteDesk.ERP.Util.csproj" />
   </ItemGroup>
 
 </Project>

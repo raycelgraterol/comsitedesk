@@ -9,3 +9,4 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\obj\Debug\netcoreapp3.1\Coms
 C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.runtimeconfig.json
 C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.runtimeconfig.dev.json
 C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.genruntimeconfig.cache
+C:\repositories\comsitedesk\ComsiteDesk.ERP.DB.Core\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.csprojAssemblyReference.cache
