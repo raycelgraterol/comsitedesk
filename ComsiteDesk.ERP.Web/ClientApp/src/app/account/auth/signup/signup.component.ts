@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 
 import { WizardComponent as BaseWizardComponent } from 'angular-archwizard';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +16,8 @@ export class SignupComponent implements OnInit, AfterViewInit {
 
   userForm: FormGroup;
   organizationForm: FormGroup;
-  submitted = false;
+  submittedUserForm = false;
+  submittedOrganization = false;
   error = '';
   loading = false;
   returnUrl: string;
@@ -65,7 +67,7 @@ export class SignupComponent implements OnInit, AfterViewInit {
    * On submit user form
    */
   userFormSubmit() {
-    this.submitted = true;
+    this.submittedUserForm = true;
     this.loading = true;
 
     // stop here if form is invalid
@@ -75,13 +77,14 @@ export class SignupComponent implements OnInit, AfterViewInit {
     }
 
     this.authenticationService
-      .register(this.f.email.value,
-        this.f.password.value,
+      .register(
         this.f.firstname.value,
         this.f.lastname.value,
+        this.f.password.value,
         this.f.email.value,
         this.f.phoneNumber.value,
-        this.f.organizationId.value)
+        this.f.organizationId.value,
+        this.orf.keyAccess.value)
       .pipe(first())
       .subscribe(
         data => {
@@ -103,7 +106,7 @@ export class SignupComponent implements OnInit, AfterViewInit {
    * On submit Organization form
    */
   organizationFormSubmit() {
-    this.submitted = true;
+    this.submittedOrganization = true;
     this.loading = true;
 
     // stop here if form is invalid
@@ -123,7 +126,17 @@ export class SignupComponent implements OnInit, AfterViewInit {
       .subscribe(
         data => {
           this.userForm.controls.organizationId.setValue(data.id);
+          this.organizationForm.controls.id.setValue(data.id);
           this.wizard.navigation.goToNextStep();
+          
+          Swal.fire({
+            position: 'center',
+            type: "success",
+            title: "Organizacion creada con exito!",
+            showConfirmButton: false,
+            timer: 1500
+          });
+
           this.loading = false;
         },
         error => {

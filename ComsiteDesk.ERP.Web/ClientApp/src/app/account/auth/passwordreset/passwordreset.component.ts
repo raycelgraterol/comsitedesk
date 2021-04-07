@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-passwordreset',
@@ -15,7 +17,10 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
   success = '';
   loading = false;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, 
+    private route: ActivatedRoute, 
+    private router: Router,
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
 
@@ -46,10 +51,22 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
 
     this.loading = true;
 
-    console.log(this.resetForm.value);
     setTimeout(() => {
-      this.loading = false;
-      this.success = 'We have sent you an email containing a link to reset your password';
+      
     }, 1000);
+
+    this.authenticationService.forgotPassword(this.f.email.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.success = data.message;
+          this.loading = false;
+          //this.router.navigate(['/account/passwordchange'], { queryParams: { email: this.email, token: this.token } });
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });   
+
   }
 }

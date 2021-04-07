@@ -63,6 +63,8 @@ namespace ComsiteDesk.ERP.PublicInterface
             services.AddTransient<IClientsService, ClientsService>();
             services.AddTransient<IClientsRepo, ClientsRepo>();
 
+            services.AddTransient<IEmailService, EmailService>();
+
 
             // configure jwt authentication
             var key = Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]);

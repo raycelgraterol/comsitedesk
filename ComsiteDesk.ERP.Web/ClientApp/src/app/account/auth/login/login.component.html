@@ -15,7 +15,7 @@
             <form class="needs-validation" name="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
 
               <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
-
+              <app-ui-preloader [display]="loading"></app-ui-preloader>
               <div class="form-group mb-3">
                 <label for="email">Usuario</label>
 

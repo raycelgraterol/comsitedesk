@@ -91,12 +91,12 @@ export class AuthenticationService {
     /**
      * Register Admin
      */
-    register(email: string, password: string, firstname: string, lastname: string, username: string, phonenumber: string, organizationId: number, keyAccess: string = "") {
+    register(firstName: string, lastName: string, password: string, email: string, phoneNumber: string, organizationId: number, keyAccess: string = "") {
 
         let urlRegister = (keyAccess != "" && keyAccess != null && keyAccess != undefined) ?
                             `${environment.apiUrl}/api/authenticate/register-admin` : `${environment.apiUrl}/api/authenticate/register`;
 
-        return this.http.post<any>(urlRegister, { email, password, firstname, lastname, username, phonenumber, organizationId })
+        return this.http.post<any>(urlRegister, { email, password, firstName, lastName, phoneNumber, organizationId, keyAccess })
             .pipe(map(user => {
                 if (user && user.token) {
                     this.user = user;
@@ -151,18 +151,28 @@ export class AuthenticationService {
             }
             ));
     }
+    
+    /**
+     * Performs the auth
+     * @param email email of user
+     */
+     forgotPassword(email: string) {
+        return this.http.post<any>(`${environment.apiUrl}/api/authenticate/forgot-password`, { email })
+            .pipe(map(result => {
+                return result;
+            }));
+    }
 
     /**
      * Change the password
-     * @param UserName 
+     * @param email 
      * @param password
      */
-    changePassword(username: string, password: string) {
-        return this.http.post<any>(`${environment.apiUrl}/api/authenticate/passwordreset`, { username, password })
+     changePassword(email: string, password: string, token: string) {
+        return this.http.post<any>(`${environment.apiUrl}/api/authenticate/reset-password`, { email, password, token })
             .pipe(map(_result => {
                 return _result;
-            }
-            ));
+            }));
     }
 
     /**

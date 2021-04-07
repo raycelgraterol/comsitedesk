@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using ComsiteDesk.ERP.Service;
+using System.Web;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,15 +30,18 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         private readonly UserManager<User> userManager;
         private readonly RoleManager<Role> roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
         public AuthenticateController(
             UserManager<User> userManager,
             RoleManager<Role> roleManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IEmailService emailService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
         // GET: api/Authenticate/users
@@ -48,7 +53,11 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
 
             return Ok(new { data = items, count = items.Count() });
         }
-
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
@@ -100,7 +109,11 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 Message = ResponseModel.Message = "El Usuario no existe. Registrese para continuar."
             });
         }
-
+        /// <summary>
+        /// Register
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("register")]
         [AllowAnonymous]
@@ -130,57 +143,11 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
 
             return Ok(new { type = ResponseModel.success, message = ResponseModel.Message = "¡Usuario creado con éxito!" });
         }
-
-        [HttpPost]
-        [Route("reset-password")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword([FromBody] LoginModel loginModel)
-        {
-            var userExists = await userManager.FindByEmailAsync(loginModel.Username);
-            if (userExists == null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, message = ResponseModel.Message = "¡El usuario no existe!" });
-
-            var result = await userManager.ResetPasswordAsync(userExists, userExists.Token, "1234");
-
-            if (!result.Succeeded)
-            {
-                if (result.Errors.Count() > 0)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        switch (error.Code)
-                        {
-                            case "PasswordTooShort":
-                                ResponseModel.Message += "La contraseña es muy corta para ser aceptada.";
-                                break;
-                            case "PasswordRequiresUpper":
-                                ResponseModel.Message += "La contraseña debe contener una Mayuscula. ";
-                                break;
-                            case "PasswordRequiresNonAlphanumeric":
-                                ResponseModel.Message += "La contraseña debe contener un Simbolo. ";
-                                break;
-                            case "PasswordRequiresLower":
-                                ResponseModel.Message += "La contraseña debe contener al menos una letra minuscula. ";
-                                break;
-                            default:
-                                ResponseModel.Message += "Error al crear el usuario. Compruebe los datos del usuario y vuelva a intentarlo.";
-                                break;
-                        }
-                    }
-                }
-
-                return StatusCode(
-                    StatusCodes.Status500InternalServerError,
-                    new
-                    {
-                        type = ResponseModel.danger,
-                        message = ResponseModel.Message
-                    });
-            }
-
-            return Ok(new { type = ResponseModel.success, message = ResponseModel.Message = "¡Hemos enviado la info a su Email!" });
-        }
-
+        /// <summary>
+        /// Register Admin
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("register-admin")]
         [AllowAnonymous]
@@ -258,8 +225,11 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
 
             return Ok(new { type = ResponseModel.success, Message = ResponseModel.Message });
         }
-
-        // POST: api/users/update
+        /// <summary>
+        /// Update User
+        /// </summary>
+        /// <returns></returns>
+        /// POST: api/Authenticate/update
         [HttpPost("update")]
         public async Task<IActionResult> UpdateUser()
         {
@@ -294,13 +264,12 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 return Ok(new { type = ResponseModel.Status, message = ResponseModel.Message });
             }
         }
-
         /// <summary>
-        /// Reset password from the dashboard
+        /// Password reset
         /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
+        /// <param name="loginModel"></param>
         /// <returns></returns>
+        /// POST: api/Authenticate/passwordreset
         [HttpPost]
         [Route("passwordreset")]
         public async Task<IActionResult> PasswordReset([FromBody] LoginModel loginModel)
@@ -352,6 +321,92 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 ResponseModel.Message = "Ha ocurrido un error inesperado.";
                 return Ok(new { message = ResponseModel.Message, type = ResponseModel.danger });
             }
+        }
+        /// <summary>
+        /// Forgot password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// POST: api/Authenticate/forgot-password
+        [HttpPost]
+        [Route("forgot-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword([FromBody] RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(model);
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, message = ResponseModel.Message = "¡El usuario no existe!" });
+
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+            token = HttpUtility.UrlEncode(token);
+
+            var callback = @"http://localhost:4200/account/passwordchange?email=" + user.Email + "&token=" + token;
+
+            var mailTo = model.Email;
+            var subject = "Recuperacion de contraseña";
+            var html = "Correo para la recuperacion de la contraseña. <br/> " + callback;
+
+            _emailService.Send(mailTo, subject, html);
+
+            return Ok(
+                new { 
+                    type = ResponseModel.success, 
+                    message = ResponseModel.Message = "Le hemos enviado un correo electrónico con un enlace para restablecer su contraseña." 
+                });
+        }
+        /// <summary>
+        /// Reset Password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// POST: api/Authenticate/reset-password
+        [HttpPost]
+        [Route("reset-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword([FromBody] RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(model);
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, message = ResponseModel.Message = "¡El usuario no existe!" });
+
+            var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+            if (!result.Succeeded)
+            {
+                if (result.Errors.Count() > 0)
+                {
+                    ResponseModel.Message = "";
+                    foreach (var error in result.Errors)
+                    {
+                        switch (error.Code)
+                        {
+                            case "PasswordRequiresUpper":
+                                ResponseModel.Message += " La contraseña debe contener una Mayuscula. ";
+                                break;
+                            case "PasswordRequiresNonAlphanumeric":
+                                ResponseModel.Message += " La contraseña debe contener un Simbolo. ";
+                                break;
+                            case "PasswordRequiresLower":
+                                ResponseModel.Message += " La contraseña debe contener al menos una letra minuscula. ";
+                                break;
+                            default:
+                                ResponseModel.Message += " No se pudo restaurar la contraseña.";
+                                break;
+                        }
+                    }
+                }
+
+                return Ok(new { message = ResponseModel.Message, type = ResponseModel.danger });
+            }
+
+            return Ok(new { type = ResponseModel.success, message = ResponseModel.Message = "¡La Contraseña se ha cambiado exitosamente!" });
         }
     }
 }
