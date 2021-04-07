@@ -84,6 +84,7 @@ export class ApexComponent implements OnInit {
   refreshContent() {
     console.log('Content refresh requested');
   }
+  
   /**
    * fetches the apex chart data
    */

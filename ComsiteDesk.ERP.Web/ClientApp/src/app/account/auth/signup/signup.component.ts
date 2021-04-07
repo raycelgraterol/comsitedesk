@@ -1,6 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/core/services/auth.service';
+
+import { WizardComponent as BaseWizardComponent } from 'angular-archwizard';
 
 @Component({
   selector: 'app-signup',
@@ -9,20 +13,44 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit, AfterViewInit {
 
-  signupForm: FormGroup;
+  userForm: FormGroup;
+  organizationForm: FormGroup;
   submitted = false;
   error = '';
   loading = false;
+  returnUrl: string;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router) { }
+
+  @ViewChild('wizardForm', { static: false }) wizard: BaseWizardComponent;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
 
-    this.signupForm = this.formBuilder.group({
-      name: ['', Validators.required],
+    this.userForm = this.formBuilder.group({
+      firstname: ['', Validators.required],
+      lastname: [''],
       email: ['', [Validators.required, Validators.email]],
+      phoneNumber: [''],
       password: ['', Validators.required],
+      organizationId: [1, Validators.required]
     });
+
+    this.organizationForm = this.formBuilder.group({
+      id: [0],
+      businessName: ['', Validators.required],
+      RIF: [''],
+      businessEmail: ['', [Validators.required, Validators.email]],
+      businessPhoneNumber: [''],
+      address: ['', Validators.required],
+      keyAccess: ['', Validators.required]
+    });
+
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   ngAfterViewInit() {
@@ -31,25 +59,76 @@ export class SignupComponent implements OnInit, AfterViewInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.signupForm.controls; }
+  get f() { return this.userForm.controls; }
 
   /**
-   * On submit form
+   * On submit user form
    */
-  onSubmit() {
+  userFormSubmit() {
     this.submitted = true;
+    this.loading = true;
 
     // stop here if form is invalid
-    if (this.signupForm.invalid) {
+    if (this.userForm.invalid) {
+      this.loading = false;
       return;
     }
 
+    this.authenticationService
+      .register(this.f.email.value,
+        this.f.password.value,
+        this.f.firstname.value,
+        this.f.lastname.value,
+        this.f.email.value,
+        this.f.phoneNumber.value,
+        this.f.organizationId.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.loading = false;
+          this.router.navigate([this.returnUrl]);
+          //TODO: confirmed mail
+          //this.router.navigate(['/account/confirm']);
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
+  }
+
+  // convenience getter for easy access to form fields
+  get orf() { return this.organizationForm.controls; }
+
+  /**
+   * On submit Organization form
+   */
+  organizationFormSubmit() {
+    this.submitted = true;
     this.loading = true;
 
-    console.log(this.signupForm.value);
-    setTimeout(() => {
+    // stop here if form is invalid
+    if (this.organizationForm.invalid) {
       this.loading = false;
-      this.router.navigate(['/account/confirm']);
-    }, 1000);
+      return;
+    }
+
+    this.authenticationService
+      .registerOrganization(this.orf.businessName.value,
+        this.orf.RIF.value,
+        this.orf.businessEmail.value,
+        this.orf.businessPhoneNumber.value,
+        this.orf.address.value,
+        this.orf.keyAccess.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.userForm.controls.organizationId.setValue(data.id);
+          this.wizard.navigation.goToNextStep();
+          this.loading = false;
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
   }
 }

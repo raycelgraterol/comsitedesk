@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ComsiteDesk.ERP.Service
 {
@@ -19,17 +20,16 @@ namespace ComsiteDesk.ERP.Service
         }
 
         public List<ClientModel> GetAll()
-        {
-
+        {            
             List<ClientModel> clients =
                 CoreMapper.MapList<Clients, ClientModel>(_uow.ClientRepo.GetAll().ToList());
 
             return clients;
         }
 
-        public ClientModel GetById(int ClientId)
+        public async Task<ClientModel> GetById(int ClientId)
         {
-            var result = _uow.ClientRepo.GetById(ClientId);
+            var result = await _uow.ClientRepo.GetById(ClientId);
 
             ClientModel client =
                 CoreMapper.MapObject<Clients, ClientModel>(result);
@@ -37,10 +37,11 @@ namespace ComsiteDesk.ERP.Service
             return client;
         }
 
-        public int Add(ClientModel Client)
+        public async Task<int> Add(ClientModel Client)
         {
             Clients c = CoreMapper.MapObject<ClientModel, Clients>(Client);
-            _uow.ClientRepo.Insert(c);
+            c.IsActive = true;
+            await _uow.ClientRepo.Insert(c);
             _uow.Commit();
             return Convert.ToInt32(c.Id);
         }
@@ -48,6 +49,7 @@ namespace ComsiteDesk.ERP.Service
         public int Update(ClientModel Client)
         {
             Clients c = CoreMapper.MapObject<ClientModel, Clients>(Client);
+            c.IsActive = true;
             _uow.ClientRepo.Edit(c);
             _uow.Commit();
             return Convert.ToInt32(c.Id);
@@ -56,7 +58,8 @@ namespace ComsiteDesk.ERP.Service
         public int Remove(ClientModel Client)
         {
             Clients c = CoreMapper.MapObject<ClientModel, Clients>(Client);
-            _uow.ClientRepo.Delete(c);
+            c.IsActive = false;
+            _uow.ClientRepo.Edit(c);
             _uow.Commit();
             return Convert.ToInt32(c.Id);
         }

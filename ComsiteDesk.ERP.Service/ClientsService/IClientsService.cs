@@ -3,6 +3,7 @@ using ComsiteDesk.ERP.Service.HelperModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ComsiteDesk.ERP.Service
 {
@@ -10,8 +11,8 @@ namespace ComsiteDesk.ERP.Service
     {
         List<ClientModel> GetAll();
         List<ClientModel> GetAllWithPager(SearchParameters searchParameters);
-        ClientModel GetById(int ClientId);
-        int Add(ClientModel Client);
+        Task<ClientModel> GetById(int ClientId);
+        Task<int> Add(ClientModel Client);
         int Update(ClientModel Client);
         int Remove(ClientModel Client);
     }

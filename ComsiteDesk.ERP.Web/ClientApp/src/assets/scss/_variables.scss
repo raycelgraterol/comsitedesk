@@ -39,7 +39,7 @@ $rightbar-width:           260px;
 
 //Topbar Background
 $bg-topbar-light:         #ffffff;
-$bg-topbar-dark:          #38414a;
+$bg-topbar-dark:          #0e0827;
 
 // Topbar Height
 $topbar-height: 70px;
@@ -85,7 +85,7 @@ $grays: map-merge((
 
 $blue:       #4a81d4;
 $indigo:     #675aa9;
-$purple:     #6658dd;
+$purple:     #23145f;
 $pink:       #f672a7;
 $red:        #f1556c;
 $orange:     #fd7e14;
@@ -93,6 +93,7 @@ $yellow:     #f7b84b;
 $green:      #1abc9c;
 $teal:       #02a8b5;
 $cyan:       #4fc6e1;
+$comsite:    #23145f;
 
 
 $colors: ();
@@ -109,10 +110,11 @@ $colors: map-merge((
   "cyan":       $cyan,
   "white":      $white,
   "gray":       $gray-600,
-  "gray-dark":  $gray-800
+  "gray-dark":  $gray-800,
+  "comsite":    $comsite
 ), $colors);
 
-$primary:       $purple;
+$primary:       $comsite;
 $secondary:     $gray-700;
 $success:       $green;
 $info:          $cyan;

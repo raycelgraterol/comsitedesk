@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ComsiteDesk.ERP.Service
 {
@@ -27,9 +28,9 @@ namespace ComsiteDesk.ERP.Service
             return Organizations;
         }
 
-        public OrganizationModel GetById(int ClientId)
+        public async Task<OrganizationModel> GetById(int organizationId)
         {
-            var result = _uow.OrganizationsRepo.GetById(ClientId);
+            var result = await _uow.OrganizationsRepo.GetById(organizationId);
 
             OrganizationModel client =
                 CoreMapper.MapObject<Organizations, OrganizationModel>(result);
@@ -37,38 +38,41 @@ namespace ComsiteDesk.ERP.Service
             return client;
         }
 
-        public int Add(OrganizationModel Client)
+        public async Task<int> Add(OrganizationModel organization)
         {
-            Organizations o = CoreMapper.MapObject<OrganizationModel, Organizations>(Client);
-            _uow.OrganizationsRepo.Insert(o);
+            Organizations o = CoreMapper.MapObject<OrganizationModel, Organizations>(organization);
+            o.IsActive = true;
+            await _uow.OrganizationsRepo.Insert(o);
             _uow.Commit();
             return Convert.ToInt32(o.Id);
         }
 
-        public int Update(OrganizationModel Client)
+        public int Update(OrganizationModel organization)
         {
-            Organizations c = CoreMapper.MapObject<OrganizationModel, Organizations>(Client);
-            _uow.OrganizationsRepo.Edit(c);
-            _uow.Commit();
-            return Convert.ToInt32(c.Id);
-        }
-
-        public int Remove(OrganizationModel Client)
-        {
-            Organizations o = CoreMapper.MapObject<OrganizationModel, Organizations>(Client);
-            _uow.OrganizationsRepo.Delete(o);
+            Organizations o = CoreMapper.MapObject<OrganizationModel, Organizations>(organization);
+            o.IsActive = true;
+            _uow.OrganizationsRepo.Edit(o);
             _uow.Commit();
             return Convert.ToInt32(o.Id);
         }
 
-        public List<OrganizationModel> GetAllWithPager(SearchParameters searchParameters, out int count)
+        public int Remove(OrganizationModel organization)
+        {
+            Organizations o = CoreMapper.MapObject<OrganizationModel, Organizations>(organization);
+            o.IsActive = false;
+            _uow.OrganizationsRepo.Edit(o);
+            _uow.Commit();
+            return Convert.ToInt32(o.Id);
+        }
+
+        public List<OrganizationModel> GetAllWithPager(SearchParameters searchParameters)
         {
             try
             {
                 var result = _uow.OrganizationsRepo.GetAll();
 
                 //count all items
-                count = result.Count();
+                searchParameters.CountItems = result.Count();
 
                 searchParameters.searchTerm =
                     searchParameters.searchTerm == null ? "" : searchParameters.searchTerm;

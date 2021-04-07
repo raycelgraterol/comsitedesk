@@ -18,7 +18,7 @@ namespace ComsiteDesk.ERP.Service.HelperModel
 
         public int parentId { get; set; } = 0;
 
-        public int CountItems { get; set; }
+        public int CountItems { get; set; } = 0;
 
         public int startIndex
         {

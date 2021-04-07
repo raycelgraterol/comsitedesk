@@ -12,6 +12,12 @@ namespace ComsiteDesk.ERP.Service.HelperModel
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }        
-        public int ClientTypeId { get; set; }       
+        public int ClientTypeId { get; set; }
+
+        public DateTime DateCreated { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime? DateModified { get; set; }
+        public int? ModifiedBy { get; set; }
+        public bool IsActive { get; set; }
     }
 }

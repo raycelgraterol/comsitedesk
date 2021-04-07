@@ -25,6 +25,7 @@ namespace ComsiteDesk.ERP.DB.Core.Authentication
         public string keyAccess { get; set; }
         [NotMapped]
         public string Token { get; set; }
+
         [Required]
         public int OrganizationId { get; set; }
         public Organizations Organization { get; set; }

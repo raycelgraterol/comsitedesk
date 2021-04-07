@@ -1716,7 +1716,8 @@
       },
       "ComsiteDesk.ERP.Util/1.0.0": {
         "dependencies": {
-          "AutoMapper": "6.2.2"
+          "AutoMapper": "6.2.2",
+          "ComsiteDesk.ERP.Data": "1.0.0"
         },
         "runtime": {
           "ComsiteDesk.ERP.Util.dll": {}

@@ -25,6 +25,36 @@ namespace ComsiteDesk.ERP.DB.Core
             builder.Entity<IdentityUserToken<long>>().ToTable("UserToken");
             builder.Entity<IdentityRoleClaim<long>>().ToTable("RoleClaim");
 
+            #region All Roles
+            builder.Entity<Role>()
+                .HasData(
+                    new Role
+                    {
+                        Id = 1,
+                        Name = "Admin",
+                        NormalizedName = "ADMIN"
+                    },
+                    new Role
+                    {
+                        Id = 2,
+                        Name = "Super Admin",
+                        NormalizedName = "SUPER ADMIN"
+                    },
+                    new Role
+                    {
+                        Id = 3,
+                        Name = "Presidente",
+                        NormalizedName = "PRESIDENTE"
+                    },
+                    new Role
+                    {
+                        Id = 4,
+                        Name = "User",
+                        NormalizedName = "USER"
+                    }
+                );
+            #endregion
+
             builder.Entity<ClientTypes>()
                .HasData(
                    new ClientTypes

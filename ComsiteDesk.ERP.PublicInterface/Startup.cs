@@ -38,7 +38,10 @@ namespace ComsiteDesk.ERP.PublicInterface
 
             // For Entity Framework
             services.AddDbContext<ApplicationDbContext>(
-                    options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
+                    options => options
+                    .UseSqlServer(Configuration.GetConnectionString("ConnStr"))
+                    .EnableSensitiveDataLogging()
+                    );
 
             // For Identity
             services.AddIdentity<User, Role>()
@@ -51,11 +54,14 @@ namespace ComsiteDesk.ERP.PublicInterface
             });
 
             // Inversion of Control(DI)
-            services.AddScoped<ApplicationDbContext>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<IClientsService, ClientsService>();
-            services.AddScoped<IClientsRepo, ClientsRepo>();
+            services.AddTransient<IOrganizationsService, OrganizationsService>();
+            services.AddTransient<IOrganizationsRepo, OrganizationsRepo>();
+
+            services.AddTransient<IClientsService, ClientsService>();
+            services.AddTransient<IClientsRepo, ClientsRepo>();
 
 
             // configure jwt authentication

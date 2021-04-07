@@ -9,7 +9,6 @@ import { User } from '../models/auth.models';
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const users: User[] = [
-            { id: 1, username: 'test', email: 'ubold@coderthemes.com', password: 'test', firstName: 'Test', lastName: 'User' }
         ];
 
         const authHeader = request.headers.get('Authorization');
@@ -24,7 +23,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 if (!user) { return error('Email or password is incorrect'); }
                 return ok({
                     id: user.id,
-                    username: user.username,
+                    username: user.userName,
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,

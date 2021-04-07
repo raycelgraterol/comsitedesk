@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ComsiteDesk.ERP.DB.Core.Models
 {
-    public class Clients
+    public class Clients: IModelBase
     {
         [Key]
         public int Id { get; set; }
@@ -18,5 +18,10 @@ namespace ComsiteDesk.ERP.DB.Core.Models
         [Required]
         public int ClientTypeId { get; set; }
         public ClientTypes ClientType { get; set; }
+        public DateTime DateCreated { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime? DateModified { get; set; }
+        public int? ModifiedBy { get; set; }
+        public bool IsActive { get; set; }
     }
 }

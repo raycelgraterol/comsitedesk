@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required]],
       password: ['', Validators.required],
     });
 
@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       .subscribe(
         data => {
           this.router.navigate([this.returnUrl]);
+          this.loading = false;
         },
         error => {
           this.error = error;

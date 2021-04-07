@@ -9,10 +9,12 @@ namespace ComsiteDesk.ERP.Service
         private IClientsRepo _clientsRepo { get; set; }
         private IOrganizationsRepo _organizationsRepo { get; set; }
         public UnitOfWork(ApplicationDbContext db,
-            IClientsRepo clientsRepo)
+            IClientsRepo clientsRepo,
+            IOrganizationsRepo organizationsRepo)
         {
             _db = db;
             _clientsRepo = clientsRepo;
+            _organizationsRepo = organizationsRepo;
 
         }
 

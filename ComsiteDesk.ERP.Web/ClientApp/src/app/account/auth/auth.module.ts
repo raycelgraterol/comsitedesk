@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { ArchwizardModule } from 'angular-archwizard';
 
 import { UIModule } from '../../shared/ui/ui.module';
 import { LoginComponent } from './login/login.component';
@@ -18,7 +19,8 @@ import { PasswordresetComponent } from './passwordreset/passwordreset.component'
     ReactiveFormsModule,
     NgbAlertModule,
     UIModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    ArchwizardModule
   ]
 })
 export class AuthModule { }

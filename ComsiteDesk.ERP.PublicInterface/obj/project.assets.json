@@ -2734,7 +2734,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "AutoMapper": "6.2.2"
+          "AutoMapper": "6.2.2",
+          "ComsiteDesk.ERP.Data": "1.0.0"
         },
         "compile": {
           "bin/placeholder/ComsiteDesk.ERP.Util.dll": {}
