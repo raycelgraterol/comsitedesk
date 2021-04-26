@@ -11,6 +11,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("96affbb4-a858-4910-80fb-a8edaa7b32f6")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ComsiteDesk.ERP.PublicInterface")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
