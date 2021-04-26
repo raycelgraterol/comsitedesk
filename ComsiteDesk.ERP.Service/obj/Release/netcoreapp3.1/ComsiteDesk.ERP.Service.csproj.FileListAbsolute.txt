@@ -1,0 +1,16 @@
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.deps.json
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.pdb
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Release\netcoreapp3.1\ComsiteDesk.ERP.Data.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Release\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Release\netcoreapp3.1\ComsiteDesk.ERP.Util.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Release\netcoreapp3.1\ComsiteDesk.ERP.Data.pdb
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Release\netcoreapp3.1\ComsiteDesk.ERP.DB.Core.pdb
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\bin\Release\netcoreapp3.1\ComsiteDesk.ERP.Util.pdb
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.csprojAssemblyReference.cache
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.AssemblyInfoInputs.cache
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.AssemblyInfo.cs
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.csproj.CoreCompileInputs.cache
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.csproj.CopyComplete
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Service\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Service.pdb
