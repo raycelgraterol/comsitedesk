@@ -23,6 +23,8 @@ export class TopbarComponent implements OnInit {
   };
 
   fullName: string;
+  user: any;
+  businessName: string;
 
   openMobileMenu: boolean;
 
@@ -35,9 +37,11 @@ export class TopbarComponent implements OnInit {
     // get the notifications
     this._fetchNotifications();
     this.openMobileMenu = false;
-
     this.fullName = this.authService.currentUser().firstName + " " + this.authService.currentUser().lastName;
-
+    this.user = this.authService.currentUser();
+    if(this.user.organization != undefined){
+      this.businessName = this.user.organization.businessName;
+    }
   }
 
 

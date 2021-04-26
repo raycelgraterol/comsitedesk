@@ -15,7 +15,7 @@ namespace ComsiteDesk.ERP.Service
             _configuration = configuration;
         }
 
-        public void Send(string to, string subject, string html, string from = "maximilian.toy9@ethereal.email")
+        public void Send(string to, string subject, string html, string from = "helpdesk@comsite.com.ve")
         {
             try
             {

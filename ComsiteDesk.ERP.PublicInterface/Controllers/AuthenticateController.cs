@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ComsiteDesk.ERP.Service;
 using System.Web;
+using System.Linq.Dynamic.Core;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,27 +33,32 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
 
+        private IOrganizationsService _organizationsService { get; set; }
+
         public AuthenticateController(
             UserManager<User> userManager,
             RoleManager<Role> roleManager,
             IConfiguration configuration,
-            IEmailService emailService)
+            IEmailService emailService,
+            IOrganizationsService organizationsService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
             _emailService = emailService;
+            _organizationsService = organizationsService;
         }
 
         // GET: api/Authenticate/users
         [HttpGet]
         [Route("users")]
-        public ActionResult GetAllUsers()
+        public ActionResult GetAllUsers([FromQuery] SearchParameters searchParameters)
         {
-            var items = userManager.Users;
+            var items = GetUsersWithPager(searchParameters);
 
-            return Ok(new { data = items, count = items.Count() });
+            return Ok(new { data = items, count = searchParameters.CountItems });
         }
+
         /// <summary>
         /// Login
         /// </summary>
@@ -99,7 +105,9 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
 
                 UserModel userModel = CoreMapper.MapObject<User, UserModel>(user);
 
-                userModel.Roles = userRoles;                
+                userModel.Organization = await _organizationsService.GetById(user.OrganizationId);
+
+                userModel.Roles = userRoles;
 
                 return Ok(userModel);
             }
@@ -109,6 +117,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 Message = ResponseModel.Message = "El Usuario no existe. Registrese para continuar."
             });
         }
+
         /// <summary>
         /// Register
         /// </summary>
@@ -119,29 +128,78 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            var userExists = await userManager.FindByNameAsync(model.Email);
-
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, Message = ResponseModel.Message = "¡El usuario ya existe!" });
-
-            User user = new User()
+            try
             {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber
-            };
-            var result = await userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    type = ResponseModel.danger,
-                    Message = ResponseModel.Message = "Error al crear el usuario. Compruebe los datos del usuario y vuelva a intentarlo."
-                });
+                var userExists = await userManager.FindByNameAsync(model.UserName);
 
-            return Ok(new { type = ResponseModel.success, message = ResponseModel.Message = "¡Usuario creado con éxito!" });
+                if (userExists != null)
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, Message = ResponseModel.Message = "¡El usuario ya existe!" });
+
+                User user = new User()
+                {
+                    Email = model.Email,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = model.UserName,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber,
+                    OrganizationId = model.OrganizationId                    
+                };
+
+                var result = await userManager.CreateAsync(user, model.Password);
+                if (!result.Succeeded)
+                {
+                    if (result.Errors.Count() > 0)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            switch (error.Code)
+                            {
+                                case "PasswordTooShort":
+                                    ResponseModel.Message += "La contraseña es muy corta para ser aceptada.";
+                                    break;
+                                case "PasswordRequiresUpper":
+                                    ResponseModel.Message += "La contraseña debe contener una Mayuscula. ";
+                                    break;
+                                case "PasswordRequiresNonAlphanumeric":
+                                    ResponseModel.Message += "La contraseña debe contener un Simbolo. ";
+                                    break;
+                                case "PasswordRequiresLower":
+                                    ResponseModel.Message += "La contraseña debe contener al menos una letra minuscula. ";
+                                    break;
+                                default:
+                                    ResponseModel.Message += "Error al crear el usuario. Compruebe los datos del usuario y vuelva a intentarlo.";
+                                    break;
+                            }
+                        }
+                    }
+
+                    return StatusCode(
+                        StatusCodes.Status500InternalServerError,
+                        new
+                        {
+                            type = ResponseModel.danger,
+                            message = ResponseModel.Message
+                        });
+                }
+
+                if (await roleManager.RoleExistsAsync(model.RolName))
+                {
+                    await userManager.AddToRoleAsync(user, model.RolName);
+                }
+
+                var mailTo = user.Email;
+                var subject = string.Format("Usuario {0} Creado Exitosamente", model.RolName);
+                var html = string.Format("El usuario: {0} fue creado exitosamente. <br/> Con la contraseña: {1} <br/>", model.UserName , model.Password);
+
+                _emailService.Send(mailTo, subject, html);
+
+                return Ok(new { type = ResponseModel.success, message = ResponseModel.Message = "¡Usuario creado con éxito!" });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// Register Admin
@@ -221,28 +279,48 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             {
                 await userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
+
+            var mailTo = user.Email;
+            var subject = "Usuario Administrador Creado Exitosamente";
+            var html = string.Format("El usuario: {0} fue creado exitosamente. <br/> Con la contraseña: {1} <br/>", user.UserName, user.Password);
+
+            _emailService.Send(mailTo, subject, html);
+
             ResponseModel.Message = "¡Usuario creado con éxito!";
 
             return Ok(new { type = ResponseModel.success, Message = ResponseModel.Message });
         }
+
+        // GET api/Authenticate/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get([FromRoute] int id)
+        {
+            var item = userManager.Users.FirstOrDefault(x => x.Id == id);
+
+            UserModel userModel = CoreMapper.MapObject<User, UserModel>(item);
+
+            var userRoles = await userManager.GetRolesAsync(item);
+
+            userModel.Roles = userRoles.Take(1).ToList();
+            
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { data = userModel, id });
+        }                
+
         /// <summary>
         /// Update User
         /// </summary>
         /// <returns></returns>
-        /// POST: api/Authenticate/update
-        [HttpPost("update")]
-        public async Task<IActionResult> UpdateUser()
+        /// PUT: api/Authenticate/update
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(User user)
         {
             try
             {
-                var user = new User()
-                {
-                    UserName = Request.Form["UserName"],
-                    FirstName = Request.Form["FirstName"],
-                    LastName = Request.Form["LastName"],
-                    PhoneNumber = Request.Form["PhoneNumber"]
-                };
-
                 var currentUser = await userManager.FindByEmailAsync(user.UserName);
 
                 currentUser.FirstName = user.FirstName;
@@ -254,6 +332,8 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 ResponseModel.Status = "Success";
                 ResponseModel.Message = "¡Usuario creado con éxito!";
 
+                //TODO: Update Rol
+
                 return Ok(new { type = ResponseModel.Status, message = ResponseModel.Message, user = currentUser });
             }
             catch (Exception ex)
@@ -264,6 +344,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 return Ok(new { type = ResponseModel.Status, message = ResponseModel.Message });
             }
         }
+
         /// <summary>
         /// Password reset
         /// </summary>
@@ -407,6 +488,55 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             }
 
             return Ok(new { type = ResponseModel.success, message = ResponseModel.Message = "¡La Contraseña se ha cambiado exitosamente!" });
+        }
+
+        /// <summary>
+        /// Get Users with pager
+        /// </summary>
+        /// <param name="searchParameters"></param>
+        /// <returns></returns>
+        private List<User> GetUsersWithPager(SearchParameters searchParameters)
+        {
+            try
+            {
+                searchParameters.searchTerm = searchParameters.searchTerm == null ? "" : searchParameters.searchTerm;
+
+                //Filters
+                var resultTotal = userManager.Users
+                            .Where(o => o.OrganizationId == searchParameters.organizationId)
+                            .Where(s =>
+                            (searchParameters.searchTerm == "") ||
+                            s.FirstName.ToLower().Contains(searchParameters.searchTerm.ToLower()) ||
+                            s.UserName.ToLower().Contains(searchParameters.searchTerm.ToLower()) ||
+                            s.Id.ToString().Contains(searchParameters.searchTerm.ToLower()));
+
+                //Count after filter total result
+                searchParameters.CountItems = resultTotal.Count();
+
+                if (searchParameters.sortColumn != null)
+                {
+                    //Sorting
+                    resultTotal = resultTotal
+                            .OrderBy(searchParameters.sortColumn + " " + searchParameters.sortDirection);
+                }
+                else
+                {
+                    resultTotal = resultTotal.OrderByDescending(x => x.Id);
+                }
+
+                resultTotal = resultTotal
+                            .Skip(searchParameters.startIndex)
+                            .Take(searchParameters.PageSize);
+
+
+                return resultTotal.ToList();
+
+            }
+            catch (Exception ex)
+            {
+                return new List<User>();
+            }
+
         }
     }
 }

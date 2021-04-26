@@ -10,6 +10,9 @@ import { FakeBackendProvider } from './core/helpers/fake-backend';
 import { LayoutsModule } from './layouts/layouts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { UserProfileService } from './core/services/user.service';
+import { DecimalPipe } from '@angular/common';
+import { RolesService } from './core/services/roles.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { AppComponent } from './app.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
+    DecimalPipe,
+    UserProfileService,
+    RolesService,
     // provider used to create fake backend
     //FakeBackendProvider
   ],

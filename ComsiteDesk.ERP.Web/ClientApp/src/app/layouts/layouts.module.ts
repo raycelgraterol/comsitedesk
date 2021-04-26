@@ -10,10 +10,11 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
+import { SidebarComsiteComponent } from './sidebar-comsite/sidebar-comsite.component';
 
 
 @NgModule({
-  declarations: [LayoutComponent, SidebarComponent, TopbarComponent, FooterComponent, RightsidebarComponent],
+  declarations: [LayoutComponent, SidebarComponent, TopbarComponent, FooterComponent, RightsidebarComponent, SidebarComsiteComponent],
   imports: [
     CommonModule,
     RouterModule,
