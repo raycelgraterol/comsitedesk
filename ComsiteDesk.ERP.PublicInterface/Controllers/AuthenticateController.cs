@@ -32,6 +32,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         private readonly RoleManager<Role> roleManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
+        private readonly IUserService _userService;
 
         private IOrganizationsService _organizationsService { get; set; }
 
@@ -40,13 +41,15 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             RoleManager<Role> roleManager,
             IConfiguration configuration,
             IEmailService emailService,
-            IOrganizationsService organizationsService)
+            IOrganizationsService organizationsService,
+            IUserService userService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
             _emailService = emailService;
             _organizationsService = organizationsService;
+            _userService = userService;
         }
 
         // GET: api/Authenticate/users
@@ -118,6 +121,30 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             });
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("googleLogin")]
+        public async Task<IActionResult> GoogleAuthenticate([FromBody] GoogleUserRequest request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState.Values.SelectMany(it => it.Errors).Select(it => it.ErrorMessage));
+
+                var userModel = await GenerateUserToken(await _userService.AuthenticateGoogleUserAsync(request));
+
+                return Ok(userModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    new { 
+                        type = ResponseModel.danger, 
+                        Message = ResponseModel.Message = "Ha Ocurrido un Error inesperado." });
+            }
+            
+        }
+
         /// <summary>
         /// Register
         /// </summary>
@@ -132,6 +159,8 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             {
                 var userExists = await userManager.FindByNameAsync(model.UserName);
 
+                var currentOrganizationId = model.OrganizationId == 0 ? _organizationsService.GetMainOrganization().Id : model.OrganizationId;
+
                 if (userExists != null)
                     return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, Message = ResponseModel.Message = "¡El usuario ya existe!" });
 
@@ -143,7 +172,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     PhoneNumber = model.PhoneNumber,
-                    OrganizationId = model.OrganizationId                    
+                    OrganizationId = currentOrganizationId
                 };
 
                 var result = await userManager.CreateAsync(user, model.Password);
@@ -187,6 +216,10 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 {
                     await userManager.AddToRoleAsync(user, model.RolName);
                 }
+                else
+                {
+                    await userManager.AddToRoleAsync(user, "User");
+                }
 
                 var mailTo = user.Email;
                 var subject = string.Format("Usuario {0} Creado Exitosamente", model.RolName);
@@ -211,84 +244,100 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
-            if (model.keyAccess != _configuration["JWT:keyAccess"])
-                return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, message = ResponseModel.Message = "¡Llave de acceso incorrecta!" });
-
-            var userExists = await userManager.FindByNameAsync(model.Email);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, message = ResponseModel.Message = "¡El usuario ya existe!" });
-
-            User user = new User()
+            try
             {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber,
-                OrganizationId = model.OrganizationId
-            };
+                if (model.keyAccess != _configuration["JWT:keyAccess"])
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, message = ResponseModel.Message = "¡Llave de acceso incorrecta!" });
 
-            ResponseModel.Message = "";
+                var currentOrganizationId = model.OrganizationId == 0 ? _organizationsService.GetMainOrganization().Id : model.OrganizationId;
 
-            var result = await userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-            {
-                if (result.Errors.Count() > 0)
+                var userExists = await userManager.FindByNameAsync(model.Email);
+                if (userExists != null)
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { type = ResponseModel.danger, message = ResponseModel.Message = "¡El usuario ya existe!" });
+
+                User user = new User()
                 {
-                    foreach (var error in result.Errors)
+                    Email = model.Email,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber,
+                    OrganizationId = currentOrganizationId
+                };
+
+                ResponseModel.Message = "";
+
+                var result = await userManager.CreateAsync(user, model.Password);
+                if (!result.Succeeded)
+                {
+                    if (result.Errors.Count() > 0)
                     {
-                        switch (error.Code)
+                        foreach (var error in result.Errors)
                         {
-                            case "PasswordTooShort":
-                                ResponseModel.Message += "La contraseña es muy corta para ser aceptada.";
-                                break;
-                            case "PasswordRequiresUpper":
-                                ResponseModel.Message += "La contraseña debe contener una Mayuscula. ";
-                                break;
-                            case "PasswordRequiresNonAlphanumeric":
-                                ResponseModel.Message += "La contraseña debe contener un Simbolo. ";
-                                break;
-                            case "PasswordRequiresLower":
-                                ResponseModel.Message += "La contraseña debe contener al menos una letra minuscula. ";
-                                break;
-                            default:
-                                ResponseModel.Message += "Error al crear el usuario. Compruebe los datos del usuario y vuelva a intentarlo.";
-                                break;
+                            switch (error.Code)
+                            {
+                                case "PasswordTooShort":
+                                    ResponseModel.Message += "La contraseña es muy corta para ser aceptada.";
+                                    break;
+                                case "PasswordRequiresUpper":
+                                    ResponseModel.Message += "La contraseña debe contener una Mayuscula. ";
+                                    break;
+                                case "PasswordRequiresNonAlphanumeric":
+                                    ResponseModel.Message += "La contraseña debe contener un Simbolo. ";
+                                    break;
+                                case "PasswordRequiresLower":
+                                    ResponseModel.Message += "La contraseña debe contener al menos una letra minuscula. ";
+                                    break;
+                                default:
+                                    ResponseModel.Message += "Error al crear el usuario. Compruebe los datos del usuario y vuelva a intentarlo.";
+                                    break;
+                            }
                         }
                     }
+
+                    return StatusCode(
+                        StatusCodes.Status500InternalServerError,
+                        new
+                        {
+                            type = ResponseModel.danger,
+                            message = ResponseModel.Message
+                        });
                 }
 
-                return StatusCode(
-                    StatusCodes.Status500InternalServerError,
-                    new
-                    {
-                        type = ResponseModel.danger,
-                        message = ResponseModel.Message
-                    });
+
+                //Create role if do not exist.
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    await roleManager.CreateAsync(new Role() { Name = UserRoles.Admin });
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                    await roleManager.CreateAsync(new Role() { Name = UserRoles.User });
+
+                if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+                {
+                    await userManager.AddToRoleAsync(user, UserRoles.Admin);
+                }
+
+                var mailTo = user.Email;
+                var subject = "Usuario Administrador Creado Exitosamente";
+                var html = string.Format("El usuario: {0} fue creado exitosamente. <br/> Con la contraseña: {1} <br/>", user.UserName, model.Password);
+
+                _emailService.Send(mailTo, subject, html);
+
+                ResponseModel.Message = "¡Usuario creado con éxito!";
+
+                return Ok(new { type = ResponseModel.success, Message = ResponseModel.Message });
             }
-
-
-            //Create role if do not exist.
-            if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                await roleManager.CreateAsync(new Role() { Name = UserRoles.Admin });
-            if (!await roleManager.RoleExistsAsync(UserRoles.User))
-                await roleManager.CreateAsync(new Role() { Name = UserRoles.User });
-
-            if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+            catch (Exception ex)
             {
-                await userManager.AddToRoleAsync(user, UserRoles.Admin);
+                return StatusCode(
+                        StatusCodes.Status500InternalServerError,
+                        new
+                        {
+                            type = ResponseModel.danger,
+                            message = ResponseModel.Message
+                        });
             }
-
-            var mailTo = user.Email;
-            var subject = "Usuario Administrador Creado Exitosamente";
-            var html = string.Format("El usuario: {0} fue creado exitosamente. <br/> Con la contraseña: {1} <br/>", user.UserName, user.Password);
-
-            _emailService.Send(mailTo, subject, html);
-
-            ResponseModel.Message = "¡Usuario creado con éxito!";
-
-            return Ok(new { type = ResponseModel.success, Message = ResponseModel.Message });
+            
         }
 
         // GET api/Authenticate/5
@@ -538,5 +587,68 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             }
 
         }
+
+        #region Private Methods
+        private async Task<UserModel> GenerateUserToken(User user)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+
+                var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
+
+                var expires = DateTime.UtcNow.AddDays(7);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new[]
+                    {
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Surname, user.FirstName),
+                    new Claim(ClaimTypes.GivenName, user.LastName),
+                    new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                    new Claim(ClaimTypes.Email, user.Email)
+                }),
+
+                    Expires = expires,
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                    Issuer = _configuration["Jwt:Issuer"],
+                    Audience = _configuration["Jwt:Audience"]
+                };
+
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                
+                user.Organization = null;
+                user.Token = tokenHandler.WriteToken(securityToken);
+
+                UserModel userModel = CoreMapper.MapObject<User, UserModel>(user);
+
+                userModel.Organization = await _organizationsService.GetById(user.OrganizationId);
+
+                var userRoles = await userManager.GetRolesAsync(user);
+
+                userModel.Roles = userRoles;
+
+                return userModel;
+
+                /*
+                return new UserToken
+                {
+                    UserId = user.Id,
+                    Email = user.Email,
+                    Token = token,
+                    Expires = expires
+                };
+                */
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }            
+        }
+        #endregion
     }
 }

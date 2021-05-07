@@ -21,7 +21,6 @@ namespace ComsiteDesk.ERP.Service
 
         public List<OrganizationModel> GetAll()
         {
-
             List<OrganizationModel> Organizations =
                 CoreMapper.MapList<Organizations, OrganizationModel>(_uow.OrganizationsRepo.GetAll().ToList());
 
@@ -32,10 +31,20 @@ namespace ComsiteDesk.ERP.Service
         {
             var result = await _uow.OrganizationsRepo.GetById(organizationId);
 
-            OrganizationModel client =
+            OrganizationModel organization =
                 CoreMapper.MapObject<Organizations, OrganizationModel>(result);
 
-            return client;
+            return organization;
+        }
+
+        public OrganizationModel GetMainOrganization()
+        {
+            var result = _uow.OrganizationsRepo.GetAll().FirstOrDefault(x => x.OrganizationTypesId == 1);
+
+            OrganizationModel organization =
+                CoreMapper.MapObject<Organizations, OrganizationModel>(result);
+
+            return organization;
         }
 
         public async Task<int> Add(OrganizationModel organization)
@@ -105,7 +114,7 @@ namespace ComsiteDesk.ERP.Service
             }
             catch (Exception ex)
             {
-                throw;
+                return new List<OrganizationModel>();
             }
         }
     }

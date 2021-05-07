@@ -6,20 +6,16 @@ namespace ComsiteDesk.ERP.Service
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private IClientsRepo _clientsRepo { get; set; }
         private IOrganizationsRepo _organizationsRepo { get; set; }
         public UnitOfWork(ApplicationDbContext db,
-            IClientsRepo clientsRepo,
             IOrganizationsRepo organizationsRepo)
         {
             _db = db;
-            _clientsRepo = clientsRepo;
             _organizationsRepo = organizationsRepo;
 
         }
 
         private ApplicationDbContext _db { get; set; }
-        public IClientsRepo ClientRepo => _clientsRepo;
         public IOrganizationsRepo OrganizationsRepo => _organizationsRepo;
 
 

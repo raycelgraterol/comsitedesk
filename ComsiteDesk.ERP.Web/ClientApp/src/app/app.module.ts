@@ -14,6 +14,21 @@ import { UserProfileService } from './core/services/user.service';
 import { DecimalPipe } from '@angular/common';
 import { RolesService } from './core/services/roles.service';
 
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { environment } from '../environments/environment'
+import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+
+let config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(`${environment.googleClientId}`)
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
+
 @NgModule({
   declarations: [
     AppComponent
@@ -24,15 +39,17 @@ import { RolesService } from './core/services/roles.service';
     HttpClientModule,
     LayoutsModule,
     AppRoutingModule,
+    SocialLoginModule
   ],
   providers: [
+    { provide: AuthServiceConfig, useFactory: provideConfig },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     DecimalPipe,
     UserProfileService,
     RolesService,
     // provider used to create fake backend
-    //FakeBackendProvider
+    //FakeBackendProvider    
   ],
   bootstrap: [AppComponent]
 })

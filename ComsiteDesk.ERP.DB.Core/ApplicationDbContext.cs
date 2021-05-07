@@ -70,10 +70,48 @@ namespace ComsiteDesk.ERP.DB.Core
                        Code = "J"
                    }
                );
+
+            builder.Entity<OrganizationTypes>()
+               .HasData(
+                   new OrganizationTypes
+                   {
+                       Id = 1,
+                       Name = "Organizacion Matriz"
+                   },
+                   new OrganizationTypes
+                   {
+                       Id = 2,
+                       Name = "Organizacion Principal",
+                   },
+                   new OrganizationTypes
+                   {
+                       Id = 3,
+                       Name = "Organizacion Secundaria",
+                   }
+               );
+
+            builder.Entity<Organizations>()
+               .HasData(
+                   new Organizations
+                   {
+                       Id = 1,
+                       BusinessName = "ComSite, C.A.",
+                       RIF = "J-308373478",
+                       Email = "daniel@comsite.com.ve",
+                       PhoneNumber = "02126616922",
+                       Address = "Av. La Colina Edf. Florencia Local 2 Los Chaguaramos Caracas – Venezuela",
+                       OrganizationTypesId = 1,
+                       ParentOrganizationId = null,
+                       CreatedBy = 1,
+                       DateCreated = DateTime.Now,
+                       IsActive = true
+                   }
+               );
+
         }
 
         public DbSet<Organizations> Organizations { get; set; }
-        public DbSet<Clients> Clients { get; set; }
-        public DbSet<ClientTypes> ClientTypes { get; set; }        
+        public DbSet<ClientTypes> ClientTypes { get; set; }
+        public DbSet<OrganizationTypes> OrganizationTypes { get; set; }
     }
 }

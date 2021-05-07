@@ -105,11 +105,13 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -130,52 +132,38 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Clients", b =>
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.OrganizationTypes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BusinessName")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ClientTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RIF")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientTypeId");
+                    b.ToTable("OrganizationTypes");
 
-                    b.ToTable("Clients");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Organizacion Matriz"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Organizacion Principal"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Organizacion Secundaria"
+                        });
                 });
 
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Organizations", b =>
@@ -186,11 +174,13 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("BusinessName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
@@ -202,7 +192,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -210,15 +201,42 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
 
+                    b.Property<int>("OrganizationTypesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ParentOrganizationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("RIF")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrganizationTypesId");
+
+                    b.HasIndex("ParentOrganizationId");
+
                     b.ToTable("Organizations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Av. La Colina Edf. Florencia Local 2 Los Chaguaramos Caracas – Venezuela",
+                            BusinessName = "ComSite, C.A.",
+                            CreatedBy = 1,
+                            DateCreated = new DateTime(2021, 5, 4, 11, 28, 44, 50, DateTimeKind.Local).AddTicks(2821),
+                            Email = "daniel@comsite.com.ve",
+                            IsActive = true,
+                            OrganizationTypesId = 1,
+                            PhoneNumber = "02126616922",
+                            RIF = "J-308373478"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<long>", b =>
@@ -367,28 +385,28 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "c08f04fd-c5a0-4b7e-95ed-b59290ed8402",
+                            ConcurrencyStamp = "6d1a354c-cb8a-40ab-8375-178bdc0fe8f8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2L,
-                            ConcurrencyStamp = "0561c88c-0d83-4001-bea7-52ba8458e6a3",
+                            ConcurrencyStamp = "d7e2ed4b-1bf8-44f7-938e-ce2744cf1e85",
                             Name = "Super Admin",
                             NormalizedName = "SUPER ADMIN"
                         },
                         new
                         {
                             Id = 3L,
-                            ConcurrencyStamp = "694dd83a-4150-4b7c-b125-fc5a53b0fedd",
+                            ConcurrencyStamp = "f8498b8b-cf8e-4358-86a4-b9a09d82f327",
                             Name = "Presidente",
                             NormalizedName = "PRESIDENTE"
                         },
                         new
                         {
                             Id = 4L,
-                            ConcurrencyStamp = "28f980d5-9283-45a4-8ea2-a8be36666aa3",
+                            ConcurrencyStamp = "b94714d8-b07c-4a53-b2ff-5ef3e65118bf",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -403,13 +421,17 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Clients", b =>
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Organizations", b =>
                 {
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.ClientTypes", "ClientType")
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.OrganizationTypes", "OrganizationTypes")
                         .WithMany()
-                        .HasForeignKey("ClientTypeId")
+                        .HasForeignKey("OrganizationTypesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Organizations", "ParentOrganization")
+                        .WithMany()
+                        .HasForeignKey("ParentOrganizationId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>

@@ -5,6 +5,9 @@ import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { AuthService } from "angularx-social-login";
+import { GoogleLoginProvider, SocialUser } from "angularx-social-login";
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -17,11 +20,24 @@ export class LoginComponent implements OnInit, AfterViewInit {
   returnUrl: string;
   error = '';
   loading = false;
+  isLogging: boolean;
+  googleImage: string;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
-              private authenticationService: AuthenticationService) { }
+  private user: SocialUser;
+
+  constructor(
+    private formBuilder: FormBuilder, 
+    private route: ActivatedRoute, 
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private authService: AuthService) { }
 
   ngOnInit() {
+    this.googleImage = 'assets/images/google_64.jpg';
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+    });
+
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', Validators.required],
@@ -42,6 +58,26 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
+
+  signInWithGoogle(): void {
+    this.loading = true;
+
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+    .then(googleUser => {
+      this.authenticationService.googleLogin(googleUser)
+        .subscribe((data) => {          
+          this.router.navigate([this.returnUrl]);
+          this.loading = false;
+        });
+    }).catch(error => {
+      console.log(error);
+      this.loading = false;
+    });
+  }
+
+  signOut(): void {
+    this.authService.signOut();
+  }
 
   /**
    * On submit form
@@ -66,5 +102,5 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.error = error;
           this.loading = false;
         });
-  }
+  }  
 }

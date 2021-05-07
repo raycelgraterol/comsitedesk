@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.45.0" />
     <PackageReference Include="MailKit" Version="2.11.1" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.7" />
   </ItemGroup>

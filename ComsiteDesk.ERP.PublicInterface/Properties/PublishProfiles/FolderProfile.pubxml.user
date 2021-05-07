@@ -6,11 +6,11 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Release\netcoreapp3.1\publishprod\</_PublishTargetUrl>
-    <History>True|2021-04-26T16:47:32.8083623Z;True|2021-04-26T11:39:03.2947713-04:00;</History>
+    <History>True|2021-05-07T17:31:14.7702977Z;True|2021-05-07T13:23:23.5799241-04:00;True|2021-04-26T12:47:32.8083623-04:00;True|2021-04-26T11:39:03.2947713-04:00;</History>
   </PropertyGroup>
   <ItemGroup>
-    <DestinationConnectionStrings Include="ConnStrProd">
-      <Value>Server=plesk5400.is.cc%3bDataBase=helpdesk_comsite%3b User ID=comsite%3bPassword=n48ud7H%40%3b MultipleActiveResultSets=true</Value>
+    <DestinationConnectionStrings Include="ConnStrDev">
+      <Value>Server=plesk5400.is.cc%3bDataBase=helpdesk_dev-comsite%3b User ID=dev-comsite%3bPassword=&amp;zz1Q8e7%3b MultipleActiveResultSets=true</Value>
     </DestinationConnectionStrings>
   </ItemGroup>
 </Project>

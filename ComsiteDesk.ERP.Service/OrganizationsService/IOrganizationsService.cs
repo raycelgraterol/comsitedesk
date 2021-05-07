@@ -10,6 +10,7 @@ namespace ComsiteDesk.ERP.Service
     {
         List<OrganizationModel> GetAll();
         Task<OrganizationModel> GetById(int organizationId);
+        OrganizationModel GetMainOrganization();
         Task<int> Add(OrganizationModel organization);
         int Update(OrganizationModel organization);
         int Remove(OrganizationModel organization);

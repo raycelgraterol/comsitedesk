@@ -60,10 +60,8 @@ namespace ComsiteDesk.ERP.PublicInterface
             services.AddTransient<IOrganizationsService, OrganizationsService>();
             services.AddTransient<IOrganizationsRepo, OrganizationsRepo>();
 
-            services.AddTransient<IClientsService, ClientsService>();
-            services.AddTransient<IClientsRepo, ClientsRepo>();
-
             services.AddTransient<IEmailService, EmailService>();
+            services.AddScoped<IUserService, UserService>();
 
 
             // configure jwt authentication

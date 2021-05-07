@@ -8,7 +8,6 @@ namespace ComsiteDesk.ERP.Service
     public interface IUnitOfWork
     {
         void Commit();
-        IClientsRepo ClientRepo { get; }
         IOrganizationsRepo OrganizationsRepo { get; }
     }
 }

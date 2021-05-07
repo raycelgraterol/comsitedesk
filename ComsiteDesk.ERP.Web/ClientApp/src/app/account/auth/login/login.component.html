@@ -11,7 +11,7 @@
               </a>
               <p class="text-muted mb-4 mt-3">Distribuimos tecnología Hardware-Software</p>
             </div>
-
+            
             <form class="needs-validation" name="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
 
               <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
@@ -37,21 +37,36 @@
                   <div *ngIf="f.password.errors.required">Contraseña es obligatoria</div>
                 </div>
               </div>
-
               <div class="form-group mb-0 text-center">
-                <button class="btn btn-primary btn-block" type="submit">Ingresar</button>
+                <button class="btn btn-success btn-block" type="submit">Ingresar</button>
+              </div>                             
+            </form>
+            <div class="row">
+              <div class="col-12"> 
+                Ingresar con:               
+              </div>              
+              <div class="col-12">
+                <div class="form-group mb-0 text-center">
+                  <button class="btn btn-outline" type="button" (click)="signInWithGoogle()">
+                    <span class="btn-label"><img src="assets/images/google_64.png" width="20" height="20" alt="google-pic" class="rounded-circle" />
+                    </span>
+                    <span class="text-dark">Google</span>
+                    
+                  </button>
+                </div>
               </div>
-            </form>            
+            </div> 
           </div> <!-- end card-body -->
         </div>
-        <!-- end card -->
-
+        <!-- end card -->        
         <div class="row mt-3">
           <div class="col-12 text-center">
             <p>
               <a routerLink="/account/reset-password" class="text-white-50 ml-1">¿Olvidaste tu contraseña?</a>
             </p>
-            <p class="text-white-50">¿No tienes una cuenta? <a routerLink="/account/signup" class="text-white ml-1"><b>Registrarse</b></a>
+            <p class="text-white-50"><a routerLink="/account/signup-user" class="text-white ml-1"><b>Registrarse!</b></a>
+            </p>
+            <p class="text-white-50"><a routerLink="/account/signup" class="text-white ml-1"><b>Registrarse como Empresa aqui!</b></a>
             </p>
           </div> <!-- end col -->
         </div>

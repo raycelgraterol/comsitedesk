@@ -83,7 +83,6 @@ export class SignupComponent implements OnInit, AfterViewInit {
         this.f.password.value,
         this.f.email.value,
         this.f.phoneNumber.value,
-        this.f.organizationId.value,
         this.orf.keyAccess.value)
       .pipe(first())
       .subscribe(

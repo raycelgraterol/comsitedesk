@@ -13,16 +13,24 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { PasswordresetComponent } from './passwordreset/passwordreset.component';
 import { PasswordchangeComponent } from './passwordchange/passwordchange.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SignupUserComponent } from './signup-user/signup-user.component';
 
 @NgModule({
-  declarations: [LoginComponent, SignupComponent, ConfirmComponent, PasswordresetComponent, PasswordchangeComponent, ProfileComponent],
+  declarations: [
+    LoginComponent,
+    SignupComponent,
+    ConfirmComponent,
+    PasswordresetComponent,
+    PasswordchangeComponent,
+    ProfileComponent,
+    SignupUserComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     NgbAlertModule,
     UIModule,
     AuthRoutingModule,
-    ArchwizardModule
+    ArchwizardModule    
   ]
 })
 export class AuthModule { }
