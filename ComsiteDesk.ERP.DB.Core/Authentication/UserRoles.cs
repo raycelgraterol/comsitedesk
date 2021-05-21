@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ComsiteDesk.ERP.DB.Core.Models
+namespace ComsiteDesk.ERP.DB.Core.Authentication
 {
     public static class UserRoles
     {

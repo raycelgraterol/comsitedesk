@@ -4,14 +4,16 @@ using ComsiteDesk.ERP.DB.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ComsiteDesk.ERP.DB.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210520130645_Tables catalogs for main ticket table.")]
+    partial class Tablescatalogsformaintickettable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,9 +172,6 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<int>("OrganizationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Serial")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -187,8 +186,6 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasMaxLength(500);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrganizationId");
 
                     b.ToTable("Equipment");
                 });
@@ -359,9 +356,6 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<int>("Step")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("TicketProcesses");
@@ -429,106 +423,6 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TicketTypes");
-                });
-
-            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Tickets", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("HoursWorked")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(1000)")
-                        .HasMaxLength(1000);
-
-                    b.Property<int>("OrganizationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ReportedFailure")
-                        .HasColumnType("nvarchar(1000)")
-                        .HasMaxLength(1000);
-
-                    b.Property<string>("SolutionDone")
-                        .HasColumnType("nvarchar(1000)")
-                        .HasMaxLength(1000);
-
-                    b.Property<DateTime?>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TechnicalFailure")
-                        .HasColumnType("nvarchar(1000)")
-                        .HasMaxLength(1000);
-
-                    b.Property<int>("TicketCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TicketDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("TicketProcessId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrganizationId");
-
-                    b.HasIndex("TicketCategoryId");
-
-                    b.HasIndex("TicketProcessId");
-
-                    b.HasIndex("TicketStatusId");
-
-                    b.HasIndex("TicketTypeId");
-
-                    b.ToTable("Tickets");
-                });
-
-            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.TicketsEquipments", b =>
-                {
-                    b.Property<int>("TicketsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TicketsId", "EquipmentId");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.ToTable("TicketsEquipments");
-                });
-
-            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.TicketsUsers", b =>
-                {
-                    b.Property<int>("TicketsId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("TicketsId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TicketsUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<long>", b =>
@@ -713,15 +607,6 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Equipment", b =>
-                {
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Organizations", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Organizations", b =>
                 {
                     b.HasOne("ComsiteDesk.ERP.DB.Core.Models.OrganizationTypes", "OrganizationTypes")
@@ -733,69 +618,6 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Organizations", "ParentOrganization")
                         .WithMany()
                         .HasForeignKey("ParentOrganizationId");
-                });
-
-            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Tickets", b =>
-                {
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Organizations", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.TicketCategories", "TicketCategory")
-                        .WithMany()
-                        .HasForeignKey("TicketCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.TicketProcesses", "TicketProcess")
-                        .WithMany()
-                        .HasForeignKey("TicketProcessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.TicketStatus", "TicketStatus")
-                        .WithMany()
-                        .HasForeignKey("TicketStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.TicketTypes", "TicketType")
-                        .WithMany()
-                        .HasForeignKey("TicketTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.TicketsEquipments", b =>
-                {
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Equipment", "Equipment")
-                        .WithMany("Tickets")
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Tickets", "Tickets")
-                        .WithMany("Equipments")
-                        .HasForeignKey("TicketsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.TicketsUsers", b =>
-                {
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Tickets", "Tickets")
-                        .WithMany("Users")
-                        .HasForeignKey("TicketsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Authentication.User", "User")
-                        .WithMany("Tickets")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
