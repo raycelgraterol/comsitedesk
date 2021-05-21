@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ComsiteDesk.ERP.DB.Core.Models
 {
-    public class Tickets
+    public class Tickets : ModelBase
     {
         public Tickets()
         {

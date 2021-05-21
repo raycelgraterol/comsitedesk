@@ -438,10 +438,25 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("HoursWorked")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Notes")
