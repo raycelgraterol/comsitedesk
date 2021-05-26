@@ -42,7 +42,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         {
             var items = GetRolesWithPager(searchParameters);
 
-            return Ok(new { data = items, count = searchParameters.CountItems });
+            return Ok(new { data = items, count = searchParameters.totalCount });
         }
 
         // GET api/<RolesController>/5
@@ -147,7 +147,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                             s.Id.ToString().Contains(searchParameters.searchTerm.ToLower()));
 
                 //Count after filter total result
-                searchParameters.CountItems = resultTotal.Count();
+                searchParameters.totalCount = resultTotal.Count();
 
                 if (searchParameters.sortColumn != null)
                 {

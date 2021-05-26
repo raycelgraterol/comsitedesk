@@ -81,7 +81,7 @@ namespace ComsiteDesk.ERP.Service
                 var result = _uow.OrganizationsRepo.GetAll();
 
                 //count all items
-                searchParameters.CountItems = result.Count();
+                searchParameters.totalCount = result.Count();
 
                 searchParameters.searchTerm =
                     searchParameters.searchTerm == null ? "" : searchParameters.searchTerm;

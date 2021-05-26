@@ -12,7 +12,7 @@ namespace ComsiteDesk.ERP.Service.HelperModel
         public string sortColumn { get; set; }
         public string sortDirection { get; set; }
         public int parentId { get; set; } = 0;
-        public int CountItems { get; set; } = 0;
+        public int totalCount { get; set; } = 0;
         public int startIndex
         {
             get
