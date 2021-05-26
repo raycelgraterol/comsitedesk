@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComsiteDesk.ERP.Service.TicketsService
+namespace ComsiteDesk.ERP.Service
 {
     public interface ITicketsService
     {

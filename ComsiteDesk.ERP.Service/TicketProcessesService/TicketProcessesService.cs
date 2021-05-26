@@ -9,7 +9,7 @@ using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComsiteDesk.ERP.Service.TicketProcessesService
+namespace ComsiteDesk.ERP.Service
 {
     public class TicketProcessesService : ITicketProcessesService
     {

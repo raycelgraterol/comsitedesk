@@ -9,7 +9,7 @@ using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComsiteDesk.ERP.Service.TicketStatusService
+namespace ComsiteDesk.ERP.Service
 {
     public class TicketStatusService : ITicketStatusService
     {
