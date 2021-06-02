@@ -17,6 +17,11 @@ import { RolesService } from './core/services/roles.service';
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { environment } from '../environments/environment'
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import { TicketTypesService } from './core/services/ticket-types.service';
+import { TicketService } from './core/services/ticket.service';
+import { TicketCategoriesService } from './core/services/ticket-categories.service';
+import { TicketProcessesService } from './core/services/ticket-processes.service';
+import { TicketStatusService } from './core/services/ticket-status.service';
 
 let config = new AuthServiceConfig([
   {
@@ -48,6 +53,12 @@ export function provideConfig() {
     DecimalPipe,
     UserProfileService,
     RolesService,
+    TicketTypesService,
+    TicketService,
+    TicketCategoriesService,
+    TicketProcessesService,
+    TicketStatusService,
+    
     // provider used to create fake backend
     //FakeBackendProvider    
   ],

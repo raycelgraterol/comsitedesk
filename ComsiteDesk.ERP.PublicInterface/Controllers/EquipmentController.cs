@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ComsiteDesk.ERP.PublicInterface.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EquipmentController : ControllerBase

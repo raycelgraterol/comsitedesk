@@ -18,6 +18,10 @@ import { CRMModule } from './crm/crm.module';
 import { AdminUIModule } from './adminUI/adminUI.module';
 import { ErrorModule } from './error/error.module';
 
+import { SecurityManagementModule } from './security-management/security-management.module';
+import { TicketManagementModule } from './ticket-management/ticket-management.module';
+
+
 import { PagesRoutingModule } from './pages-routing.module';
 
 @NgModule({
@@ -40,6 +44,8 @@ import { PagesRoutingModule } from './pages-routing.module';
     AdminUIModule,
     ErrorModule,
     PagesRoutingModule,
+    SecurityManagementModule,
+    TicketManagementModule
   ]
 })
 export class PagesModule { }
