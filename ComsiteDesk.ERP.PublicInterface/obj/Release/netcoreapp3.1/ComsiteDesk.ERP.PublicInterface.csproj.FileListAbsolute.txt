@@ -99,3 +99,7 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcorea
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.pdb
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.genruntimeconfig.cache
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Release\netcoreapp3.1\Google.Apis.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Release\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Release\netcoreapp3.1\Google.Apis.Auth.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Release\netcoreapp3.1\Google.Apis.Core.dll

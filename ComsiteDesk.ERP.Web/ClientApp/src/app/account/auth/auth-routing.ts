@@ -7,6 +7,7 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { PasswordresetComponent } from './passwordreset/passwordreset.component';
 import { PasswordchangeComponent } from './passwordchange/passwordchange.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SignupUserComponent } from './signup-user/signup-user.component';
 
 const routes: Routes = [
     {
@@ -33,6 +34,10 @@ const routes: Routes = [
         path: 'passwordchange',
         component: PasswordchangeComponent
     },
+    {
+        path: 'signup-user',
+        component: SignupUserComponent
+    }
 ];
 
 @NgModule({

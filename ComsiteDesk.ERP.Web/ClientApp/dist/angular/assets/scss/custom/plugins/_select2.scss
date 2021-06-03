@@ -4,6 +4,16 @@
 
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
+.custom-select2.is-invalid{ 
+  .ng-select-container{
+      border-color: #f1556c!important;        
+  }    
+}
+
+.custom-select2.is-invalid ~ .invalid-feedback{
+  display: block;
+}
+
 .ng-select.ng-select-single .ng-select-container {
   height: $input-height !important;
 }

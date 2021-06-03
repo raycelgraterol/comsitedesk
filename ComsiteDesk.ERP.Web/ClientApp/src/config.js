@@ -1,0 +1,1 @@
+window['env'] = 'https://api.comsite.com.ve/';

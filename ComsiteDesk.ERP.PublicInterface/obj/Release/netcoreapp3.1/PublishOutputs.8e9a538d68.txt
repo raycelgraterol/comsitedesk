@@ -5,6 +5,10 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcorea
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\ComsiteDesk.ERP.PublicInterface.runtimeconfig.json
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\ComsiteDesk.ERP.PublicInterface.pdb
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\AutoMapper.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Auth.PlatformServices.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Auth.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Core.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\MailKit.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Cryptography.Internal.dll

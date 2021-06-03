@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 
 import { CookieService } from '../services/cookie.service';
 import { User } from '../models/auth.models';
+import { SocialUser } from 'angularx-social-login';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -76,6 +77,27 @@ export class AuthenticationService {
             }));
     }
 
+    
+     googleLogin(socialUser: SocialUser) {
+         let idToken = socialUser.idToken;
+         let userName = socialUser.email;
+         let firstName = socialUser.firstName;
+         let lastName = socialUser.lastName;
+
+        return this.http.post<any>(`${environment.apiUrl}/api/Authenticate/googleLogin`, { userName, firstName, lastName, idToken })
+            .pipe(map(user => {
+                // login successful if there's a jwt token in the response                
+                if (user && user.token) {
+                    this.user = user;
+                    //Set token
+                    this.cookieService.setCookie('userToken', user.token, 1);
+                    // store user details and jwt in cookie
+                    this.cookieService.setCookie('currentUser', JSON.stringify(user), 1);
+                }
+                return user;
+            }));
+    }
+
     /**
      * Performs the auth
      * @param email email of user
@@ -91,12 +113,12 @@ export class AuthenticationService {
     /**
      * Register Admin
      */
-    register(firstName: string, lastName: string, password: string, email: string, phoneNumber: string, organizationId: number, keyAccess: string = "") {
+    register(firstName: string, lastName: string, password: string, email: string, phoneNumber: string, keyAccess: string = "") {
 
         let urlRegister = (keyAccess != "" && keyAccess != null && keyAccess != undefined) ?
                             `${environment.apiUrl}/api/authenticate/register-admin` : `${environment.apiUrl}/api/authenticate/register`;
 
-        return this.http.post<any>(urlRegister, { email, password, firstName, lastName, phoneNumber, organizationId, keyAccess })
+        return this.http.post<any>(urlRegister, { email, password, firstName, lastName, phoneNumber, keyAccess })
             .pipe(map(user => {
                 if (user && user.token) {
                     this.user = user;

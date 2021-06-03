@@ -6,7 +6,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Release\netcoreapp3.1\publishprod\</_PublishTargetUrl>
-    <History>True|2021-04-26T16:47:32.8083623Z;True|2021-04-26T11:39:03.2947713-04:00;</History>
+    <History>True|2021-06-03T21:26:18.8899484Z;True|2021-05-07T13:31:14.7702977-04:00;True|2021-05-07T13:23:23.5799241-04:00;True|2021-04-26T12:47:32.8083623-04:00;True|2021-04-26T11:39:03.2947713-04:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <DestinationConnectionStrings Include="ConnStrProd">

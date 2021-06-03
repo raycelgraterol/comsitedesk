@@ -1,2 +1,5 @@
 
 ComsiteDesk.ERP.Web/ClientApp/node_modules/
+.vs/
+*.cache
+ComsiteDesk.ERP.DB.Core/obj/

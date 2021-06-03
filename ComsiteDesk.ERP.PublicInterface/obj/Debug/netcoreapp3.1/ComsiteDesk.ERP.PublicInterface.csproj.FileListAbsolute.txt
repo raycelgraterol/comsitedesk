@@ -99,3 +99,7 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\MailKit.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\MimeKit.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\Google.Apis.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\Google.Apis.Core.dll

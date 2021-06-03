@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace ComsiteDesk.ERP.DB.Core.Models
@@ -10,11 +11,24 @@ namespace ComsiteDesk.ERP.DB.Core.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string BusinessName { get; set; }        
+        [StringLength(255)]
+        public string BusinessName { get; set; }
+        [StringLength(50)]
         public string RIF { get; set; }
+        [StringLength(100)]
         public string Email { get; set; }
+        [StringLength(50)]
         public string PhoneNumber { get; set; }
+        [StringLength(255)]
         public string Address { get; set; }
+        [Required]
+        public int OrganizationTypesId { get; set; }
+        public OrganizationTypes OrganizationTypes { get; set; }
+
+        public int? ParentOrganizationId { get; set; }
+        [ForeignKey("ParentOrganizationId")]
+        public Organizations ParentOrganization { get; set; }
+
         public DateTime DateCreated { get; set; }
         public int CreatedBy { get; set; }
         public DateTime? DateModified { get; set; }

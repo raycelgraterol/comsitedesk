@@ -50,7 +50,7 @@ export class UsersComponent implements OnInit {
     private rolesService: RolesService,
     private authService: AuthenticationService) {
   }
-
+  
   ngOnInit() {
     this.service.parentId = this.authService.currentUser().organizationId;
     
