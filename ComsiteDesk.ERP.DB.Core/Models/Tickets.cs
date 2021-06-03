@@ -32,18 +32,46 @@ namespace ComsiteDesk.ERP.DB.Core.Models
 
         [Required]
         public int TicketStatusId { get; set; }
+        [NotMapped]
+        public string TicketStatusName {
+            get
+            {
+                return TicketStatus != null ? TicketStatus.Name : "";
+            }
+        }
         public TicketStatus TicketStatus { get; set; }
 
         [Required]
         public int TicketCategoryId { get; set; }
+        [NotMapped]
+        public string TicketCategoryName { 
+            get 
+            {
+                return TicketCategory != null ? TicketCategory.Name : "";
+            } 
+        }
         public TicketCategories TicketCategory { get; set; }
 
         [Required]
         public int TicketTypeId { get; set; }
+        [NotMapped]
+        public string TicketTypeName {
+            get
+            {
+                return TicketType != null ? TicketType.Name : "";
+            }
+        }
         public TicketTypes TicketType { get; set; }
 
         [Required]
         public int? TicketProcessId { get; set; }
+        [NotMapped]
+        public string TicketProcessName {
+            get
+            {
+                return TicketProcess != null ? TicketProcess.Name : "";
+            }
+        }
         public TicketProcesses TicketProcess { get; set; }
 
         [Required]

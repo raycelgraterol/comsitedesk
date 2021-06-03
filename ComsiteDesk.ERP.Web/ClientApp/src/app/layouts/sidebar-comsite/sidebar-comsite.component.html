@@ -9,15 +9,15 @@
           <li>
             <a href="javascript: void(0);" class="waves-effect">
                 <i class="fe-briefcase"></i>
-                <span> Seccion A </span>
+                <span> Manejo de Tickets </span>
                 <span class="menu-arrow"></span>
             </a>
             <ul class="nav-second-level collapse" aria-expanded="false">
                 <li>
-                    <a routerLink="//" routerLinkActive="active" class="side-nav-link-ref">Tickets</a>
+                    <a routerLink="/tickets-management/tickets" routerLinkActive="active" class="side-nav-link-ref">Tickets</a>
                 </li>
                 <li>
-                    <a routerLink="//" routerLinkActive="active" class="side-nav-link-ref">Tickets Nuevos</a>
+                    <a routerLink="/tickets-management/tickets" [queryParams]="{mode: 'new'}" routerLinkActive="active" class="side-nav-link-ref">Tickets Nuevos</a>
                 </li>                    
             </ul>
           </li> 
@@ -25,21 +25,21 @@
           <li>
             <a href="javascript: void(0);" class="waves-effect">
                 <i class="fe-settings"></i>
-                <span> Seccion B </span>
+                <span> Configuracion Tickets </span>
                 <span class="menu-arrow"></span>
             </a>
             <ul class="nav-second-level collapse" aria-expanded="false">
                 <li>
-                    <a routerLink="//" routerLinkActive="active" class="side-nav-link-ref">Tipos de Tickets</a>
+                    <a routerLink="/tickets-management/types" routerLinkActive="active" class="side-nav-link-ref">Tipos de Tickets</a>
                 </li>
                 <li>
-                    <a routerLink="//" routerLinkActive="active" class="side-nav-link-ref">Categorias de Tickets</a>
+                    <a routerLink="/tickets-management/categories" routerLinkActive="active" class="side-nav-link-ref">Categorias de Tickets</a>
                 </li>
                 <li>
-                    <a routerLink="//" routerLinkActive="active" class="side-nav-link-ref">Procesos de Tickets</a>
+                    <a routerLink="/tickets-management/processes" routerLinkActive="active" class="side-nav-link-ref">Procesos de Tickets</a>
                 </li>
                 <li>
-                    <a routerLink="//" routerLinkActive="active" class="side-nav-link-ref">Estatus de Tickets</a>
+                    <a routerLink="/tickets-management/status" routerLinkActive="active" class="side-nav-link-ref">Estatus de Tickets</a>
                 </li>                    
             </ul>
           </li> 

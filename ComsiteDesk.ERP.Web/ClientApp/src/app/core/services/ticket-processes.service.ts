@@ -234,9 +234,11 @@ export class TicketProcessesService {
    public add(_ticketProcesses: TicketProcesses) {
        //Map
        let name = _ticketProcesses.name;
+       let step = _ticketProcesses.step;
  
        return this.http.post<any>(`${environment.apiUrl}/api/TicketProcesses/`, { 
-           name          
+           name,
+           step          
        });
    }
  
@@ -248,9 +250,12 @@ export class TicketProcessesService {
        //Map
        let id = _ticketProcesses.id;
        let name = _ticketProcesses.name;
- 
+       let step = _ticketProcesses.step;
+
        return this.http.put<any>(`${environment.apiUrl}/api/TicketProcesses/` + id, {
+           id,
            name,
+           step
        });
    }
  
@@ -258,7 +263,7 @@ export class TicketProcessesService {
      * Get all items
      */
    getAllItems() {
-       return this.http.get<any[]>(`${environment.apiUrl}/api/TicketProcesses/All`);
+       return this.http.get<any>(`${environment.apiUrl}/api/TicketProcesses/All`);
    }    
  
    /**

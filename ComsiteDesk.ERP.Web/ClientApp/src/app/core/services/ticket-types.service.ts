@@ -186,6 +186,8 @@ export class TicketTypesService {
    * 
    */
   public getAll() {
+        this._loading$.next(true);
+
       this.http.get<any>(`${environment.apiUrl}/api/TicketTypes?Page=` + this.page
           + `&PageSize=` + this.pageSize
           + `&searchTerm=` + this.searchTerm
@@ -258,7 +260,7 @@ export class TicketTypesService {
     * Get all items
     */
   getAllItems() {
-      return this.http.get<any[]>(`${environment.apiUrl}/api/TicketTypes/All`);
+      return this.http.get<any>(`${environment.apiUrl}/api/TicketTypes/All`);
   }    
 
   /**

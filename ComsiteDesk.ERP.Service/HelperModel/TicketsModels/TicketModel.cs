@@ -19,17 +19,15 @@ namespace ComsiteDesk.ERP.Service.HelperModel
         public DateTime? EndTime { get; set; }
         
         public int TicketStatusId { get; set; }
-        public TicketStatusModel TicketStatus { get; set; }
-        
         public int TicketCategoryId { get; set; }
-        public TicketCategoriesModel TicketCategory { get; set; }
-        
         public int TicketTypeId { get; set; }
-        public TicketTypesModel TicketType { get; set; }
-        
         public int? TicketProcessId { get; set; }
-        public TicketProcessesModel TicketProcess { get; set; }
-        
+
+        public string TicketStatusName { get; set; }
+        public string TicketCategoryName { get; set; }
+        public string TicketTypeName { get; set; }
+        public string TicketProcessName { get; set; }
+
         public int OrganizationId { get; set; }
         public OrganizationModel Organization { get; set; }
 

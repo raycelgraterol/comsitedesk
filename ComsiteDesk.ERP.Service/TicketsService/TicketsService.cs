@@ -41,7 +41,12 @@ namespace ComsiteDesk.ERP.Service
         {
             try
             {
-                var result = _uow.TicketsRepo.GetAll();
+                var result = _uow.TicketsRepo.GetAll()
+                                .Include(x => x.TicketStatus)
+                                .Include(x => x.TicketCategory)
+                                .Include(x => x.TicketType)
+                                .Include(x => x.TicketProcess)
+                                .AsQueryable();
 
                 //count all items
                 searchParameters.totalCount = result.Count();

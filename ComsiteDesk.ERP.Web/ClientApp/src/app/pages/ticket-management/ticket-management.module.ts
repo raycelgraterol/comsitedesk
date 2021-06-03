@@ -14,9 +14,10 @@ import { TicketManagementRoutingModule } from './ticket-management-routing.modul
 import { TicketStatusComponent } from './ticket-status/ticket-status.component';
 import { TicketProcessesComponent } from './ticket-processes/ticket-processes.component';
 import { TicketCategoriesComponent } from './ticket-categories/ticket-categories.component';
+import { AdvancedSortableDirective } from './advanced-sortable.directive';
 
 @NgModule({
-  declarations: [TicketTypesComponent, TicketsComponent, TicketStatusComponent, TicketProcessesComponent, TicketCategoriesComponent],
+  declarations: [AdvancedSortableDirective, TicketTypesComponent, TicketsComponent, TicketStatusComponent, TicketProcessesComponent, TicketCategoriesComponent],
   imports: [
     CommonModule,
     UIModule,

@@ -258,7 +258,7 @@ export class TicketStatusService {
     * Get all items
     */
   getAllItems() {
-      return this.http.get<any[]>(`${environment.apiUrl}/api/TicketStatus/All`);
+      return this.http.get<any>(`${environment.apiUrl}/api/TicketStatus/All`);
   }    
 
   /**

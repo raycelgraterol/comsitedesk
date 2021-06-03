@@ -13,6 +13,10 @@ export class Tickets {
     ticketCategoryId : number;    
     ticketTypeId : number;
     ticketProcessId : number;
+    ticketStatusName: number;
+    ticketCategoryName: number;    
+    ticketTypeName: number;
+    ticketProcessName: number;
     organizationId : number;
 }
 

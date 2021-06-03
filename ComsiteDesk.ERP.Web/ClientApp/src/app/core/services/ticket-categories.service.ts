@@ -258,7 +258,7 @@ export class TicketCategoriesService {
      * Get all items
      */
    getAllItems() {
-       return this.http.get<any[]>(`${environment.apiUrl}/api/TicketCategories/All`);
+       return this.http.get<any>(`${environment.apiUrl}/api/TicketCategories/All`);
    }    
  
    /**

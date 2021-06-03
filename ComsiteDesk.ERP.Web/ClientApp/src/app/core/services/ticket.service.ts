@@ -286,6 +286,7 @@ export class TicketService {
      let organizationId = _tickets.organizationId;
 
      return this.http.put<any>(`${environment.apiUrl}/api/Tickets/` + id, {
+      id,
       title,
       ticketDate,
       hoursWorked,
