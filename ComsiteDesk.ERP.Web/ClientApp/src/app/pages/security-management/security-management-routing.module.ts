@@ -7,15 +7,15 @@ import { RolesComponent } from './roles/roles.component';
 
 const routes: Routes = [
   {
-      path: 'users',
-      component: UsersComponent,
-      canActivate: [AuthGuard]
+    path: 'users',
+    component: UsersComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'roles',
     component: RolesComponent,
     canActivate: [AuthGuard]
-}
+  }
 ];
 
 @NgModule({

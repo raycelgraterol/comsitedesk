@@ -81,6 +81,18 @@ namespace ComsiteDesk.ERP.PublicInterface
             services.AddTransient<ITicketTypesService, TicketTypesService>();
             services.AddTransient<ITicketTypesRepo, TicketTypesRepo>();
 
+            services.AddTransient<IProjectsService, ProjectsService>();
+            services.AddTransient<IProjectsRepo, ProjectsRepo>();
+
+            services.AddTransient<IProjectStatusService, ProjectStatusService>();
+            services.AddTransient<IProjectStatusRepo, ProjectStatusRepo>();
+
+            services.AddTransient<ITaskService, TaskService>();
+            services.AddTransient<ITasksRepo, TasksRepo>();
+
+            services.AddTransient<ITaskStatusService, TaskStatusService>();
+            services.AddTransient<ITaskStatusRepo, TaskStatusRepo>();
+
             // configure jwt authentication
             var key = Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]);
             services.AddAuthentication(options =>

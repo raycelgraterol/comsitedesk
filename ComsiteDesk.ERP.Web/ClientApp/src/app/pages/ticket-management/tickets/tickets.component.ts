@@ -6,7 +6,7 @@ import { AdvancedSortableDirective, SortEvent } from '../advanced-sortable.direc
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 
-import { Tickets, SearchResult, } from 'src/app/core/models/tickets.models';
+import { Tickets, SearchResult, CardData } from 'src/app/core/models/tickets.models';
 import { TicketService } from 'src/app/core/services/ticket.service';
 
 import { TicketTypes } from 'src/app/core/models/ticket-types.models';
@@ -49,6 +49,9 @@ export class TicketsComponent implements OnInit {
   tables$: Observable<Tickets[]>;
   total$: Observable<number>;
   item: Tickets;
+
+  // Card Data
+  cardData: CardData[];
 
   types: Array<TicketTypes>;
   status: Array<TicketStatus>;
@@ -111,6 +114,35 @@ export class TicketsComponent implements OnInit {
       ticketProcessId: [0],
       organizationId: [0, [Validators.required]],
     });
+
+    const cardData = [
+        {
+            icon: 'fe-tag',
+            tickets: 3947,
+            title: 'Total tickets',
+            text: '',
+        },
+        {
+            icon: 'fe-clock',
+            tickets: 624,
+            title: 'Pending Tickets',
+            text: 'warning'
+        },
+        {
+            icon: 'fe-check-circle',
+            tickets: 3195,
+            title: 'Closed Tickets',
+            text: 'success'
+        },
+        {
+            icon: 'fe-trash-2',
+            tickets: 128,
+            title: 'Deleted Tickets',
+            text: 'danger'
+        }
+    ];
+
+    this.cardData = cardData;
   }
 
   loadDropDownList() {

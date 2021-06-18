@@ -15,5 +15,9 @@ namespace ComsiteDesk.ERP.Service
         ITicketProcessesRepo TicketProcessesRepo { get; }
         ITicketCategoriesRepo TicketCategoriesRepo { get; }
         IEquipmentRepo EquipmentRepo { get; }
+        IProjectsRepo ProjectsRepo { get; }
+        IProjectStatusRepo ProjectStatusRepo { get; }
+        ITasksRepo TasksRepo { get; }
+        ITaskStatusRepo TaskStatusRepo { get; }
     }
 }

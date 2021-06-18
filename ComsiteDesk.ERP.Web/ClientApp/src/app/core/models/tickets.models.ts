@@ -20,6 +20,13 @@ export class Tickets {
     organizationId : number;
 }
 
+export interface CardData {
+    icon: string;
+    tickets: number;
+    title: string;
+    text: string;
+}
+
 // Search Data
 export interface SearchResult {
     tables: Tickets[];

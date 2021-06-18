@@ -13,7 +13,10 @@ namespace ComsiteDesk.ERP.Service
         private ITicketProcessesRepo _ticketProcessesRepo { get; set; }
         private ITicketCategoriesRepo _ticketCategoriesRepo { get; set; }
         private IEquipmentRepo _equipmentRepo { get; set; }
-
+        private IProjectsRepo _projectsRepo { get; set; }
+        private IProjectStatusRepo _projectStatusRepo { get; set; }
+        private ITasksRepo _tasksRepo { get; set; }
+        private ITaskStatusRepo _taskStatusRepo { get; set; }
 
         public UnitOfWork(ApplicationDbContext db,
             IOrganizationsRepo organizationsRepo,
@@ -22,7 +25,11 @@ namespace ComsiteDesk.ERP.Service
             ITicketsRepo ticketsRepo,
             ITicketProcessesRepo ticketProcessesRepo,
             ITicketCategoriesRepo ticketCategoriesRepo,
-            IEquipmentRepo equipmentRepo)
+            IEquipmentRepo equipmentRepo,
+            IProjectsRepo projectsRepo,
+            IProjectStatusRepo projectStatusRepo,
+            ITasksRepo tasksRepo,
+            ITaskStatusRepo taskStatusRepo)
         {
             _db = db;
             _organizationsRepo = organizationsRepo;
@@ -33,6 +40,10 @@ namespace ComsiteDesk.ERP.Service
             _ticketCategoriesRepo = ticketCategoriesRepo;
             _ticketCategoriesRepo = ticketCategoriesRepo;
             _equipmentRepo = equipmentRepo;
+            _projectsRepo = projectsRepo;
+            _projectStatusRepo = projectStatusRepo;
+            _tasksRepo = tasksRepo;
+            _taskStatusRepo = taskStatusRepo;
         }
 
         private ApplicationDbContext _db { get; set; }
@@ -43,6 +54,10 @@ namespace ComsiteDesk.ERP.Service
         public ITicketProcessesRepo TicketProcessesRepo => _ticketProcessesRepo;
         public ITicketCategoriesRepo TicketCategoriesRepo => _ticketCategoriesRepo;
         public IEquipmentRepo EquipmentRepo => _equipmentRepo;
+        public IProjectsRepo ProjectsRepo => _projectsRepo;
+        public IProjectStatusRepo ProjectStatusRepo => _projectStatusRepo;
+        public ITasksRepo TasksRepo => _tasksRepo;
+        public ITaskStatusRepo TaskStatusRepo => _taskStatusRepo;
 
 
         public void Commit()
