@@ -1,148 +1,170 @@
 <div class="container-fluid">
-  <app-page-title title="Manejo de Tickets" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <app-page-title title="Tickets" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <div class="col-md-6 col-xl-3" *ngFor="let carddata of cardData">
+      <div class="widget-rounded-circle card-box">
+        <div class="row">
+          <div class="col-6">
+            <div class="avatar-lg rounded-circle bg-primary" [ngClass]="{
+              'bg-warning': carddata.text === 'warning',
+              'bg-success': carddata.text === 'success',
+              'bg-danger': carddata.text === 'danger'
+            }">
+              <i class="{{ carddata.icon }} font-22 avatar-title text-white"></i>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-right">
+              <h3 class="text-dark mt-1"><span [CountTo]="carddata.tickets" [from]="0"
+                  [duration]="1">{{carddata.tickets}}</span></h3>
+              <p class="text-muted mb-1 text-truncate">{{carddata.title}}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- End card -->
+  </div>
+
   <div class="row">
     <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="header-title">Listado</h4>
-          <p class="text-muted font-13 mb-4">
-
-          </p>
-          <div class="row mb-md-2">
-            <div class="col-sm-12 col-md-6">
-              <div class="dataTables_length" id="tickets-table_length"><label
-                  class="d-inline-flex align-items-center">Mostrar
-                  <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
-                    [(ngModel)]="service.pageSize"
-                    class="custom-select custom-select-sm form-control form-control-sm mx-2">
-                    <option [ngValue]="10">10</option>
-                    <option [ngValue]="25">25</option>
-                    <option [ngValue]="50">50</option>
-                    <option [ngValue]="100">100</option>
-                  </select> registros</label></div>
-            </div>
+      <div class="card-box">
+        <button type="button" class="btn btn-sm btn-blue float-right" (click)="responsiveModal(responsiveData)">
+          <i class="mdi mdi-plus-circle"></i> Agregar Ticket
+        </button>
+        <h4 class="header-title mb-4">Manejo Tickets</h4>
+        <div class="clearfix mt-4"></div>
+        <div class="row mb-md-2">
+          <div class="col-sm-12 col-md-6">
+            <div class="dataTables_length" id="tickets-table_length"><label
+                class="d-inline-flex align-items-center">Mostrar
+                <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
+                  [(ngModel)]="service.pageSize"
+                  class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="25">25</option>
+                  <option [ngValue]="50">50</option>
+                  <option [ngValue]="100">100</option>
+                </select> Registros</label></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
             <!-- Search -->
-            <div class="col-sm-12 col-md-4">
-              <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label
-                  class="d-inline-flex align-items-center">Buscar:
-                  <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
-                    aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label></div>
-            </div>
-            <div class="col-sm-12 col-md-2">
-              <div class="button-list text-right">
-                <!-- Responsive modal -->
-                <button type="button" class="btn btn-info btn-sm" (click)="responsiveModal(responsiveData)">
-                  Agregar Ticket</button>
-              </div>
-            </div>
-            <!-- End search -->
+            <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label
+                class="d-inline-flex align-items-center">Buscar:
+                <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                  aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label></div>
           </div>
-          <!-- Table -->
-          <div class="table-responsive">
-            <app-ui-preloader [display]="dataLoading | async"></app-ui-preloader>
-            <table id="cost-category-table" class="table datatables dt-responsive nowrap">
-              <thead>
-                <tr>
-                  <th sortable="id" (sort)="onSort($event)">Codigo</th>
-                  <th sortable="title" (sort)="onSort($event)">Titulo</th>
-                  <th sortable="hoursWorked" (sort)="onSort($event)">Horas trabajadas</th>
-                  <th sortable="reportedFailure" (sort)="onSort($event)">Falla reportada</th>
-                  <th sortable="technicalFailure" (sort)="onSort($event)">Falla tecnica</th>
-                  <th sortable="solutionDone" (sort)="onSort($event)">Solucion realizada</th>
-                  <th sortable="notes" (sort)="onSort($event)">Notas</th>
-                  <th sortable="startTime" (sort)="onSort($event)">Fecha inicio</th>
-                  <th sortable="endTime" (sort)="onSort($event)">Fecha fin</th>
-                  <th sortable="ticketStatusId" (sort)="onSort($event)">Estatus</th>
-                  <th sortable="ticketCategoryId" (sort)="onSort($event)">Categoria</th>
-                  <th sortable="ticketTypeId" (sort)="onSort($event)">Tipo</th>
-                  <th sortable="ticketProcessId" (sort)="onSort($event)">Proceso</th>
-                  <th sortable="ticketDate" (sort)="onSort($event)">Fecha</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr tr *ngFor="let table of tables$ | async">
-                  <td>
-                    <ngb-highlight [result]="table.id" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.title" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.hoursWorked" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.reportedFailure" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.technicalFailure" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.solutionDone" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.notes" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.startTime | date:'dd-MM-yyyy'" [term]="service.searchTerm">
-                    </ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.endTime | date:'dd-MM-yyyy'" [term]="service.searchTerm">
-                    </ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.ticketStatusName" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.ticketCategoryName" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.ticketTypeName" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.ticketProcessName" [term]="service.searchTerm"></ngb-highlight>
-                  </td>
-                  <td>
-                    <ngb-highlight [result]="table.ticketDate | date:'dd-MM-yyyy'" [term]="service.searchTerm">
-                    </ngb-highlight>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-xs btn-outline-info btn-rounded" ngbTooltip="Editar Cliente"
-                      (click)="responsiveModal(responsiveData, table.id)">
-                      <i class="fe-edit"></i>
-                    </button>
-                    <button type="button" class="btn btn-xs btn-outline-danger btn-rounded"
-                      ngbTooltip="Eliminar Cliente" (click)="deleteItem(table.id)">
-                      <i class="fe-trash-2"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- End table -->
-          <div class="row justify-content-md-between align-items-md-center mt-2">
-            <div class="col-sm-12 col-md-5">
-              <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Mostrando
-                {{service.startIndex}} hasta
-                {{service.endIndex}} de {{service.totalRecords}}
-                registros
-              </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <!-- Table -->
+            <div class="table-responsive">
+              <table class="table datatables table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0"
+                id="tickets-table">
+                <thead class="bg-light">
+                  <tr>
+                    <th class="font-weight-medium" sortable="id" (sort)="onSort($event)">Codigo</th>
+                    <th class="font-weight-medium" sortable="name" (sort)="onSort($event)">Creado Por</th>
+                    <th class="font-weight-medium" sortable="subject" (sort)="onSort($event)">Descripcion</th>
+                    <th class="font-weight-medium">Asignado a</th>
+                    <th class="font-weight-medium" sortable="priority" (sort)="onSort($event)">Tipo</th>
+                    <th class="font-weight-medium" sortable="status" (sort)="onSort($event)">Estatus</th>
+                    <th class="font-weight-medium" sortable="createddate" (sort)="onSort($event)">Fecha Creacion</th>
+                    <th class="font-weight-medium" sortable="duedate" (sort)="onSort($event)">Fecha fin</th>
+                    <th class="font-weight-medium">Acciones</th>
+                  </tr>
+                </thead>
+
+                <tbody class="font-14">
+                  <tr *ngFor="let ticket of tables$ | async">
+                    <td><b>{{ ticket.id }}</b></td>
+                    <td>
+                      <a href="javascript: void(0);" class="text-dark">
+                        <!-- <img src="{{ ticket.requestuser }}" alt="contact-img" title="contact-img"
+                          class="avatar-sm rounded-circle img-thumbnail" /> -->
+                        <span class="ml-2">
+                          <ngb-highlight [result]="ticket.title" [term]="service.searchTerm"></ngb-highlight>
+                        </span>
+                      </a>
+                    </td>
+
+                    <td>
+                      <ngb-highlight [result]="ticket.reportedFailure" [term]="service.searchTerm"></ngb-highlight>
+                    </td>
+
+                    <td>
+                      <a href="javascript: void(0);">
+                        <!-- <img src="{{ ticket.assignuser }}" alt="contact-img" title="contact-img"
+                          class="avatar-sm rounded-circle img-thumbnail" /> -->
+                      </a>
+                    </td>
+
+                    <td>
+                      <span class="badge badge-secondary" [ngClass]="{
+                        'badge-warning': ticket.ticketTypeName === 'Venta',
+                        'badge-danger': ticket.ticketTypeName === 'Soporte técnico',
+                        'badge-secondary': ticket.ticketTypeName === 'Low'
+                      }">
+                        <ngb-highlight [result]="ticket.ticketTypeName" [term]="service.searchTerm"></ngb-highlight>
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="badge badge-success" [ngClass]="{
+                        'badge-warning': ticket.ticketStatusName === 'En Proceso',
+                        'badge-success': ticket.ticketStatusName === 'Abierto',
+                        'badge-secondary': ticket.ticketStatusName === 'Cerrado'
+                      }">
+                        <ngb-highlight [result]="ticket.ticketStatusName" [term]="service.searchTerm"></ngb-highlight>
+                      </span>
+                    </td>
+
+                    <td>
+                      <ngb-highlight [result]="ticket.startTime | date:'dd-MM-yyyy'" [term]="service.searchTerm">
+                      </ngb-highlight>
+                    </td>
+
+                    <td>
+                      <ngb-highlight [result]="ticket.endTime | date:'dd-MM-yyyy'" [term]="service.searchTerm">
+                      </ngb-highlight>
+                    </td>
+
+                    <td>
+                      <ng-template [ngTemplateOutlet]="TableAction" [ngTemplateOutletContext]="{id: ticket.id}">
+                      </ng-template>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <!-- Pagination -->
-            <div class="col-sm-12 col-md-5">
-              <div class="text-md-right float-md-right pagination-rounded">
+            <!-- End table -->
+          </div>
+        </div>
+        <div class="row justify-content-md-between align-items-md-center mt-2">
+          <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite"> Del
+              {{service.startIndex}} Al
+              {{service.endIndex}} Total {{service.totalRecords}}
+              Registros
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-5">
+            <div class="text-md-right float-md-right">
+              <!-- Pagination -->
+              <ul class="pagination pagination-rounded">
                 <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
                 </ngb-pagination>
-              </div>
+              </ul>
             </div>
-            <!-- End Pagination -->
           </div>
+
         </div>
       </div>
     </div>
   </div>
+  <!-- Table Action -->
 </div>
 
 <!-- Responsive Modal -->
@@ -160,7 +182,8 @@
           <div class="col-md-6 col-xs-12">
             <div class="form-group">
               <input type="hidden" class="form-control" name="id" formControlName="id" value="0">
-              <input type="hidden" class="form-control" name="organizationId" formControlName="organizationId" value="0">
+              <input type="hidden" class="form-control" name="organizationId" formControlName="organizationId"
+                value="0">
               <label>Titulo<span class="text-danger">*</span></label>
               <div class="input-group mb-2">
                 <input type="text" class="form-control" name="title" formControlName="title" value=""
@@ -240,12 +263,12 @@
                 <input type="text" class="form-control" name="notes" formControlName="notes" value="">
               </div>
             </div>
-          </div>          
+          </div>
           <div class="col-md-6 col-xs-12">
             <div class="form-group">
               <label>Estatus<span class="text-danger">*</span></label>
-              <ng-select [items]="status" bindValue="id" bindLabel="name" placeholder="Seleccionar" 
-              name="ticketStatusId" formControlName="ticketStatusId" class="custom-select2"
+              <ng-select [items]="status" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                name="ticketStatusId" formControlName="ticketStatusId" class="custom-select2"
                 [ngClass]="{'is-invalid': submit && form.ticketStatusId.errors}"></ng-select>
               <div *ngIf="submit && form.ticketStatusId.errors" class="invalid-feedback">
                 <span *ngIf="form.ticketStatusId.errors.required">El Estatus es requerido.</span>
@@ -255,27 +278,27 @@
           <div class="col-md-6 col-xs-12">
             <div class="form-group">
               <label>Categoria</label>
-              <ng-select [items]="categories" bindValue="id" bindLabel="name" placeholder="Seleccionar" 
-              name="ticketCategoryId" formControlName="ticketCategoryId" class="custom-select2"></ng-select>
-            </div>           
+              <ng-select [items]="categories" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                name="ticketCategoryId" formControlName="ticketCategoryId" class="custom-select2"></ng-select>
+            </div>
           </div>
           <div class="col-md-6 col-xs-12">
             <div class="form-group">
               <label>Tipo<span class="text-danger">*</span></label>
-              <ng-select [items]="types" bindValue="id" bindLabel="name" placeholder="Seleccionar" 
-              name="ticketTypeId" formControlName="ticketTypeId" class="custom-select2"
+              <ng-select [items]="types" bindValue="id" bindLabel="name" placeholder="Seleccionar" name="ticketTypeId"
+                formControlName="ticketTypeId" class="custom-select2"
                 [ngClass]="{'is-invalid': submit && form.ticketTypeId.errors}"></ng-select>
               <div *ngIf="submit && form.ticketTypeId.errors" class="invalid-feedback">
                 <span *ngIf="form.ticketTypeId.errors.required">El Tipo es requerido</span>
               </div>
-            </div>             
+            </div>
           </div>
           <div class="col-md-6 col-xs-12">
             <div class="form-group">
               <label>Proceso</label>
-              <ng-select [items]="processes" bindValue="id" bindLabel="name" placeholder="Seleccionar" 
-              name="ticketProcessId" formControlName="ticketProcessId" class="custom-select2"></ng-select>
-            </div>            
+              <ng-select [items]="processes" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                name="ticketProcessId" formControlName="ticketProcessId" class="custom-select2"></ng-select>
+            </div>
           </div>
         </div>
       </div>
@@ -285,4 +308,14 @@
       <button type="submit" class="btn btn-success btn-sm">Guardar</button>
     </div>
   </form>
+</ng-template>
+
+<ng-template #TableAction let-widget='id'>
+  <div class="btn-group">
+    <div>
+      <a (click)="responsiveModal(responsiveData, id)"><i
+          class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i></a>
+      <a (click)="deleteItem(id)"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i></a>
+    </div>
+  </div>
 </ng-template>

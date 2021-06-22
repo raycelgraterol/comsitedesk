@@ -9,6 +9,10 @@
     <Compile Remove="Migrations\20210520123248_Tables catalogs for main ticket table..Designer.cs" />
     <Compile Remove="Migrations\20210521030732_All relationships with the ticket table..cs" />
     <Compile Remove="Migrations\20210521030732_All relationships with the ticket table..Designer.cs" />
+    <Compile Remove="Migrations\20210616204226_Project and status new tables.cs" />
+    <Compile Remove="Migrations\20210616204226_Project and status new tables.Designer.cs" />
+    <Compile Remove="Migrations\20210616204415_Project and status new tables.cs" />
+    <Compile Remove="Migrations\20210616204415_Project and status new tables.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

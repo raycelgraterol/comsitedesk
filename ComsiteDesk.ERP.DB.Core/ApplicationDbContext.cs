@@ -21,7 +21,10 @@ namespace ComsiteDesk.ERP.DB.Core
         public DbSet<TicketCategories> TicketCategories { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<Tickets> Tickets { get; set; }
-
+        public DbSet<Projects> Projects { get; set; }
+        public DbSet<ProjectStatus> ProjectStatus { get; set; }
+        public DbSet<Task> Tasks { get; set; }
+        public DbSet<TaskStatus> TaskStatus { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

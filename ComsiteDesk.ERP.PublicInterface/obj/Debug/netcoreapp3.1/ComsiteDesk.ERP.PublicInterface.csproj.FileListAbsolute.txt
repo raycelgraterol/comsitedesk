@@ -6,7 +6,6 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.runtimeconfig.dev.json
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.pdb
-C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.csprojAssemblyReference.cache
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.AssemblyInfoInputs.cache
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.AssemblyInfo.cs
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.csproj.CoreCompileInputs.cache
@@ -103,3 +102,4 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\Google.Apis.Core.dll
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.csproj.AssemblyReference.cache
