@@ -7,7 +7,7 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { UIModule } from 'src/app/shared/ui/ui.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbPaginationModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule, NgbProgressbarModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { TicketManagementRoutingModule } from './ticket-management-routing.module';
@@ -25,6 +25,7 @@ import { AdvancedSortableDirective } from './advanced-sortable.directive';
     HttpClientModule,
     FormsModule,
     NgbTooltipModule,
+    NgbProgressbarModule,
     ReactiveFormsModule,
     NgbPaginationModule,
     NgbTypeaheadModule,
