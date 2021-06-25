@@ -24,6 +24,16 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             _ticketsService = ticketsService;
         }
 
+        // GET: api/Tickets/Balances
+        [HttpGet]
+        [Route("Balances")]
+        public ActionResult GetBalances()
+        {
+            var items =  _ticketsService.GetBalances();
+
+            return Ok(items);
+        }
+
         // GET: api/Tickets
         [HttpGet]
         public ActionResult GetAllWithPager([FromQuery] SearchParameters searchParameters)

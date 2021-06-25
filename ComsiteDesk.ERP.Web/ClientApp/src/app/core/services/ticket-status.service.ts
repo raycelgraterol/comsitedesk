@@ -250,7 +250,8 @@ export class TicketStatusService {
       let name = _ticketStatus.name;
 
       return this.http.put<any>(`${environment.apiUrl}/api/TicketStatus/` + id, {
-          name,
+        id,
+        name,
       });
   }
 

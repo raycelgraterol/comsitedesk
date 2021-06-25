@@ -3,6 +3,6 @@
   <PropertyGroup>
     <Controller_SelectedScaffolderID>ApiControllerWithActionsScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
-    <NameOfLastUsedPublishProfile>C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\Properties\PublishProfiles\Publish Produccion.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\Properties\PublishProfiles\Publish Dev.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

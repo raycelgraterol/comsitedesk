@@ -10,6 +10,7 @@ namespace ComsiteDesk.ERP.Service
     {
         Task<int> Add(TicketModel itemModel);
         int Update(TicketModel itemModel);
+        List<TicketsBalancesModel> GetBalances();
         Task<List<TicketModel>> GetAllAsync();
         List<TicketModel> GetAllWithPager(SearchParameters searchParameters);
         Task<TicketModel> GetById(int itemId);

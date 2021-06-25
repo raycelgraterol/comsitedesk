@@ -17,6 +17,8 @@ import { TicketManagementModule } from './ticket-management/ticket-management.mo
 
 
 import { PagesRoutingModule } from './pages-routing.module';
+import { AssignmentModule } from './assignment/assignment.module';
+import { ProjectsModule } from './projects/projects.module';
 
 @NgModule({
   declarations: [],
@@ -33,7 +35,9 @@ import { PagesRoutingModule } from './pages-routing.module';
     ErrorModule,
     PagesRoutingModule,
     SecurityManagementModule,
-    TicketManagementModule
+    TicketManagementModule,
+    AssignmentModule,
+    ProjectsModule
   ]
 })
 export class PagesModule { }

@@ -29,6 +29,50 @@ namespace ComsiteDesk.ERP.Service
             return Convert.ToInt32(_item.Id);
         }
 
+        public List<TicketsBalancesModel> GetBalances()
+        {
+            var result = new List<TicketsBalancesModel>() 
+            {
+                new TicketsBalancesModel()
+                {
+                    StatusAlert = statusAlert.primary.ToString(),
+                    Title = "Total",
+                    Icon = "fe-tag",
+                    Total = _uow.TicketsRepo.GetAll()
+                            .Count()
+                },
+                new TicketsBalancesModel()
+                {
+                    StatusAlert = statusAlert.warning.ToString(),
+                    Title = statusTicket.EnProceso.ToString(),
+                    Icon = "fe-clock",
+                    Total = _uow.TicketsRepo.GetAll()
+                            .Where(x => x.TicketStatusId == (int)statusTicket.EnProceso)
+                            .Count()
+                },
+                new TicketsBalancesModel()
+                {
+                    StatusAlert = statusAlert.success.ToString(),
+                    Title = statusTicket.Cerrado.ToString(),
+                    Icon = "fe-check-circle",
+                    Total = _uow.TicketsRepo.GetAll()
+                            .Where(x => x.TicketStatusId == (int)statusTicket.Cerrado)
+                            .Count()
+                },
+                new TicketsBalancesModel()
+                {
+                    StatusAlert = statusAlert.danger.ToString(),
+                    Title = statusTicket.Escalado.ToString(),
+                    Icon = "fe-life-buoy",
+                    Total = _uow.TicketsRepo.GetAll()
+                            .Where(x => x.TicketStatusId == (int)statusTicket.Escalado)
+                            .Count()
+                }
+            };
+
+            return result;
+        }
+
         public async Task<List<TicketModel>> GetAllAsync()
         {
             List<TicketModel> items =

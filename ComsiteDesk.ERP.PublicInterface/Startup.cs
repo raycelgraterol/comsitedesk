@@ -39,7 +39,7 @@ namespace ComsiteDesk.ERP.PublicInterface
             // For Entity Framework
             services.AddDbContext<ApplicationDbContext>(
                     options => options
-                    .UseSqlServer(Configuration.GetConnectionString("ConnStr"))
+                    .UseSqlServer(Configuration.GetConnectionString("ConnStrProd"))
                     .EnableSensitiveDataLogging()
                     );
 
