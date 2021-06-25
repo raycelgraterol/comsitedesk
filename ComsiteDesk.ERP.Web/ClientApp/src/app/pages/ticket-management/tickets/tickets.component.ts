@@ -49,9 +49,7 @@ export class TicketsComponent implements OnInit {
   tables$: Observable<Tickets[]>;
   total$: Observable<number>;
   item: Tickets;
-
-  // Card Data
-  cardData: CardData[];
+  balances: any;
 
   types: Array<TicketTypes>;
   status: Array<TicketStatus>;
@@ -93,6 +91,12 @@ export class TicketsComponent implements OnInit {
     this.tables$ = this.service.tables$;
     this.total$ = this.service.total$;
     this.dataLoading = this.service.loading$;
+    
+    this.service.getBalances().subscribe(
+      result =>{
+        this.balances = result
+      }, error => console.error(error)
+    );
 
     /**
     * Bootstrap validation form data
@@ -115,34 +119,6 @@ export class TicketsComponent implements OnInit {
       organizationId: [0, [Validators.required]],
     });
 
-    const cardData = [
-        {
-            icon: 'fe-tag',
-            tickets: 3947,
-            title: 'Total tickets',
-            text: '',
-        },
-        {
-            icon: 'fe-clock',
-            tickets: 624,
-            title: 'Pending Tickets',
-            text: 'warning'
-        },
-        {
-            icon: 'fe-check-circle',
-            tickets: 3195,
-            title: 'Closed Tickets',
-            text: 'success'
-        },
-        {
-            icon: 'fe-trash-2',
-            tickets: 128,
-            title: 'Deleted Tickets',
-            text: 'danger'
-        }
-    ];
-
-    this.cardData = cardData;
   }
 
   loadDropDownList() {
