@@ -35,55 +35,68 @@
           <i class="mdi mdi-plus-circle"></i> Agregar Ticket
         </button>
         <h4 class="header-title mb-4">Manejo Tickets</h4>
-        <div class="clearfix mt-4"></div>
-        <div class="row mb-md-2">
-          <div class="col-sm-12 col-md-6">
+        <div class="clearfix mt-2"></div>
+        <div class="row mb-2 mt-1 container-kanbanboard">
+          <div class="col-xs-6 col-md-3">
+            <!-- Search -->
+            <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label
+                class="d-inline-flex align-items-center">Buscar:
+                <input type="text" name="searchTerm" placeholder="Titulo, Codigo..." class="form-control ml-2"
+                  aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label></div>
+          </div>
+          <div class="col-xs-6 col-md-3">
+            <div class="text-md-right"><label
+              class="d-inline-flex align-items-center">Desde:
+              <input type="date" class="form-control ml-2" name="fromDate" [(ngModel)]="service.fromDate"></label></div>
+          </div>
+          <div class="col-xs-6 col-md-3">
+            <ng-select [items]="users" bindValue="id" bindLabel="fullName" [(ngModel)]="service.assignedTo"
+                  placeholder="Asignado a" name="assignedTo" class="custom-select2 ml-2"></ng-select>    
+          </div>
+          <div class="col-xs-6 col-md-3">
+            <ng-select [items]="status" bindValue="id" bindLabel="name" [(ngModel)]="service.ticketStatusId"
+                  placeholder="Prioridad"  class="custom-select2 "></ng-select>    
+          </div> 
+        </div>
+        <div class="row mb-2 mt-1">
+          <div class="col-sm-6 col-md-12">
             <div class="dataTables_length" id="tickets-table_length"><label
                 class="d-inline-flex align-items-center">Mostrar
                 <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
                   [(ngModel)]="service.pageSize"
-                  class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                  class="custom-select custom-select-sm form-control mx-2">
                   <option [ngValue]="10">10</option>
                   <option [ngValue]="25">25</option>
                   <option [ngValue]="50">50</option>
                   <option [ngValue]="100">100</option>
                 </select> Registros</label></div>
           </div>
-          <div class="col-sm-12 col-md-6">
-            <!-- Search -->
-            <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label
-                class="d-inline-flex align-items-center">Buscar:
-                <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
-                  aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label></div>
-          </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
             <!-- Table -->
             <div class="table-responsive">
-              <table class="table datatables table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0"
+              <table class="table datatables table-hover m-0 table-centered dt-responsive wrap w-100" cellspacing="0"
                 id="tickets-table">
                 <thead class="bg-light">
                   <tr>
                     <th class="font-weight-medium" sortable="id" (sort)="onSort($event)">Codigo</th>
-                    <th class="font-weight-medium" sortable="name" (sort)="onSort($event)">Creado Por</th>
-                    <th class="font-weight-medium" sortable="subject" (sort)="onSort($event)">Descripcion</th>
+                    <th class="font-weight-medium" sortable="title" (sort)="onSort($event)">Titulo</th>
+                    <th class="font-weight-medium">Descripción </th>
                     <th class="font-weight-medium">Asignado a</th>
-                    <th class="font-weight-medium" sortable="priority" (sort)="onSort($event)">Tipo</th>
-                    <th class="font-weight-medium" sortable="status" (sort)="onSort($event)">Estatus</th>
-                    <th class="font-weight-medium" sortable="createddate" (sort)="onSort($event)">Fecha Creacion</th>
-                    <th class="font-weight-medium" sortable="duedate" (sort)="onSort($event)">Fecha fin</th>
+                    <th class="font-weight-medium" sortable="ticketTypeName" (sort)="onSort($event)">Tipo</th>
+                    <th class="font-weight-medium" sortable="ticketStatusName" (sort)="onSort($event)">Prioridad</th>
+                    <th class="font-weight-medium" sortable="startTime" (sort)="onSort($event)">Fecha Creacion</th>
+                    <th class="font-weight-medium" sortable="endTime" (sort)="onSort($event)">Fecha fin</th>
                     <th class="font-weight-medium">Acciones</th>
                   </tr>
                 </thead>
 
                 <tbody class="font-14">
                   <tr *ngFor="let ticket of tables$ | async">
-                    <td><b>{{ ticket.id }}</b></td>
+                    <td><b>T-{{ ticket.id }}</b></td>
                     <td>
                       <a href="javascript: void(0);" class="text-dark">
-                        <!-- <img src="{{ ticket.requestuser }}" alt="contact-img" title="contact-img"
-                          class="avatar-sm rounded-circle img-thumbnail" /> -->
                         <span class="ml-2">
                           <ngb-highlight [result]="ticket.title" [term]="service.searchTerm"></ngb-highlight>
                         </span>
@@ -95,10 +108,13 @@
                     </td>
 
                     <td>
-                      <a href="javascript: void(0);">
-                        <!-- <img src="{{ ticket.assignuser }}" alt="contact-img" title="contact-img"
-                          class="avatar-sm rounded-circle img-thumbnail" /> -->
-                      </a>
+                      <div class="avatar-group">
+                        <div href="javascript: void(0);" class="avatar-group-item" *ngFor="let user of ticket.users">
+                          <img [src]="user.userImageUrl ? urlAPI + user.userImageUrl : 'assets/images/users/user.png'"
+                            alt="{{user.userName}}" ngbTooltip="{{user.userName}}" class="rounded-circle avatar-sm"
+                            alt="friend" />
+                        </div>
+                      </div>
                     </td>
 
                     <td>
@@ -174,53 +190,113 @@
       <div class="center-div">
         <div class="row">
           <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <input type="hidden" class="form-control" name="id" formControlName="id" value="0">
-              <input type="hidden" class="form-control" name="organizationId" formControlName="organizationId"
-                value="0">
-              <label>Titulo<span class="text-danger">*</span></label>
-              <div class="input-group mb-2">
-                <input type="text" class="form-control" name="title" formControlName="title" value=""
-                  [ngClass]="{'is-invalid': submit && form.title.errors}">
-                <div *ngIf="submit && form.title.errors" class="invalid-feedback">
-                  <span *ngIf="form.title.errors.required">El Titulo es requerido</span>
+            <div class="container-kanbanboard">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="hidden" class="form-control" name="id" formControlName="id" value="0">
+                    <input type="hidden" class="form-control" name="organizationId" formControlName="organizationId"
+                      value="0">
+                    <label>Titulo<span class="text-danger">*</span></label>
+                    <div class="input-group mb-2">
+                      <input type="text" class="form-control" name="title" formControlName="title" value=""
+                        [ngClass]="{'is-invalid': submit && form.title.errors}">
+                      <div *ngIf="submit && form.title.errors" class="invalid-feedback">
+                        <span *ngIf="form.title.errors.required">El Titulo es requerido</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Fecha de Ticket<span class="text-danger">*</span></label>
+                    <div class="input-group mb-2">
+                      <input type="date" class="form-control" name="ticketDate" formControlName="ticketDate"
+                        [ngClass]="{'is-invalid': submit && form.ticketDate.errors}">
+                      <div *ngIf="submit && form.ticketDate.errors" class="invalid-feedback">
+                        <span *ngIf="form.ticketDate.errors.required">La Fecha es requerida.</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Fecha de inicio</label>
+                    <div class="input-group mb-2">
+                      <input type="date" class="form-control" name="startTime" formControlName="startTime">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Fecha fin</label>
+                    <div class="input-group mb-2">
+                      <input type="date" class="form-control" name="endTime" formControlName="endTime">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Horas trabajadas</label>
+                    <div class="input-group mb-2">
+                      <input type="number" class="form-control" name="hoursWorked" formControlName="hoursWorked"
+                        value="">
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label>Fecha de Ticket<span class="text-danger">*</span></label>
-              <div class="input-group mb-2">
-                <input type="date" class="form-control" name="ticketDate" formControlName="ticketDate"
-                  [ngClass]="{'is-invalid': submit && form.ticketDate.errors}">
-                <div *ngIf="submit && form.ticketDate.errors" class="invalid-feedback">
-                  <span *ngIf="form.ticketDate.errors.required">La Fecha es requerida.</span>
+            <div class="container-kanbanboard">
+              <div class="row">
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Estatus<span class="text-danger">*</span></label>
+                    <ng-select [items]="status" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                      name="ticketStatusId" formControlName="ticketStatusId" class="custom-select2"
+                      [ngClass]="{'is-invalid': submit && form.ticketStatusId.errors}"></ng-select>
+                    <div *ngIf="submit && form.ticketStatusId.errors" class="invalid-feedback">
+                      <span *ngIf="form.ticketStatusId.errors.required">El Estatus es requerido.</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label>Fecha de inicio</label>
-              <div class="input-group mb-2">
-                <input type="date" class="form-control" name="startTime" formControlName="startTime">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label>Fecha fin</label>
-              <div class="input-group mb-2">
-                <input type="date" class="form-control" name="endTime" formControlName="endTime">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label>Horas trabajadas</label>
-              <div class="input-group mb-2">
-                <input type="text" class="form-control" name="hoursWorked" formControlName="hoursWorked" value="">
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Categoria</label>
+                    <ng-select [items]="categories" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                      name="ticketCategoryId" formControlName="ticketCategoryId" class="custom-select2"></ng-select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Tipo<span class="text-danger">*</span></label>
+                    <ng-select [items]="types" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                      name="ticketTypeId" formControlName="ticketTypeId" class="custom-select2"
+                      [ngClass]="{'is-invalid': submit && form.ticketTypeId.errors}"></ng-select>
+                    <div *ngIf="submit && form.ticketTypeId.errors" class="invalid-feedback">
+                      <span *ngIf="form.ticketTypeId.errors.required">El Tipo es requerido</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Proceso</label>
+                    <ng-select [items]="processes" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                      name="ticketProcessId" formControlName="ticketProcessId" class="custom-select2"></ng-select>
+                  </div>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                  <div class="form-group">
+                    <label>Asignado</label>
+                    <ng-select [items]="users" [multiple]="true" bindValue="id" bindLabel="fullName"
+                      placeholder="Seleccionar" name="usersIds" formControlName="usersIds" class="custom-select2"
+                      [ngClass]="{'is-invalid': submit && form.usersIds.errors}"></ng-select>
+                    <div *ngIf="submit && form.usersIds.errors" class="invalid-feedback">
+                      <span *ngIf="form.usersIds.errors.required">Agregue por lo menos un Usuario.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -228,8 +304,8 @@
             <div class="form-group">
               <label>Falla reportada</label>
               <div class="input-group mb-2">
-                <input type="text" class="form-control" name="reportedFailure" formControlName="reportedFailure"
-                  value="">
+                <textarea type="text" class="form-control" name="reportedFailure" formControlName="reportedFailure"
+                  rows="5" value=""></textarea>
               </div>
             </div>
           </div>
@@ -237,8 +313,8 @@
             <div class="form-group">
               <label>Falla tecnica</label>
               <div class="input-group mb-2">
-                <input type="text" class="form-control" name="technicalFailure" formControlName="technicalFailure"
-                  value="">
+                <textarea type="text" class="form-control" name="technicalFailure" formControlName="technicalFailure"
+                  rows="5" value=""></textarea>
               </div>
             </div>
           </div>
@@ -246,7 +322,9 @@
             <div class="form-group">
               <label>Solucion realizada</label>
               <div class="input-group mb-2">
-                <input type="text" class="form-control" name="solutionDone" formControlName="solutionDone" value="">
+                <textarea type="text" class="form-control" name="solutionDone" formControlName="solutionDone" value=""
+                  rows="5">
+                </textarea>
               </div>
             </div>
           </div>
@@ -254,44 +332,10 @@
             <div class="form-group">
               <label>Notas</label>
               <div class="input-group mb-2">
-                <input type="text" class="form-control" name="notes" formControlName="notes" value="">
+                <textarea type="text" class="form-control" name="notes" formControlName="notes" value="" rows="5">
+
+                </textarea>
               </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label>Estatus<span class="text-danger">*</span></label>
-              <ng-select [items]="status" bindValue="id" bindLabel="name" placeholder="Seleccionar"
-                name="ticketStatusId" formControlName="ticketStatusId" class="custom-select2"
-                [ngClass]="{'is-invalid': submit && form.ticketStatusId.errors}"></ng-select>
-              <div *ngIf="submit && form.ticketStatusId.errors" class="invalid-feedback">
-                <span *ngIf="form.ticketStatusId.errors.required">El Estatus es requerido.</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label>Categoria</label>
-              <ng-select [items]="categories" bindValue="id" bindLabel="name" placeholder="Seleccionar"
-                name="ticketCategoryId" formControlName="ticketCategoryId" class="custom-select2"></ng-select>
-            </div>
-          </div>
-          <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label>Tipo<span class="text-danger">*</span></label>
-              <ng-select [items]="types" bindValue="id" bindLabel="name" placeholder="Seleccionar" name="ticketTypeId"
-                formControlName="ticketTypeId" class="custom-select2"
-                [ngClass]="{'is-invalid': submit && form.ticketTypeId.errors}"></ng-select>
-              <div *ngIf="submit && form.ticketTypeId.errors" class="invalid-feedback">
-                <span *ngIf="form.ticketTypeId.errors.required">El Tipo es requerido</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label>Proceso</label>
-              <ng-select [items]="processes" bindValue="id" bindLabel="name" placeholder="Seleccionar"
-                name="ticketProcessId" formControlName="ticketProcessId" class="custom-select2"></ng-select>
             </div>
           </div>
         </div>

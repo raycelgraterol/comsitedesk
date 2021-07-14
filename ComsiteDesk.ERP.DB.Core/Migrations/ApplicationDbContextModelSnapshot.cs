@@ -43,6 +43,9 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -139,8 +142,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -159,8 +162,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(255)")
@@ -307,8 +310,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -319,8 +322,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(255)")
@@ -338,8 +341,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -357,8 +360,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("OrganizationId")
                         .HasColumnType("int");
@@ -389,8 +392,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -408,8 +411,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("ProjectsId")
                         .HasColumnType("int");
@@ -437,8 +440,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -449,8 +452,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(255)")
@@ -468,8 +471,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -480,8 +483,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -500,8 +503,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -512,8 +515,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -535,8 +538,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -547,8 +550,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -567,8 +570,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -579,8 +582,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -599,8 +602,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -617,8 +620,8 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(1000)")
@@ -698,6 +701,21 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ModifiedBy")
                         .HasColumnType("bigint");
 
                     b.HasKey("TicketsId", "UserId");

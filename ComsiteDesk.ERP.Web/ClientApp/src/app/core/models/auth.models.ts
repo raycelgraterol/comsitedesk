@@ -9,6 +9,7 @@ export class User {
     rolName: string;
     phoneNumber: string;
     fullName: string;
+    imageUrl: string;
     organizationId: number;
     organization: any;
 }

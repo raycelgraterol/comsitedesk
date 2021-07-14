@@ -30,8 +30,8 @@ namespace ComsiteDesk.ERP.Service.HelperModel
 
         public int OrganizationId { get; set; }
         public OrganizationModel Organization { get; set; }
-
-        //public List<TicketsUsers> Users { get; set; }
+        public int[] UsersIds { get; set; }
+        public TicketUserModel[] Users { get; set; }
 
         //public List<TicketsEquipments> Equipments { get; set; }
 

@@ -10,6 +10,7 @@ namespace ComsiteDesk.ERP.Service
         private ITicketTypesRepo _ticketTypesRepo { get; set; }
         private ITicketStatusRepo _ticketStatusRepo { get; set; }
         private ITicketsRepo _ticketsRepo { get; set; }
+        private ITicketsUsersRepo _ticketsUsersRepo { get; set; }
         private ITicketProcessesRepo _ticketProcessesRepo { get; set; }
         private ITicketCategoriesRepo _ticketCategoriesRepo { get; set; }
         private IEquipmentRepo _equipmentRepo { get; set; }
@@ -23,6 +24,7 @@ namespace ComsiteDesk.ERP.Service
             ITicketTypesRepo ticketTypesRepo,
             ITicketStatusRepo ticketStatusRepo,
             ITicketsRepo ticketsRepo,
+            ITicketsUsersRepo ticketsUsersRepo,
             ITicketProcessesRepo ticketProcessesRepo,
             ITicketCategoriesRepo ticketCategoriesRepo,
             IEquipmentRepo equipmentRepo,
@@ -36,6 +38,7 @@ namespace ComsiteDesk.ERP.Service
             _ticketTypesRepo = ticketTypesRepo;
             _ticketStatusRepo = ticketStatusRepo;
             _ticketsRepo = ticketsRepo;
+            _ticketsUsersRepo = ticketsUsersRepo;
             _ticketProcessesRepo = ticketProcessesRepo;
             _ticketCategoriesRepo = ticketCategoriesRepo;
             _ticketCategoriesRepo = ticketCategoriesRepo;
@@ -51,6 +54,7 @@ namespace ComsiteDesk.ERP.Service
         public ITicketTypesRepo TicketTypesRepo => _ticketTypesRepo;
         public ITicketStatusRepo TicketStatusRepo => _ticketStatusRepo;
         public ITicketsRepo TicketsRepo => _ticketsRepo;
+        public ITicketsUsersRepo TicketsUsersRepo => _ticketsUsersRepo;
         public ITicketProcessesRepo TicketProcessesRepo => _ticketProcessesRepo;
         public ITicketCategoriesRepo TicketCategoriesRepo => _ticketCategoriesRepo;
         public IEquipmentRepo EquipmentRepo => _equipmentRepo;

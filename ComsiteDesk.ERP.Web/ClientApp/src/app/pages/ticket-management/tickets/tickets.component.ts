@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { AdvancedSortableDirective, SortEvent } from '../advanced-sortable.directive';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { environment } from '../../../../environments/environment';
 
 import { Tickets, SearchResult, CardData } from 'src/app/core/models/tickets.models';
 import { TicketService } from 'src/app/core/services/ticket.service';
@@ -22,6 +23,8 @@ import { TicketProcesses } from 'src/app/core/models/ticket-processes.models';
 import { TicketProcessesService } from 'src/app/core/services/ticket-processes.service';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { DatePipe } from '@angular/common';
+import { User } from 'src/app/core/models/auth.models';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tickets',
@@ -45,7 +48,7 @@ export class TicketsComponent implements OnInit {
   queryId: number;
   user: any;
   organizationId: number;
-  
+
   tables$: Observable<Tickets[]>;
   total$: Observable<number>;
   item: Tickets;
@@ -55,6 +58,9 @@ export class TicketsComponent implements OnInit {
   status: Array<TicketStatus>;
   categories: Array<TicketCategories>;
   processes: Array<TicketProcesses>;
+  users: Array<User>;
+
+  public urlAPI: string = `${environment.apiUrl}\\`;
 
   @ViewChildren(AdvancedSortableDirective) headers: QueryList<AdvancedSortableDirective>;
 
@@ -70,7 +76,7 @@ export class TicketsComponent implements OnInit {
     private modalService: NgbModal) {
 
     this.user = this.authService.currentUser();
-    if(this.user.organization != undefined){
+    if (this.user.organization != undefined) {
       this.organizationId = this.user.organization.id;
     }
 
@@ -91,9 +97,9 @@ export class TicketsComponent implements OnInit {
     this.tables$ = this.service.tables$;
     this.total$ = this.service.total$;
     this.dataLoading = this.service.loading$;
-    
+
     this.service.getBalances().subscribe(
-      result =>{
+      result => {
         this.balances = result
       }, error => console.error(error)
     );
@@ -117,11 +123,18 @@ export class TicketsComponent implements OnInit {
       ticketTypeId: [0, [Validators.required]],
       ticketProcessId: [0],
       organizationId: [0, [Validators.required]],
+      usersIds: [[], [Validators.required]]
     });
 
   }
 
   loadDropDownList() {
+
+    this.authService.getAllUsers()
+      .subscribe(result => {
+        this.users = result.data;
+      }, error => console.error(error));
+
     this.typesService.getAllItems()
       .subscribe(result => {
         this.types = result.data;
@@ -200,6 +213,17 @@ export class TicketsComponent implements OnInit {
             this.form.ticketCategoryId.setValue(this.item.ticketCategoryId);
             this.form.ticketProcessId.setValue(this.item.ticketProcessId);
             this.form.organizationId.setValue(this.item.organizationId);
+            
+            this.service.GetListUsersByTicket(this.item.id)
+              .subscribe(result => {
+                if (result) {
+                  let userIds = result.data.map(x => x.userId);
+                  this.form.usersIds.setValue(userIds);
+                }
+              }, error => {
+                console.error(error);
+              }
+              );
 
           }
         }, error => {
@@ -239,6 +263,7 @@ export class TicketsComponent implements OnInit {
     this.item.ticketCategoryId = parseInt(this.form.ticketCategoryId.value);
     this.item.ticketProcessId = parseInt(this.form.ticketProcessId.value);
     this.item.organizationId = parseInt(this.form.organizationId.value);
+    this.item.usersIds = this.form.usersIds.value;
 
     if (this.item.id == 0 || this.item.id == null) {
 

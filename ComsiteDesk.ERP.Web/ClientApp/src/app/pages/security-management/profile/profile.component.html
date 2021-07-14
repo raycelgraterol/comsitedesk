@@ -1,0 +1,66 @@
+<div class="container-fluid">
+  <app-page-title title="" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="header-title mb-4">Mi Perfil</h4>
+          <form class="needs-validation" (ngSubmit)="validSubmit()" [formGroup]="validationform">
+            <app-ui-preloader [display]="loading"></app-ui-preloader>
+            <div class="p-4">
+              <div class="row">                
+
+                <div class="col-sm-6 form-group position-relative mb-3">
+                  <input type="hidden" class="form-control" formControlName="Id" value="">
+                  <label>Nombre </label>
+                  <input type="text" class="form-control" formControlName="FirstName" placeholder="Nombre" value=""
+                    [ngClass]="{'is-invalid': submit && form.FirstName.errors}">
+                  <div *ngIf="submit && form.FirstName.errors" class="invalid-feedback">
+                    <span *ngIf="form.FirstName.errors.required">El Nombre es obligatorio.</span>
+                  </div>
+                </div>
+
+                <div class="col-md-6 form-group position-relative mb-3">
+                  <label>Apellido</label>
+                  <input type="text" class="form-control" formControlName="LastName" placeholder="Apellido" value=""
+                    [ngClass]="{'is-invalid': submit && form.LastName.errors}">
+                  <div *ngIf="submit && form.LastName.errors" class="invalid-feedback">
+                    <span *ngIf="form.LastName.errors.required">El Apellido es obligatorio.</span>
+                  </div>
+                </div>
+
+                <div class="col-sm-6 form-group position-relative mb-3">
+                  <label>Correo</label>
+                  <input type="text" class="form-control" formControlName="Email" placeholder="Correo" value="" >
+                </div>
+
+                <div class="col-sm-6 form-group position-relative mb-3">
+                  <label>Numero de Telefono</label>
+                  <input type="text" class="form-control" formControlName="PhoneNumber" placeholder="" value=""
+                    [ngClass]="{'is-invalid': submit && form.PhoneNumber.errors}">
+                  <div *ngIf="submit && form.PhoneNumber.errors" class="invalid-feedback">
+                    <span *ngIf="form.PhoneNumber.errors.required">El Numero de telefono es obligatorio.</span>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <label class="hoverable" for="fileInput">
+                    <img [src]="url ? url : 'assets/images/users/user.png'"> 
+                    <div class="hover-text">Choose file</div>
+                    <div class="background"></div>
+                  </label>
+                  <br/> 
+                  <input id="fileInput" type='file' (change)="onSelectFile($event)">
+                </div>
+
+                <div class="col-sm-12 text-right">
+                  <button class="btn btn-success btn-rounded" type="submit" >Actualizar Perfil</button>
+                </div>
+
+              </div>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>

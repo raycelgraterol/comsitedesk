@@ -1,4 +1,4 @@
-export class Projects {
+export class ProjectModel {
     id : number;
     title : string;
     description: string;
@@ -7,10 +7,11 @@ export class Projects {
     organizationId: number;
     projectStatusId: number;
     projectStatusName: string;
+    organizationName: string;
 }
 
 // Search Data
 export interface SearchResult {
-    tables: Projects[];
+    tables: ProjectModel[];
     total: number;
 }

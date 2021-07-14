@@ -32,6 +32,8 @@ namespace ComsiteDesk.ERP.DB.Core.Authentication
         [NotMapped]
         public string Token { get; set; }
 
+        public string ImageUrl { get; set; }
+
         [Required]
         public int OrganizationId { get; set; }
         public Organizations Organization { get; set; }

@@ -36,7 +36,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
 
         // GET: api/Tickets
         [HttpGet]
-        public ActionResult GetAllWithPager([FromQuery] SearchParameters searchParameters)
+        public ActionResult GetAllWithPager([FromQuery] TicketsSearchModel searchParameters)
         {
             var items = _ticketsService.GetAllWithPager(searchParameters);
 
@@ -64,6 +64,21 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             }
 
             return Ok(new { data = item });
+        }
+
+        // POST api/Tickets/GetListUsersByTicket
+        [HttpPost]
+        [Route("GetListUsersByTicket")]
+        public async Task<ActionResult> GetListUsersByTicket([FromBody] TicketModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _ticketsService.GetAllUsersByTicket(value.Id);
+
+            return Ok(new { data = result, count = result.Count() });
         }
 
         // POST: api/Tickets
@@ -107,7 +122,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             value.ModifiedBy = userId;
             value.DateModified = DateTime.Now;
 
-            var item = _ticketsService.Update(value);
+            var item = await _ticketsService.Update(value);
 
             return Ok(new { data = item });
         }

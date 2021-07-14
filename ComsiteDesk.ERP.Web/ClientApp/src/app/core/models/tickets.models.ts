@@ -18,6 +18,8 @@ export class Tickets {
     ticketTypeName: number;
     ticketProcessName: number;
     organizationId : number;
+    usersIds: Array<number>;
+    users: any;
 }
 
 export interface CardData {

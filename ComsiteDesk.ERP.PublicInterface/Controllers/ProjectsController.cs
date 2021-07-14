@@ -70,6 +70,8 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
 
             value.CreatedBy = userId;
             value.DateCreated = DateTime.Now;
+            value.ProjectStatusId = 1;
+            value.OrganizationId = 1;
 
             var id = await _projectsService.Add(value);
 

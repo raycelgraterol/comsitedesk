@@ -1,5 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { User } from '../../core/models/auth.models';
+
+import { Interconnect } from "ng-interconnect";
+
 
 import { AuthenticationService } from '../../core/services/auth.service';
 
@@ -23,7 +28,8 @@ export class TopbarComponent implements OnInit {
   };
 
   fullName: string;
-  user: any;
+  imageUrl: string = "assets/images/users/user.png";
+  user: User;
   businessName: string;
 
   openMobileMenu: boolean;
@@ -31,14 +37,27 @@ export class TopbarComponent implements OnInit {
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
 
-  constructor(private router: Router, private authService: AuthenticationService) { }
+  constructor(
+    private router: Router, 
+    private authService: AuthenticationService,
+    private interconnect: Interconnect) { }
 
   ngOnInit() {
     // get the notifications
     this._fetchNotifications();
     this.openMobileMenu = false;
-    this.fullName = this.authService.currentUser().firstName + " " + this.authService.currentUser().lastName;
+    this.loadInitValues();
+
+    this.interconnect.receiveFrom("ImageProfile", "top-bar", data => {
+      this.loadInitValues();
+    });
+  }
+
+  loadInitValues(){
     this.user = this.authService.currentUser();
+    this.fullName = this.authService.currentUser().firstName + " " + this.authService.currentUser().lastName;    
+    this.imageUrl = this.user.imageUrl == null ? this.imageUrl : `${environment.apiUrl}\\`+ this.user.imageUrl;
+
     if(this.user.organization != undefined){
       this.businessName = this.user.organization.businessName;
     }

@@ -12,9 +12,10 @@ import { SecurityManagementRoutingModule } from './security-management-routing.m
 import { AdvancedSortableDirective } from './advanced-sortable.directive';
 import { UsersComponent } from './users/users.component';
 import { RolesComponent } from './roles/roles.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
-  declarations: [AdvancedSortableDirective, UsersComponent, RolesComponent],
+  declarations: [AdvancedSortableDirective, UsersComponent, RolesComponent, ProfileComponent],
   imports: [
     CommonModule,
     UIModule,

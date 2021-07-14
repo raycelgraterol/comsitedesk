@@ -61,7 +61,7 @@
     <li class="dropdown notification-list" ngbDropdown>
       <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" ngbDropdownToggle id="profileDropdown"
         href="javascript: void(0);" role="button" aria-haspopup="false" aria-expanded="false">
-        <img src="assets/images/users/user.png" alt="user-image" class="rounded-circle">
+        <img src="{{imageUrl}}" alt="user-image" class="rounded-circle">
         <span class="pro-user-name ml-1">
           {{businessName}} - 
           {{fullName}} <i class="mdi mdi-chevron-down"></i>
@@ -73,7 +73,7 @@
         </div>
 
         <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
+        <a routerLink="/security/profile" class="dropdown-item notify-item">
           <i class="fe-user"></i>
           <span>Mi Cuenta</span>
         </a>
