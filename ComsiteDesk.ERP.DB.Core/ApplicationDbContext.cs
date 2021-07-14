@@ -21,6 +21,7 @@ namespace ComsiteDesk.ERP.DB.Core
         public DbSet<TicketCategories> TicketCategories { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<Tickets> Tickets { get; set; }
+        public DbSet<TicketsUsers> TicketsUsers { get; set; } 
         public DbSet<Projects> Projects { get; set; }
         public DbSet<ProjectStatus> ProjectStatus { get; set; }
         public DbSet<Task> Tasks { get; set; }

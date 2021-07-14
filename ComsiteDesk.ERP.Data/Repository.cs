@@ -86,7 +86,7 @@ namespace ComsiteDesk.ERP.Data
             }
         }
 
-        public async void Delete(TEntity entity)
+        public void Delete(TEntity entity)
         {
             if (entity == null)
             {
@@ -96,8 +96,6 @@ namespace ComsiteDesk.ERP.Data
             try
             {
                 _applicationDbContext.Remove(entity);
-                await _applicationDbContext.SaveChangesAsync();
-
             }
             catch (Exception ex)
             {

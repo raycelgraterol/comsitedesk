@@ -21,6 +21,15 @@ namespace ComsiteDesk.ERP.DB.Core.Models
         public int OrganizationId { get; set; }
         public Organizations Organization { get; set; }
 
+        [NotMapped]
+        public string OrganizationName
+        {
+            get
+            {
+                return Organization != null ? Organization.BusinessName : "";
+            }
+        }
+
         [Required]
         public int ProjectStatusId { get; set; }
         [NotMapped]

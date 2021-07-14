@@ -212,7 +212,7 @@ export class UserProfileService {
      * Get all ProviderTypes
      */
     getAllClients() {
-        return this.http.get<any>(`${environment.apiUrl}/api/Authenticate/users`);
+        return this.http.get<any>(`${environment.apiUrl}/api/Authenticate/all`);
     }
 
     /**

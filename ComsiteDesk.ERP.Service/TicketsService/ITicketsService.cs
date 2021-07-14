@@ -1,4 +1,5 @@
-﻿using ComsiteDesk.ERP.Service.HelperModel;
+﻿using ComsiteDesk.ERP.DB.Core.Models;
+using ComsiteDesk.ERP.Service.HelperModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,11 +10,12 @@ namespace ComsiteDesk.ERP.Service
     public interface ITicketsService
     {
         Task<int> Add(TicketModel itemModel);
-        int Update(TicketModel itemModel);
+        Task<int> Update(TicketModel itemModel);
         List<TicketsBalancesModel> GetBalances();
         Task<List<TicketModel>> GetAllAsync();
-        List<TicketModel> GetAllWithPager(SearchParameters searchParameters);
+        List<TicketModel> GetAllWithPager(TicketsSearchModel searchParameters);
         Task<TicketModel> GetById(int itemId);
+        Task<List<TicketUserModel>> GetAllUsersByTicket(int TicketId);
         int Remove(TicketModel itemModel);
     }
 }

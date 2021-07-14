@@ -22,5 +22,9 @@
     <ProjectReference Include="..\ComsiteDesk.ERP.Service\ComsiteDesk.ERP.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="StaticFiles\Images\" />
+  </ItemGroup>
+
 
 </Project>

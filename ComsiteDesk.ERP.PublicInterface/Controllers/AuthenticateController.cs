@@ -18,6 +18,8 @@ using Microsoft.IdentityModel.Tokens;
 using ComsiteDesk.ERP.Service;
 using System.Web;
 using System.Linq.Dynamic.Core;
+using System.IO;
+using System.Net.Http.Headers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -55,9 +57,19 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         // GET: api/Authenticate/users
         [HttpGet]
         [Route("users")]
-        public ActionResult GetAllUsers([FromQuery] SearchParameters searchParameters)
+        public ActionResult GetUsersPager([FromQuery] SearchParameters searchParameters)
         {
             var items = GetUsersWithPager(searchParameters);
+
+            return Ok(new { data = items, count = searchParameters.totalCount });
+        }
+
+        // GET: api/Authenticate/all
+        [HttpGet]
+        [Route("all")]
+        public ActionResult GetAllUsers([FromQuery] SearchParameters searchParameters)
+        {
+            var items = userManager.Users.ToList();
 
             return Ok(new { data = items, count = searchParameters.totalCount });
         }
@@ -365,32 +377,68 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         /// </summary>
         /// <returns></returns>
         /// PUT: api/Authenticate/update
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(User user)
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("update")]
+        public async Task<IActionResult> UpdateUser()
         {
             try
             {
+                var dbPath = "";                
+
+                var user = new User()
+                {
+                    UserName = Request.Form["UserName"],
+                    FirstName = Request.Form["FirstName"],
+                    LastName = Request.Form["LastName"],
+                    PhoneNumber = Request.Form["PhoneNumber"]
+                }; 
+                
                 var currentUser = await userManager.FindByEmailAsync(user.UserName);
 
                 currentUser.FirstName = user.FirstName;
                 currentUser.LastName = user.LastName;
                 currentUser.PhoneNumber = user.PhoneNumber;
 
+                if (Request.Form.Files.Count > 0)
+                {
+                    var file = Request.Form.Files[0];
+                    var folderName = Path.Combine("StaticFiles", "Images");
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                    if (file.Length > 0)
+                    {
+                        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToLowerInvariant().Trim('"').Replace(" ", "-");
+                        var fullPath = Path.Combine(pathToSave, fileName);
+                        dbPath = Path.Combine(folderName, fileName);
+
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+
+                        currentUser.ImageUrl = dbPath;
+                    }
+                }               
+
                 IdentityResult result = await userManager.UpdateAsync(currentUser);
+
+                UserModel userModel = CoreMapper.MapObject<User, UserModel>(currentUser);
+
+                userModel.Organization = await _organizationsService.GetById(userModel.OrganizationId);
+
+                userModel.Roles = await userManager.GetRolesAsync(currentUser);
 
                 ResponseModel.Status = "Success";
                 ResponseModel.Message = "¡Usuario creado con éxito!";
 
-                //TODO: Update Rol
-
-                return Ok(new { type = ResponseModel.Status, message = ResponseModel.Message, user = currentUser });
+                return Ok(new { type = ResponseModel.success, message = ResponseModel.Message, user = currentUser });
             }
             catch (Exception ex)
             {
                 ResponseModel.Status = "Error";
                 ResponseModel.Message = "Ha Ocurrido un error al actualizar el Usuario.";
 
-                return Ok(new { type = ResponseModel.Status, message = ResponseModel.Message });
+                return Ok(new { type = ResponseModel.danger, message = ResponseModel.Message });
             }
         }
 
@@ -585,7 +633,6 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             {
                 return new List<User>();
             }
-
         }
 
         #region Private Methods

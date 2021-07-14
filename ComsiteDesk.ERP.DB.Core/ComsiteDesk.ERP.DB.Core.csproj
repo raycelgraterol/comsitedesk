@@ -13,6 +13,8 @@
     <Compile Remove="Migrations\20210616204226_Project and status new tables.Designer.cs" />
     <Compile Remove="Migrations\20210616204415_Project and status new tables.cs" />
     <Compile Remove="Migrations\20210616204415_Project and status new tables.Designer.cs" />
+    <Compile Remove="Migrations\20210713172611_Test tickets users.cs" />
+    <Compile Remove="Migrations\20210713172611_Test tickets users.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -43,6 +43,7 @@ namespace ComsiteDesk.ERP.Service
             {
                 var result = _uow.ProjectsRepo.GetAll()
                                 .Include(x => x.ProjectStatus)
+                                .Include(x => x.Organization)
                                 .AsQueryable();
 
                 //count all items

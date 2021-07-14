@@ -20,10 +20,8 @@ export class AuthenticationService {
     /**
      * Returns the current user
      */
-    public currentUser(): User {
-        if (!this.user) {
-            this.user = JSON.parse(this.cookieService.getCookie('currentUser'));
-        }
+    public currentUser(): User {        
+        this.user = JSON.parse(this.cookieService.getCookie('currentUser'));        
         return this.user;
     }
 
@@ -66,18 +64,22 @@ export class AuthenticationService {
         return this.http.post<any>(`${environment.apiUrl}/api/Authenticate/login`, { username, password })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
-                if (user && user.token) {
-                    this.user = user;
+                if (user.token) {
                     //Set token
                     this.cookieService.setCookie('userToken', user.token, 1);
-                    // store user details and jwt in cookie
-                    this.cookieService.setCookie('currentUser', JSON.stringify(user), 1);
                 }
+                this.createUpdateUserCookie(user);
                 return user;
             }));
     }
-
     
+    public createUpdateUserCookie(user: any) {
+        if (user) {
+            // store user details and jwt in cookie
+            this.cookieService.setCookie('currentUser', JSON.stringify(user), 1);
+        }
+    }
+
      googleLogin(socialUser: SocialUser) {
          let idToken = socialUser.idToken;
          let userName = socialUser.email;
@@ -153,6 +155,25 @@ export class AuthenticationService {
     /**
      * Update Profile
      */
+     updateUserAndPic(UserName: string, FirstName: string, LastName: string, PhoneNumber: string, fileToUpload: File) {
+
+        const formData: FormData = new FormData();
+        
+        formData.append('file', fileToUpload, fileToUpload.name);
+
+        formData.append('UserName', UserName);
+        formData.append('FirstName', FirstName);
+        formData.append('LastName', LastName);
+        formData.append('PhoneNumber', PhoneNumber);
+        
+        return this.http.post(`${environment.apiUrl}/api/authenticate/update`, 
+        formData, 
+        {reportProgress: true, observe: 'events'});
+    }
+
+    /**
+     * Update Profile
+     */
     updateProfile(UserName: string, FirstName: string, LastName: string, PhoneNumber: string) {
         const formData: FormData = new FormData();
         formData.append('UserName', UserName);
@@ -160,18 +181,9 @@ export class AuthenticationService {
         formData.append('LastName', LastName);
         formData.append('PhoneNumber', PhoneNumber);
 
-        return this.http.post<any>(`${environment.apiUrl}/api/authenticate/update`, formData)
-            .pipe(map(_result => {
-                if (_result.user) {
-                    this.user.phoneNumber = _result.user.phoneNumber;
-                    this.user.firstName = _result.user.firstName;
-                    this.user.lastName = _result.user.lastName;
-                    // TODO: Set Correct values
-                    // this.cookieService.setCookie('currentUser', JSON.stringify(_result.user), 1);
-                }
-                return _result;
-            }
-            ));
+        return this.http.post(`${environment.apiUrl}/api/authenticate/update`, 
+        formData, 
+        {reportProgress: true, observe: 'events'});
     }
     
     /**

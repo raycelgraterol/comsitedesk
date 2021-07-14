@@ -21,6 +21,9 @@ interface State {
     endIndex: number;
     totalRecords: number;
     parentId: number;
+    assignedTo: number;
+    fromDate: string;
+    ticketStatusId: number;
 }
 
 function compare(v1, v2) {
@@ -79,7 +82,10 @@ export class TicketService {
         startIndex: 1,
         endIndex: 10,
         totalRecords: 0,
-        parentId: 0
+        parentId: 0,
+        assignedTo: null,
+        fromDate: null,
+        ticketStatusId: null
     };
 
     searchSubscription: Subscription;
@@ -111,7 +117,10 @@ export class TicketService {
 
     get totalRecords() { return this._state.totalRecords; }
     get parentId() { return this._state.parentId; }
-
+    get assignedTo() { return this._state.assignedTo; }
+    get fromDate() { return this._state.fromDate; }
+    get ticketStatusId() { return this._state.ticketStatusId; }
+    
     /**
      * set the value
      */
@@ -144,12 +153,34 @@ export class TicketService {
     set sortDirection(sortDirection: SortDirection) {
         this._set({ sortDirection });
         this.getAll();
-    }
-
+    } 
+    
     // tslint:disable-next-line: adjacent-overload-signatures
     set parentId(parentId) {
         this._set({ parentId });
+        this.getAll();
     }
+
+    // tslint:disable-next-line: adjacent-overload-signatures
+    set assignedTo(assignedTo) {
+        this._set({ assignedTo });
+        this.getAll();
+    }
+
+    // tslint:disable-next-line: adjacent-overload-signatures
+    set fromDate(fromDate) {
+        this._set({ fromDate });
+        this.getAll();
+    }
+
+    // tslint:disable-next-line: adjacent-overload-signatures
+    set ticketStatusId(ticketStatusId) {
+        this._set({ ticketStatusId });
+        this.getAll();
+    }
+    
+
+    
 
     private _set(patch: Partial<State>) {
         Object.assign(this._state, patch);
@@ -186,11 +217,19 @@ export class TicketService {
      * 
      */
     public getAll() {
+        
+        let assignedTo = this.assignedTo == null ? 0 : this.assignedTo;
+        let fromDate = this.fromDate == null ? '0001-01-01' : this.fromDate;
+        let ticketStatusId = this.ticketStatusId == null ? 0 : this.ticketStatusId;
+
         this.http.get<any>(`${environment.apiUrl}/api/Tickets?Page=` + this.page
             + `&PageSize=` + this.pageSize
             + `&searchTerm=` + this.searchTerm
             + `&sortColumn=` + this.sortColumn
-            + `&sortDirection=` + this.sortDirection)
+            + `&sortDirection=` + this.sortDirection
+            + `&startDate=` + fromDate
+            + `&assignedTo=` + assignedTo
+            + `&ticketStatusId=` + ticketStatusId)
             .subscribe(result => {
                 this._tables$.next(result.data);
                 this._total$.next(result.count);
@@ -236,6 +275,18 @@ export class TicketService {
     }
 
     /**
+     * Get 
+     */
+    public GetListUsersByTicket(_ticketId: number) {
+        
+        let id = _ticketId;
+
+        return this.http.post<any>(`${environment.apiUrl}/api/Tickets/GetListUsersByTicket`, {
+            id
+        });
+    }
+
+    /**
      * Add item
      */
     public add(_tickets: Tickets) {
@@ -253,6 +304,7 @@ export class TicketService {
         let ticketTypeId = _tickets.ticketTypeId;
         let ticketProcessId = _tickets.ticketProcessId;
         let organizationId = _tickets.organizationId;
+        let usersIds = _tickets.usersIds;
 
         return this.http.post<any>(`${environment.apiUrl}/api/Tickets/`, {
             title,
@@ -267,7 +319,8 @@ export class TicketService {
             ticketCategoryId,
             ticketTypeId,
             ticketProcessId,
-            organizationId
+            organizationId,
+            usersIds
         });
     }
 
@@ -291,6 +344,7 @@ export class TicketService {
         let ticketTypeId = _tickets.ticketTypeId;
         let ticketProcessId = _tickets.ticketProcessId;
         let organizationId = _tickets.organizationId;
+        let usersIds = _tickets.usersIds;
 
         return this.http.put<any>(`${environment.apiUrl}/api/Tickets/` + id, {
             id,
@@ -306,7 +360,8 @@ export class TicketService {
             ticketCategoryId,
             ticketTypeId,
             ticketProcessId,
-            organizationId
+            organizationId,
+            usersIds
         });
     }
 

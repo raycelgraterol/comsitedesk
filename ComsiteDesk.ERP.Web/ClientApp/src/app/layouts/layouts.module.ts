@@ -14,7 +14,13 @@ import { SidebarComsiteComponent } from './sidebar-comsite/sidebar-comsite.compo
 
 
 @NgModule({
-  declarations: [LayoutComponent, SidebarComponent, TopbarComponent, FooterComponent, RightsidebarComponent, SidebarComsiteComponent],
+  declarations: [
+    LayoutComponent, 
+    SidebarComponent, 
+    TopbarComponent, 
+    FooterComponent, 
+    RightsidebarComponent, 
+    SidebarComsiteComponent],
   imports: [
     CommonModule,
     RouterModule,
