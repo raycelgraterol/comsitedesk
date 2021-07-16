@@ -43,7 +43,7 @@ namespace ComsiteDesk.ERP.PublicInterface
             // For Entity Framework
             services.AddDbContext<ApplicationDbContext>(
                     options => options
-                    .UseSqlServer(Configuration.GetConnectionString("ConnStr"))
+                    .UseSqlServer(Configuration.GetConnectionString("ConnStrDev"))
                     .EnableSensitiveDataLogging()
                     );
 
@@ -51,6 +51,12 @@ namespace ComsiteDesk.ERP.PublicInterface
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
 
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
@@ -116,17 +122,10 @@ namespace ComsiteDesk.ERP.PublicInterface
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
-                    ValidAudience = Configuration["JWT:ValidAudience"],
-                    ValidIssuer = Configuration["JWT:ValidIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(key)
                 };
             });
-
-            services.Configure<FormOptions>(o => {
-                o.ValueLengthLimit = int.MaxValue;
-                o.MultipartBodyLengthLimit = int.MaxValue;
-                o.MemoryBufferThreshold = int.MaxValue;
-            });
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -146,6 +145,7 @@ namespace ComsiteDesk.ERP.PublicInterface
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
