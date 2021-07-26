@@ -35,7 +35,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly IUserService _userService;
-
+        public IChangeLogService _changeLogService;
         private IOrganizationsService _organizationsService { get; set; }
 
         public AuthenticateController(
@@ -44,7 +44,8 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             IConfiguration configuration,
             IEmailService emailService,
             IOrganizationsService organizationsService,
-            IUserService userService)
+            IUserService userService,
+            IChangeLogService changeLogService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -52,6 +53,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             _emailService = emailService;
             _organizationsService = organizationsService;
             _userService = userService;
+            _changeLogService = changeLogService;
         }
 
         // GET: api/Authenticate/users
@@ -381,9 +383,12 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         [Route("update")]
         public async Task<IActionResult> UpdateUser()
         {
+            Guid g = Guid.NewGuid();
+
             try
             {
-                var dbPath = "";                
+                
+                var dbPath = "";
 
                 var user = new User()
                 {
@@ -391,8 +396,11 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                     FirstName = Request.Form["FirstName"],
                     LastName = Request.Form["LastName"],
                     PhoneNumber = Request.Form["PhoneNumber"]
-                }; 
-                
+                };
+
+                await _changeLogService.Add(new ChangeLogModel() { GroupGUID = g.ToString(), EventLocation = "UpdateUser", EventType = "AuthenticateController", ExceptionMessage = "", LoginName = user.UserName, EventDate = DateTime.Now });
+
+
                 var currentUser = await userManager.FindByEmailAsync(user.UserName);
 
                 currentUser.FirstName = user.FirstName;
@@ -417,6 +425,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                         }
 
                         currentUser.ImageUrl = dbPath;
+                        await _changeLogService.Add(new ChangeLogModel() { GroupGUID = g.ToString(), EventLocation = "UpdateUser", EventType = "Success saved", ExceptionMessage = "File saved in " + dbPath, EventDate = DateTime.Now });
                     }
                 }               
 
@@ -431,12 +440,16 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 ResponseModel.Status = "Success";
                 ResponseModel.Message = "¡Usuario creado con éxito!";
 
+                await _changeLogService.Add(new ChangeLogModel() { GroupGUID = g.ToString(), EventLocation = "UpdateUser", EventType = "Success saved", ExceptionMessage = ResponseModel.Message, EventDate = DateTime.Now });
+
                 return Ok(new { type = ResponseModel.success, message = ResponseModel.Message, user = currentUser });
             }
             catch (Exception ex)
             {
                 ResponseModel.Status = "Error";
                 ResponseModel.Message = "Ha Ocurrido un error al actualizar el Usuario.";
+
+                await _changeLogService.Add(new ChangeLogModel() { GroupGUID = g.ToString(), EventLocation = "UpdateUser", EventType = "Error Catch", ExceptionMessage = ex.ToString(), EventDate = DateTime.Now });
 
                 return Ok(new { type = ResponseModel.danger, message = ResponseModel.Message });
             }

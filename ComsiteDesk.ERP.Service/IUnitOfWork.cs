@@ -20,5 +20,6 @@ namespace ComsiteDesk.ERP.Service
         IProjectStatusRepo ProjectStatusRepo { get; }
         ITasksRepo TasksRepo { get; }
         ITaskStatusRepo TaskStatusRepo { get; }
+        IChangeLogRepo ChangeLogRepo { get; }
     }
 }

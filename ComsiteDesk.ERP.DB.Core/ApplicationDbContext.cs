@@ -14,7 +14,6 @@ namespace ComsiteDesk.ERP.DB.Core
         public DbSet<Organizations> Organizations { get; set; }
         public DbSet<ClientTypes> ClientTypes { get; set; }
         public DbSet<OrganizationTypes> OrganizationTypes { get; set; }
-
         public DbSet<TicketTypes> TicketTypes { get; set; }
         public DbSet<TicketStatus> TicketStatus { get; set; }
         public DbSet<TicketProcesses> TicketProcesses { get; set; }
@@ -26,6 +25,7 @@ namespace ComsiteDesk.ERP.DB.Core
         public DbSet<ProjectStatus> ProjectStatus { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<TaskStatus> TaskStatus { get; set; }
+        public DbSet<ChangeLog> ChangeLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

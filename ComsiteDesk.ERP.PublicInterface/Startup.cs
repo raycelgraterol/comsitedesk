@@ -43,7 +43,7 @@ namespace ComsiteDesk.ERP.PublicInterface
             // For Entity Framework
             services.AddDbContext<ApplicationDbContext>(
                     options => options
-                    .UseSqlServer(Configuration.GetConnectionString("ConnStrDev"))
+                    .UseSqlServer(Configuration.GetConnectionString("ConnStr"))
                     .EnableSensitiveDataLogging()
                     );
 
@@ -104,6 +104,9 @@ namespace ComsiteDesk.ERP.PublicInterface
 
             services.AddTransient<ITaskStatusService, TaskStatusService>();
             services.AddTransient<ITaskStatusRepo, TaskStatusRepo>();
+
+            services.AddTransient<IChangeLogService, ChangeLogService>();
+            services.AddTransient<IChangeLogRepo, ChangeLogRepo>();
 
             // configure jwt authentication
             var key = Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]);
