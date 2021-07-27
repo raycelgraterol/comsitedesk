@@ -63,7 +63,6 @@ namespace ComsiteDesk.ERP.DB.Core.Models
         }
         public TicketTypes TicketType { get; set; }
 
-        [Required]
         public int? TicketProcessId { get; set; }
         [NotMapped]
         public string TicketProcessName {
