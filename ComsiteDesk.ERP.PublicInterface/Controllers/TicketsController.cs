@@ -85,20 +85,28 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] TicketModel value)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                int userId;
+                int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId);
+
+                value.CreatedBy = userId;
+                value.DateCreated = DateTime.Now;
+
+                var id = await _ticketsService.Add(value);
+
+                return Ok(new { data = id });
             }
-
-            int userId;
-            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId);
-
-            value.CreatedBy = userId;
-            value.DateCreated = DateTime.Now;
-
-            var id = await _ticketsService.Add(value);
-
-            return Ok(new { data = id });
+            catch (Exception ex)
+            {
+                return Ok(new { data = 0 });
+            }
+            
 
         }
 

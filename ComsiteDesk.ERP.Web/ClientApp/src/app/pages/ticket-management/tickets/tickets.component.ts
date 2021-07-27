@@ -252,17 +252,17 @@ export class TicketsComponent implements OnInit {
     this.item.id = parseInt(this.form.id.value);
     this.item.title = this.form.title.value;
     this.item.ticketDate = this.form.ticketDate.value;
-    this.item.hoursWorked = parseInt(this.form.hoursWorked.value);
+    this.item.hoursWorked = parseInt(this.form.hoursWorked.value == undefined ? "0" : this.form.hoursWorked.value);
     this.item.reportedFailure = this.form.reportedFailure.value;
     this.item.technicalFailure = this.form.technicalFailure.value;
     this.item.solutionDone = this.form.solutionDone.value;
     this.item.startTime = this.form.startTime.value;
     this.item.endTime = this.form.endTime.value;
-    this.item.ticketStatusId = parseInt(this.form.ticketStatusId.value);
-    this.item.ticketTypeId = parseInt(this.form.ticketTypeId.value);
-    this.item.ticketCategoryId = parseInt(this.form.ticketCategoryId.value);
-    this.item.ticketProcessId = parseInt(this.form.ticketProcessId.value);
-    this.item.organizationId = parseInt(this.form.organizationId.value);
+    this.item.ticketStatusId = parseInt(this.form.ticketStatusId.value == undefined ? "0" : this.form.ticketStatusId.value);
+    this.item.ticketTypeId = parseInt(this.form.ticketTypeId.value == undefined ? "0" : this.form.ticketTypeId.value);
+    this.item.ticketCategoryId = parseInt(this.form.ticketCategoryId.value == undefined ? "0" : this.form.ticketCategoryId.value);
+    this.item.ticketProcessId = parseInt(this.form.ticketProcessId.value == undefined ? "0" : this.form.ticketProcessId.value);
+    this.item.organizationId = parseInt(this.form.organizationId.value == undefined ? "0" : this.form.organizationId.value);
     this.item.usersIds = this.form.usersIds.value;
 
     if (this.item.id == 0 || this.item.id == null) {

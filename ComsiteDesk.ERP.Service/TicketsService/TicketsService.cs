@@ -25,6 +25,7 @@ namespace ComsiteDesk.ERP.Service
             _item.IsActive = true;
             await _uow.TicketsRepo.Insert(_item);
             _uow.Commit();
+            itemModel.Id = _item.Id;
 
             await InserTicketUsersAsync(itemModel);
 
