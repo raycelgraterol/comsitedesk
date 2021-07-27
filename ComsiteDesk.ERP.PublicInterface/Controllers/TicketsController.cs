@@ -18,10 +18,12 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
     public class TicketsController : ControllerBase
     {
         public ITicketsService _ticketsService { get; set; }
+        public IChangeLogService _changeLogService;
 
-        public TicketsController(ITicketsService ticketsService)
+        public TicketsController(ITicketsService ticketsService, IChangeLogService changeLogService)
         {
             _ticketsService = ticketsService;
+            _changeLogService = changeLogService;
         }
 
         // GET: api/Tickets/Balances
@@ -85,6 +87,8 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] TicketModel value)
         {
+            Guid g = Guid.NewGuid();
+
             try
             {
                 if (!ModelState.IsValid)
@@ -99,11 +103,13 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 value.DateCreated = DateTime.Now;
 
                 var id = await _ticketsService.Add(value);
+                await _changeLogService.Add(new ChangeLogModel() { GroupGUID = g.ToString(), EventLocation = "Post", EventType = "TicketsController", ExceptionMessage = "", LoginName = userId.ToString(), EventDate = DateTime.Now });
 
                 return Ok(new { data = id });
             }
             catch (Exception ex)
             {
+                await _changeLogService.Add(new ChangeLogModel() { GroupGUID = g.ToString(), EventLocation = "Post", EventType = "TicketsController", ExceptionMessage = "", LoginName = "", EventDate = DateTime.Now });
                 return Ok(new { data = 0 });
             }
             
