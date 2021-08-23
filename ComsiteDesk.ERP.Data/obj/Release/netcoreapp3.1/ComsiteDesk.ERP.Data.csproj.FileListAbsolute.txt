@@ -10,3 +10,4 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.Data\obj\Release\netcoreapp3.1\Comsi
 C:\repositories\comsitedesk\ComsiteDesk.ERP.Data\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Data.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.Data\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Data.pdb
 C:\repositories\comsitedesk\ComsiteDesk.ERP.Data\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Data.csproj.AssemblyReference.cache
+C:\repositories\comsitedesk\ComsiteDesk.ERP.Data\obj\Release\netcoreapp3.1\ComsiteDesk.ERP.Data.GeneratedMSBuildEditorConfig.editorconfig

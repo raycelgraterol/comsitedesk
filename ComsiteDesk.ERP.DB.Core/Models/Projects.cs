@@ -41,5 +41,8 @@ namespace ComsiteDesk.ERP.DB.Core.Models
             }
         }
         public ProjectStatus ProjectStatus { get; set; }
+
+        [NotMapped]
+        public int TotalTasks { get; set; }
     }
 }

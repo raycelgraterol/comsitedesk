@@ -473,11 +473,16 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectsId");
 
                     b.HasIndex("TaskStatusId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tasks");
                 });
@@ -511,6 +516,32 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaskStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Por Hacer"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "En proceso"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Terminada"
+                        });
                 });
 
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.TicketCategories", b =>
@@ -1003,6 +1034,12 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.HasOne("ComsiteDesk.ERP.DB.Core.Models.TaskStatus", "TaskStatus")
                         .WithMany()
                         .HasForeignKey("TaskStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Authentication.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

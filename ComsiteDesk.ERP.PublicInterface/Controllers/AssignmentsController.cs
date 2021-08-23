@@ -72,8 +72,9 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             value.DateCreated = DateTime.Now;
 
             var id = await _taskService.Add(value);
+            var currentItem = await _taskService.GetById(id);
 
-            return Ok(new { data = id });
+            return Ok(new { data = currentItem });
 
         }
 
@@ -97,9 +98,10 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             value.ModifiedBy = userId;
             value.DateModified = DateTime.Now;
 
-            var item = _taskService.Update(value);
+            var id = _taskService.Update(value);
+            var currentItem = await _taskService.GetById(id);
 
-            return Ok(new { data = item });
+            return Ok(new { data = currentItem });
         }
 
         // DELETE: api/Assignments/5

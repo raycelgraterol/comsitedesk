@@ -11,7 +11,10 @@ import { TopbarComponent } from './topbar/topbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
 import { SidebarComsiteComponent } from './sidebar-comsite/sidebar-comsite.component';
+import { TaskSidebarComponent } from './task-sidebar/task-sidebar.component';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -20,10 +23,13 @@ import { SidebarComsiteComponent } from './sidebar-comsite/sidebar-comsite.compo
     TopbarComponent, 
     FooterComponent, 
     RightsidebarComponent, 
-    SidebarComsiteComponent],
+    SidebarComsiteComponent, TaskSidebarComponent],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    NgSelectModule,
+    ReactiveFormsModule,
     NgbDropdownModule,
     ClickOutsideModule,
     UIModule

@@ -44,7 +44,18 @@ namespace ComsiteDesk.ERP.Service
                 var result = _uow.ProjectsRepo.GetAll()
                                 .Include(x => x.ProjectStatus)
                                 .Include(x => x.Organization)
+                                .ToList()
+                                .Select(x => 
+                                {
+                                    x.TotalTasks = _uow.TasksRepo.GetAll().Count(t => t.ProjectsId == x.Id);
+                                    return x; 
+                                })
                                 .AsQueryable();
+
+                if (searchParameters.parentId != 0)
+                {
+                    result = result.Where(s => s.ProjectStatusId == searchParameters.parentId);
+                }
 
                 //count all items
                 searchParameters.totalCount = result.Count();
@@ -86,7 +97,10 @@ namespace ComsiteDesk.ERP.Service
 
         public async Task<ProjectModel> GetById(int itemId)
         {
-            Projects result = await _uow.ProjectsRepo.GetById(itemId);
+            Projects result = await _uow.ProjectsRepo.GetAll()
+                                                .Include(x => x.ProjectStatus)
+                                                .Include(x => x.Organization)
+                                                .FirstOrDefaultAsync(x => x.Id == itemId);
 
             ProjectModel itemModel =
                 CoreMapper.MapObject<Projects, ProjectModel>(result);

@@ -43,6 +43,7 @@ namespace ComsiteDesk.ERP.Service
             {
                 var result = _uow.TasksRepo.GetAll()
                                 .Include(x => x.TaskStatus)
+                                .Include(x => x.User)
                                 .AsQueryable();
 
                 //count all items
@@ -85,7 +86,9 @@ namespace ComsiteDesk.ERP.Service
 
         public async Task<TaskModel> GetById(int itemId)
         {
-            dbModels.Task result = await _uow.TasksRepo.GetById(itemId);
+            dbModels.Task result = await _uow.TasksRepo.GetAll().Include(t => t.TaskStatus)
+                                                .Include(t => t.User)
+                                                .FirstOrDefaultAsync(x => x.Id == itemId);
 
             TaskModel itemModel =
                 CoreMapper.MapObject<dbModels.Task, TaskModel>(result);

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgbPaginationModule, NgbTypeaheadModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbPaginationModule, NgbTypeaheadModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { UIModule } from '../../shared/ui/ui.module';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -24,6 +24,7 @@ import { ProjectsRoutingModule } from './projects-routing.module';
     NgbTooltipModule,
     NgbProgressbarModule,
     ReactiveFormsModule,
+    NgbDropdownModule,
     NgbPaginationModule,
     NgbTypeaheadModule,
     NgSelectModule

@@ -5,6 +5,10 @@ export class Assignments {
     dueDate : Date;
     projectsId: number;
     taskStatusId: number;
+    taskStatusName: string;
+    userId: number;
+    userName: string;
+    userImageUrl: string;
 }
 
 // Search Data

@@ -12,6 +12,9 @@ import { ProjectsService } from 'src/app/core/services/projects.service';
 import { Projects } from './projects.model';
 
 import { projectData } from './data';
+import { ProjectStatusService } from 'src/app/core/services/project-status.service';
+import { ProjectStatusModel } from 'src/app/core/models/projectStatus.models';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-list',
@@ -39,6 +42,9 @@ export class ListComponent implements OnInit {
   dataLoading$: Observable<Boolean>;
   item: ProjectModel;
 
+  projectStatus: ProjectStatusModel;
+  currentStatus: string;
+
   @ViewChildren(AdvancedSortableDirective) headers: QueryList<AdvancedSortableDirective>;
 
   projectData: Projects[];
@@ -46,6 +52,8 @@ export class ListComponent implements OnInit {
   constructor(
     public service: ProjectsService,
     public formBuilder: FormBuilder,
+    private datePipe: DatePipe,
+    public projectStatusService: ProjectStatusService,
     private modalService: NgbModal) {
   }
 
@@ -77,8 +85,8 @@ export class ListComponent implements OnInit {
       description: [""],
       startDate: ["", [Validators.required]],
       endDate: [""],
-      organizationId: [""],
-      projectStatusId: [""]
+      organizationId: ["", [Validators.required]],
+      projectStatusId: ["", [Validators.required]]
     });
 
   }
@@ -87,7 +95,22 @@ export class ListComponent implements OnInit {
    * fetches project value
    */
   private _fetchData() {
+
+    this.projectStatusService.getAllItems()
+      .subscribe(result => {
+        this.projectStatus = result.data;
+      }, error => console.error(error));
+
     this.projectData = projectData;
+  }
+
+  /**
+   * Change Status to search
+   * @param statusName 
+   */
+  changeStatus(id: number, statusName: string){
+    this.service.parentId = id;
+    this.currentStatus = statusName;
   }
 
   /**
@@ -134,8 +157,8 @@ export class ListComponent implements OnInit {
             this.innerform.controls.id.setValue(this.item.id);
             this.innerform.controls.title.setValue(this.item.title);
             this.innerform.controls.description.setValue(this.item.description);
-            this.innerform.controls.startDate.setValue(this.item.startDate);
-            this.innerform.controls.endDate.setValue(this.item.endDate);
+            this.innerform.controls.startDate.setValue(this.datePipe.transform(this.item.startDate, 'yyyy-MM-dd'));
+            this.innerform.controls.endDate.setValue(this.datePipe.transform(this.item.endDate, 'yyyy-MM-dd'));
             this.innerform.controls.organizationId.setValue(this.item.organizationId);
             this.innerform.controls.projectStatusId.setValue(this.item.projectStatusId);
 
@@ -167,7 +190,7 @@ export class ListComponent implements OnInit {
     this.item.title = this.form.title.value;
     this.item.description = this.form.description.value;
     this.item.startDate = this.form.startDate.value;
-    this.item.endDate = this.form.endDate.value;
+    this.item.endDate = this.form.endDate.value == "" ? null : this.form.endDate.value;
     this.item.organizationId = this.form.organizationId.value;
     this.item.projectStatusId = this.form.projectStatusId.value;
 

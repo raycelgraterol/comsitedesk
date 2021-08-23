@@ -69,8 +69,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId);
 
             value.CreatedBy = userId;
-            value.DateCreated = DateTime.Now;
-            value.ProjectStatusId = 1;
+            value.DateCreated = DateTime.Now; 
             value.OrganizationId = 1;
 
             var id = await _projectsService.Add(value);

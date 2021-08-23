@@ -13,15 +13,6 @@ namespace ComsiteDesk.ERP.Service.HelperModel
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-        /// <summary>
-        /// Total Completed tasks
-        /// </summary>
-        public int TotalTasksCompleted { get; set; } = 100;
-        /// <summary>
-        /// Total Pending Tasks
-        /// </summary>
-        public int TotalTasksPending { get; set; } = 50;
-
         public int OrganizationId { get; set; }
         public Organizations Organization { get; set; }
         public string OrganizationName { get; set; }
@@ -30,5 +21,6 @@ namespace ComsiteDesk.ERP.Service.HelperModel
         public string ProjectStatusName { get; set; }
 
         public ProjectStatus ProjectStatus { get; set; }
+        public int TotalTasks { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace ComsiteDesk.ERP.DB.Core
         public DbSet<TicketCategories> TicketCategories { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<Tickets> Tickets { get; set; }
-        public DbSet<TicketsUsers> TicketsUsers { get; set; } 
+        public DbSet<TicketsUsers> TicketsUsers { get; set; }
         public DbSet<Projects> Projects { get; set; }
         public DbSet<ProjectStatus> ProjectStatus { get; set; }
         public DbSet<Task> Tasks { get; set; }
@@ -151,6 +151,34 @@ namespace ComsiteDesk.ERP.DB.Core
                        IsActive = true
                    }
                );
-        }        
+
+            builder.Entity<TaskStatus>()
+              .HasData(
+                  new TaskStatus
+                  {
+                      Id = 1,
+                      Name = "Por Hacer",
+                      CreatedBy = 1,
+                      DateCreated = Convert.ToDateTime("01/01/2021"),
+                      IsActive = true
+                  },
+                  new TaskStatus
+                  {
+                      Id = 2,
+                      Name = "En proceso",
+                      CreatedBy = 1,
+                      DateCreated = Convert.ToDateTime("01/01/2021"),
+                      IsActive = true
+                  },
+                  new TaskStatus
+                  {
+                      Id = 3,
+                      Name = "Terminada",
+                      CreatedBy = 1,
+                      DateCreated = Convert.ToDateTime("01/01/2021"),
+                      IsActive = true
+                  }
+              );
+        }
     }
 }

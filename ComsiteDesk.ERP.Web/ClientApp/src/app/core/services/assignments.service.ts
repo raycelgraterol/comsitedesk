@@ -239,13 +239,15 @@ export class AssignmentsService {
     let description = _assignments.description;
     let projectsId = _assignments.projectsId;
     let taskStatusId = _assignments.taskStatusId;
-
+    let userId = _assignments.userId;
+    
     return this.http.post<any>(`${environment.apiUrl}/api/Assignments/`, {
       title,
       dueDate,
       description,
       projectsId,
-      taskStatusId
+      taskStatusId,
+      userId
     });
   }
 
@@ -261,6 +263,7 @@ export class AssignmentsService {
     let description = _assignments.description;
     let projectsId = _assignments.projectsId;
     let taskStatusId = _assignments.taskStatusId;
+    let userId = _assignments.userId;
 
     return this.http.put<any>(`${environment.apiUrl}/api/Assignments/` + id, {
       id,
@@ -268,7 +271,8 @@ export class AssignmentsService {
       dueDate,
       description,
       projectsId,
-      taskStatusId
+      taskStatusId,
+      userId
     });
   }
 

@@ -103,3 +103,4 @@ C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\bin\Debug\netcoreapp3.1\Google.Apis.Core.dll
 C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.csproj.AssemblyReference.cache
+C:\repositories\comsitedesk\ComsiteDesk.ERP.PublicInterface\obj\Debug\netcoreapp3.1\ComsiteDesk.ERP.PublicInterface.GeneratedMSBuildEditorConfig.editorconfig

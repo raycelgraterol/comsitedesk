@@ -149,6 +149,7 @@ export class ProjectsService {
   // tslint:disable-next-line: adjacent-overload-signatures
   set parentId(parentId) {
     this._set({ parentId });
+    this.getAll();
   }
 
   private _set(patch: Partial<State>) {
@@ -192,7 +193,8 @@ export class ProjectsService {
       + `&PageSize=` + this.pageSize
       + `&searchTerm=` + this.searchTerm
       + `&sortColumn=` + this.sortColumn
-      + `&sortDirection=` + this.sortDirection)
+      + `&sortDirection=` + this.sortDirection
+      + `&parentId=` + this.parentId)
       .subscribe(result => {
         this._tables$.next(result.data);
         this._total$.next(result.count);

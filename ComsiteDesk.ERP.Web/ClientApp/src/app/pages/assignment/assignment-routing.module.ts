@@ -7,7 +7,7 @@ import { ListComponent } from './list/list.component';
 
 const routes: Routes = [
   {
-    path: 'list',
+    path: 'list/:id',
     component: ListComponent,
     canActivate: [AuthGuard]
   },

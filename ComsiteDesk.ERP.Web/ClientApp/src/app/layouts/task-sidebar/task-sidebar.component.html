@@ -1,0 +1,105 @@
+<!-- Right Sidebar -->
+<div class="right-bar-task">
+  <div class="rightbar-title">
+    <a href="javascript:void(0);" class="right-bar-toggle float-right" (click)="hide();">
+      <i class="fe-x noti-icon"></i>
+    </a>
+    <h4 class="m-0 text-white" *ngIf="currentTask.id == undefined">Crear Tarea</h4>
+    <h4 class="m-0 text-white" *ngIf="currentTask.id != undefined">Modificar Tarea</h4>
+  </div>
+  <div class="slimscroll-menu" appSlimScroll>
+    <!-- User box -->
+    <div class="user-box">
+      <div class="user-img">
+        <img [src]="currentTask.userImageUrl ? urlAPI + currentTask.userImageUrl : 'assets/images/users/user.png'" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+        <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
+      </div>
+
+      <h5><a href="javascript: void(0);">{{currentTask.title}}</a> </h5>
+      <p class="text-muted mb-0"><small>{{currentTask.description}}</small></p>
+
+      <ng-template [ngTemplateOutlet]="formValues" [ngTemplateOutletContext]="{task:currentTask}"></ng-template>
+    </div>
+
+    <div class="inbox-widget pl-3 pr-3">
+
+    </div>
+  </div> <!-- end slimscroll-menu-->
+</div>
+<!-- /Right-bar -->
+
+<!-- Right bar overlay-->
+<div class="rightbar-overlay" (click)="hide();"></div>
+
+
+<!-- Responsive Modal -->
+<ng-template #formValues let-task='task'>
+  <form class="needs-validation" (ngSubmit)="validSubmit()" [formGroup]="innerform">
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <div class="modal-body p-4 mb-5">
+      <div class="center-div">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <input type="hidden" class="form-control" name="id" formControlName="id" value="0">
+              <input type="hidden" class="form-control" name="projectsId" formControlName="projectsId" value="0">
+              <input type="hidden" class="form-control" name="userId" formControlName="userId" value="0">
+              <label>Titulo<span class="text-danger">*</span></label>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" name="title" formControlName="title" value=""
+                  [ngClass]="{'is-invalid': submit && form.title.errors}">
+                <div *ngIf="submit && form.title.errors" class="invalid-feedback">
+                  <span *ngIf="form.title.errors.required">El titulo es requerido</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label>Fecha de Fin<span class="text-danger">*</span></label>
+              <div class="input-group mb-2">
+                <input type="date" class="form-control" name="dueDate" formControlName="dueDate"
+                  [ngClass]="{'is-invalid': submit && form.dueDate.errors}">
+                <div *ngIf="submit && form.dueDate.errors" class="invalid-feedback">
+                  <span *ngIf="form.dueDate.errors.required">La Fecha es requerida</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label>Descripcion</label>
+              <div class="input-group mb-2">
+                <textarea type="text" class="form-control" name="description" formControlName="description" rows="5"
+                  value=""></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label>Asignado a<span class="text-danger">*</span></label>
+              <ng-select [items]="users" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                name="userId" formControlName="userId" class="custom-select2"
+                [ngClass]="{'is-invalid': submit && form.userId.errors}"></ng-select>
+              <div *ngIf="submit && form.userId.errors" class="invalid-feedback">
+                <span *ngIf="form.userId.errors.required">El dueño es requerido.</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label>Estatus<span class="text-danger">*</span></label>
+              <ng-select [items]="taskStatus" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                name="taskStatusId" formControlName="taskStatusId" class="custom-select2"
+                [ngClass]="{'is-invalid': submit && form.taskStatusId.errors}"></ng-select>
+              <div *ngIf="submit && form.taskStatusId.errors" class="invalid-feedback">
+                <span *ngIf="form.taskStatusId.errors.required">El Estatus es requerido.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+    </div>
+  </form>
+</ng-template>

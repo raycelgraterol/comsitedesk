@@ -8,6 +8,7 @@ export class ProjectModel {
     projectStatusId: number;
     projectStatusName: string;
     organizationName: string;
+    totalTasks: number;
 }
 
 // Search Data

@@ -12,7 +12,7 @@ import { inboxData } from './data';
 export class RightsidebarComponent implements OnInit {
 
   inboxData: Inbox[];
-
+  
   constructor() { }
 
   ngOnInit() {
@@ -20,7 +20,7 @@ export class RightsidebarComponent implements OnInit {
     // Right sidebar inbox data
     this.inboxData = inboxData;
   }
-
+  
   /**
    * Hide the sidebar
    */
