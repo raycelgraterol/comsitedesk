@@ -191,7 +191,8 @@ export class AssignmentsService {
       + `&PageSize=` + this.pageSize
       + `&searchTerm=` + this.searchTerm
       + `&sortColumn=` + this.sortColumn
-      + `&sortDirection=` + this.sortDirection)
+      + `&sortDirection=` + this.sortDirection
+      + `&parentId=` + this.parentId)
       .subscribe(result => {
         this._tables$.next(result.data);
         this._total$.next(result.count);

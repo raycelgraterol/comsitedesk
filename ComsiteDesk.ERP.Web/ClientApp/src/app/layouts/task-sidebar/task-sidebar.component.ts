@@ -42,8 +42,8 @@ export class TaskSidebarComponent implements OnInit {
     this.currentTask = new Assignments();
   }
 
-  ngOnInit() { 
-    
+  ngOnInit() {
+
     //Load data
     this._fetchData();
 
@@ -78,11 +78,13 @@ export class TaskSidebarComponent implements OnInit {
   /**
    * fetches project value
    */
-   private _fetchData() {
+  private _fetchData() {
 
     this.interconnect.receiveFrom("showTask", "app-report-wrapper", data => {
       this.onSettingsButtonClicked();
       this.currentTask = data;
+
+      this.getDataDropDownList();
 
       if (data) {
         this.form.id.setValue(this.currentTask.id);
@@ -96,22 +98,24 @@ export class TaskSidebarComponent implements OnInit {
 
     });
 
+  }
+
+  getDataDropDownList() {
     this.assignmentStatusService.getAllItems()
       .subscribe(result => {
         this.taskStatus = result.data;
       }, error => console.error(error));
-    
+
     this.userProfileService.getAllUsers()
       .subscribe(result => {
-        this.users = result;
+        this.users = result.data;
       }, error => console.error(error));
-
   }
 
   public removeValidators(form: FormGroup) {
     for (const key in form.controls) {
-        form.get(key).clearValidators();
-        form.get(key).updateValueAndValidity();
+      form.get(key).clearValidators();
+      form.get(key).updateValueAndValidity();
     }
   }
 

@@ -15,6 +15,8 @@ import { projectData } from './data';
 import { ProjectStatusService } from 'src/app/core/services/project-status.service';
 import { ProjectStatusModel } from 'src/app/core/models/projectStatus.models';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { User } from 'src/app/core/models/auth.models';
 
 @Component({
   selector: 'app-list',
@@ -33,6 +35,7 @@ export class ListComponent implements OnInit {
   loading = false;
   submit: boolean;
   IsEdit = false;
+  user: User;
   
   innerform: FormGroup;
   queryId: number;
@@ -52,6 +55,7 @@ export class ListComponent implements OnInit {
   constructor(
     public service: ProjectsService,
     public formBuilder: FormBuilder,
+    private authService: AuthenticationService,
     private datePipe: DatePipe,
     public projectStatusService: ProjectStatusService,
     private modalService: NgbModal) {
@@ -61,6 +65,7 @@ export class ListComponent implements OnInit {
 
     this.service.getAll();
     this.item = new ProjectModel();
+    this.user = this.authService.currentUser();
 
     // tslint:disable-next-line: max-line-length
     this.breadCrumbItems = [
@@ -85,8 +90,8 @@ export class ListComponent implements OnInit {
       description: [""],
       startDate: ["", [Validators.required]],
       endDate: [""],
-      organizationId: ["", [Validators.required]],
-      projectStatusId: ["", [Validators.required]]
+      organizationId: [1, [Validators.required]],
+      projectStatusId: [0, [Validators.required]]
     });
 
   }
@@ -168,6 +173,7 @@ export class ListComponent implements OnInit {
         }
         );
     } else {
+      this.innerform.controls.organizationId.setValue(this.user.organizationId);
       this.item = new ProjectModel();
     }
 

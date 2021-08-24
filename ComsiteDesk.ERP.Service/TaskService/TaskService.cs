@@ -46,6 +46,11 @@ namespace ComsiteDesk.ERP.Service
                                 .Include(x => x.User)
                                 .AsQueryable();
 
+                if (searchParameters.parentId != 0)
+                {
+                    result = result.Where(x => x.ProjectsId == searchParameters.parentId);
+                }
+
                 //count all items
                 searchParameters.totalCount = result.Count();
 

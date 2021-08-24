@@ -291,7 +291,7 @@ export class UserProfileService {
       * Get all users
       */
     getAllUsers() {
-        return this.http.get<any[]>(`${environment.apiUrl}/api/Authenticate/users`);
+        return this.http.get<any>(`${environment.apiUrl}/api/Authenticate/users`);
     }    
 
     /**

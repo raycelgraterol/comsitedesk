@@ -36,6 +36,7 @@ export class ListComponent implements OnInit {
   loading = false;
   submit: boolean;
   public innerform: FormGroup;
+  projectId: number;
   
   // Task data
   pendingTasks: Task[];
@@ -54,19 +55,21 @@ export class ListComponent implements OnInit {
     private interconnect: Interconnect,
     private route: ActivatedRoute,
     public formBuilder: FormBuilder) { 
+      
     this.project = new ProjectModel();
     this.connectionCollaped = this.interconnect.createBroadcaster("showTask");
+    this.projectId = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.service.parentId = this.projectId;
+
    }
 
   async ngOnInit() {
 
-    let projectId = parseInt(this.route.snapshot.paramMap.get('id'));
-
-    this.project = (await this.projectsService.getById(projectId).toPromise()).data;
+    this.project = (await this.projectsService.getById(this.projectId).toPromise()).data;
     
     // tslint:disable-next-line: max-line-length
     this.breadCrumbItems = [
-      { label: 'Comesite', path: '/' }, 
+      { label: 'ComSite', path: '/' }, 
       { label: 'Tareas', path: '/', active: true }];
 
     /**
@@ -138,19 +141,6 @@ export class ListComponent implements OnInit {
   validSubmit() {
     this.loading = true;
     this.submit = true;
-
-    // if (this.innerform.invalid) {
-    //   this.loading = false;
-    //   return;
-    // }
-
-    // this.item.id = parseInt(this.form.id.value);
-    // this.item.title = this.form.title.value;
-    // this.item.dueDate = this.form.dueDate.value;
-    // this.item.description = this.form.description.value;
-    // this.item.projectsId = this.form.projectsId.value;
-    // this.item.taskStatusId = this.form.taskStatusId.value;
-    // this.item.userId = this.form.userId.value;
 
     if (this.item.id == 0 || this.item.id == null) {
 

@@ -1,6 +1,8 @@
-﻿using ComsiteDesk.ERP.Service;
+﻿using ComsiteDesk.ERP.DB.Core.Authentication;
+using ComsiteDesk.ERP.Service;
 using ComsiteDesk.ERP.Service.HelperModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,10 +20,12 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
     public class ProjectsController : ControllerBase
     {
         public IProjectsService _projectsService { get; set; }
+        private readonly UserManager<User> _userManager;
 
-        public ProjectsController(IProjectsService projectsService)
+        public ProjectsController(UserManager<User> userManager, IProjectsService projectsService)
         {
             _projectsService = projectsService;
+            _userManager = userManager;
         }
 
         // GET: api/Projects

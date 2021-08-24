@@ -7,8 +7,7 @@ import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { SortDirection } from '../../pages/projects/advanced-sortable.directive';
-import { ProjectModel, SearchResult } from '../models/projects.models';
-
+import { ProjectStatusModel, SearchResult } from '../models/projectStatus.models';
 
 interface State {
   page: number;
@@ -32,7 +31,7 @@ function compare(v1, v2) {
 * @param column Fetch the column
 * @param direction Sort direction Ascending or Descending
 */
-function sort(tables: ProjectModel[], column: string, direction: string): ProjectModel[] {
+function sort(tables: ProjectStatusModel[], column: string, direction: string): ProjectStatusModel[] {
   if (direction === '') {
     return tables;
   } else {
@@ -48,9 +47,9 @@ function sort(tables: ProjectModel[], column: string, direction: string): Projec
 * @param tables Table field value fetch
 * @param term Search the value
 */
-function matches(tables: ProjectModel, term: string, pipe: PipeTransform) {
+function matches(tables: ProjectStatusModel, term: string, pipe: PipeTransform) {
   term = term.toLocaleLowerCase();
-  return tables.title.toLowerCase().includes(term)
+  return tables.name.toLowerCase().includes(term)
     || pipe.transform(tables.id).includes(term);
 }
 
@@ -65,7 +64,7 @@ export class ProjectStatusService {
   // tslint:disable-next-line: variable-name
   private _search$ = new Subject<void>();
   // tslint:disable-next-line: variable-name
-  private _tables$ = new BehaviorSubject<ProjectModel[]>([]);
+  private _tables$ = new BehaviorSubject<ProjectStatusModel[]>([]);
   // tslint:disable-next-line: variable-name
   private _total$ = new BehaviorSubject<number>(0);
 
@@ -84,8 +83,8 @@ export class ProjectStatusService {
 
   searchSubscription: Subscription;
 
-  tableData: Array<ProjectModel>;
-  item: ProjectModel;
+  tableData: Array<ProjectStatusModel>;
+  item: ProjectStatusModel;
 
   constructor(private pipe: DecimalPipe, private http: HttpClient) {
 
@@ -162,7 +161,7 @@ export class ProjectStatusService {
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 
-    let tables = new Array<ProjectModel>();
+    let tables = new Array<ProjectStatusModel>();
 
     if (this.tableData !== undefined) {
       tables = this.tableData;
@@ -240,10 +239,10 @@ export class ProjectStatusService {
   /**
    * Add item
    */
-  public add(_projects: ProjectModel) {
+  public add(_projects: ProjectStatusModel) {
     //Map
-    let id = _projects.title;
-    let name = _projects.description;
+    let id = _projects.id;
+    let name = _projects.name;
 
     return this.http.post<any>(`${environment.apiUrl}/api/ProjectStatus/`, {
       name
@@ -253,11 +252,11 @@ export class ProjectStatusService {
   /**
    * Edit item
    */
-  public edit(_projects: ProjectModel) {
+  public edit(_projects: ProjectStatusModel) {
 
     //Map
-    let id = _projects.title;
-    let name = _projects.description;
+    let id = _projects.id;
+    let name = _projects.name;
 
     return this.http.put<any>(`${environment.apiUrl}/api/ProjectStatus/` + id, {
       id,

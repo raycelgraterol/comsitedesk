@@ -11,13 +11,13 @@
     <!-- User box -->
     <div class="user-box">
       <div class="user-img">
-        <img [src]="currentTask.userImageUrl ? urlAPI + currentTask.userImageUrl : 'assets/images/users/user.png'" alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
+        <img [src]="currentTask.userImageUrl ? urlAPI + currentTask.userImageUrl : 'assets/images/users/user.png'"
+          alt="user-img" title="Mat Helme" class="rounded-circle img-fluid">
         <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
       </div>
 
       <h5><a href="javascript: void(0);">{{currentTask.title}}</a> </h5>
       <p class="text-muted mb-0"><small>{{currentTask.description}}</small></p>
-
       <ng-template [ngTemplateOutlet]="formValues" [ngTemplateOutletContext]="{task:currentTask}"></ng-template>
     </div>
 
@@ -29,7 +29,7 @@
 <!-- /Right-bar -->
 
 <!-- Right bar overlay-->
-<div class="rightbar-overlay" (click)="hide();"></div>
+<div class="rightbar-overlay" (click)="hide()"></div>
 
 
 <!-- Responsive Modal -->
@@ -78,8 +78,8 @@
           <div class="col-12">
             <div class="form-group">
               <label>Asignado a<span class="text-danger">*</span></label>
-              <ng-select [items]="users" bindValue="id" bindLabel="name" placeholder="Seleccionar"
-                name="userId" formControlName="userId" class="custom-select2"
+              <ng-select [items]="users" bindValue="id" bindLabel="fullName" placeholder="Seleccionar" name="userId"
+                formControlName="userId" class="custom-select2"
                 [ngClass]="{'is-invalid': submit && form.userId.errors}"></ng-select>
               <div *ngIf="submit && form.userId.errors" class="invalid-feedback">
                 <span *ngIf="form.userId.errors.required">El dueño es requerido.</span>
