@@ -31,6 +31,7 @@ export class TaskSidebarComponent implements OnInit {
   loading = false;
   submit: boolean;
   public innerform: FormGroup;
+  projectsId: number;
 
   constructor(private interconnect: Interconnect,
     public service: AssignmentsService,
@@ -39,7 +40,7 @@ export class TaskSidebarComponent implements OnInit {
     public assignmentStatusService: AssignmentStatusService,
     public formBuilder: FormBuilder
   ) {
-    this.currentTask = new Assignments();
+    this.currentTask = new Assignments();    
   }
 
   ngOnInit() {
@@ -82,11 +83,11 @@ export class TaskSidebarComponent implements OnInit {
 
     this.interconnect.receiveFrom("showTask", "app-report-wrapper", data => {
       this.onSettingsButtonClicked();
-      this.currentTask = data;
+      this.currentTask = data.currentTask;
 
       this.getDataDropDownList();
 
-      if (data) {
+      if (data.currentTask.id) {
         this.form.id.setValue(this.currentTask.id);
         this.form.title.setValue(this.currentTask.title);
         this.form.description.setValue(this.currentTask.description);
@@ -94,6 +95,8 @@ export class TaskSidebarComponent implements OnInit {
         this.form.projectsId.setValue(this.currentTask.projectsId);
         this.form.taskStatusId.setValue(this.currentTask.taskStatusId);
         this.form.userId.setValue(this.currentTask.userId);
+      }else{
+        this.form.projectsId.setValue(data.project.id);
       }
 
     });

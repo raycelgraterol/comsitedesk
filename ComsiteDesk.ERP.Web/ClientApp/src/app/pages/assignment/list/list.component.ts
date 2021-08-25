@@ -118,7 +118,11 @@ export class ListComponent implements OnInit {
    * Show the task
    */
   onShowTask(currentTask: Assignments = new Assignments()){
-    this.connectionCollaped.emit(currentTask);
+    var currentData:any = {}
+    currentData.currentTask = currentTask;
+    currentData.project = this.project;
+    
+    this.connectionCollaped.emit(currentData);
   }
 
   /**
