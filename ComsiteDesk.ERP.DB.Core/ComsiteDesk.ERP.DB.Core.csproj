@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20210713172611_Test tickets users.Designer.cs" />
     <Compile Remove="Migrations\20210823201730_test.cs" />
     <Compile Remove="Migrations\20210823201730_test.Designer.cs" />
+    <Compile Remove="Migrations\20210826113257_Roles last update.cs" />
+    <Compile Remove="Migrations\20210826113257_Roles last update.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -21,5 +21,8 @@ namespace ComsiteDesk.ERP.Service
         ITasksRepo TasksRepo { get; }
         ITaskStatusRepo TaskStatusRepo { get; }
         IChangeLogRepo ChangeLogRepo { get; }
+        IHeadquarterRepo HeadquarterRepo { get; }
+        IDepartmentRepo DepartmentRepo { get; }
+        IEquipmentUserRepo EquipmentUserRepo  { get; }
     }
 }

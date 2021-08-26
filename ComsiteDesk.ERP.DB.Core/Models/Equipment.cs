@@ -30,8 +30,12 @@ namespace ComsiteDesk.ERP.DB.Core.Models
         public string Notes { get; set; }
 
         [Required]
-        public int OrganizationId { get; set; }
-        public Organizations Organization { get; set; }
+        public int DepartmentId { get; set; }
+        public Department Department { get; set; }
+
+        [Required]
+        public int EquipmentUserId { get; set; }
+        public EquipmentUser EquipmentUser { get; set; }
 
         public List<TicketsEquipments> Tickets { get; set; }
 

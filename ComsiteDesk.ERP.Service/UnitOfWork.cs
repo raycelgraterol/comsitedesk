@@ -19,6 +19,9 @@ namespace ComsiteDesk.ERP.Service
         private ITasksRepo _tasksRepo { get; set; }
         private ITaskStatusRepo _taskStatusRepo { get; set; }
         private IChangeLogRepo _changeLogRepo { get; }
+        private IDepartmentRepo _departmentRepo { get; }
+        private IHeadquarterRepo _headquarterRepo { get; }
+        private IEquipmentUserRepo _equipmentUserRepo { get; }
 
         public UnitOfWork(ApplicationDbContext db,
             IOrganizationsRepo organizationsRepo,
@@ -33,7 +36,10 @@ namespace ComsiteDesk.ERP.Service
             IProjectStatusRepo projectStatusRepo,
             ITasksRepo tasksRepo,
             ITaskStatusRepo taskStatusRepo,
-            IChangeLogRepo changeLogRepo)
+            IChangeLogRepo changeLogRepo,
+            IDepartmentRepo departmentRepo,
+            IHeadquarterRepo headquarterRepo,
+            IEquipmentUserRepo equipmentUserRepo)
         {
             _db = db;
             _organizationsRepo = organizationsRepo;
@@ -50,6 +56,9 @@ namespace ComsiteDesk.ERP.Service
             _tasksRepo = tasksRepo;
             _taskStatusRepo = taskStatusRepo;
             _changeLogRepo = changeLogRepo;
+            _departmentRepo = departmentRepo;
+            _headquarterRepo = headquarterRepo;
+            _equipmentUserRepo = equipmentUserRepo;
         }
 
         private ApplicationDbContext _db { get; set; }
@@ -66,6 +75,9 @@ namespace ComsiteDesk.ERP.Service
         public ITasksRepo TasksRepo => _tasksRepo;
         public ITaskStatusRepo TaskStatusRepo => _taskStatusRepo;
         public IChangeLogRepo ChangeLogRepo => _changeLogRepo;
+        public IDepartmentRepo DepartmentRepo => _departmentRepo;
+        public IHeadquarterRepo HeadquarterRepo => _headquarterRepo;
+        public IEquipmentUserRepo EquipmentUserRepo => _equipmentUserRepo;
 
         public void Commit()
         {

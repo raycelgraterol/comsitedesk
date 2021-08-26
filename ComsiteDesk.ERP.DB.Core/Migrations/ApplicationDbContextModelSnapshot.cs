@@ -184,6 +184,46 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HeadquarterId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HeadquarterId");
+
+                    b.ToTable("Department");
+                });
+
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Equipment", b =>
                 {
                     b.Property<int>("Id")
@@ -199,6 +239,12 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
 
                     b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EquipmentUserId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -222,9 +268,6 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<int>("OrganizationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Serial")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -240,9 +283,94 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationId");
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("EquipmentUserId");
 
                     b.ToTable("Equipment");
+                });
+
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.EquipmentUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EquipmentUser");
+                });
+
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Headquarter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<int>("OrganizationsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationsId");
+
+                    b.ToTable("Headquarter");
                 });
 
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.OrganizationTypes", b =>
@@ -974,6 +1102,55 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                             ConcurrencyStamp = "bc346c93-7929-43e0-b168-f25e755074f1",
                             Name = "User",
                             NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            ConcurrencyStamp = "78c9b629-f045-47cf-954c-17e5907dac94",
+                            Name = "Tecnico Soporte I",
+                            NormalizedName = "TECNICO SOPORTE I"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            ConcurrencyStamp = "92f79ac3-ad69-4425-bca5-d91d330d74fc",
+                            Name = "Tecnico Soporte II",
+                            NormalizedName = "TECNICO SOPORTE II"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            ConcurrencyStamp = "77c80bfc-a386-4633-8a04-bf0e539dc2c7",
+                            Name = "Tecnico Soporte III",
+                            NormalizedName = "TECNICO SOPORTE III"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            ConcurrencyStamp = "ab6bea7a-64a7-4d88-a85d-8eb490d57cc9",
+                            Name = "Gerente Soporte",
+                            NormalizedName = "GERENTE SOPORTE"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            ConcurrencyStamp = "a80892a0-fb99-4928-b6b6-86aae2fe2ffc",
+                            Name = "Asistente Administrativo",
+                            NormalizedName = "ASISTENTE ADMINISTRATIVO"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            ConcurrencyStamp = "d96eaba3-0ea0-4521-bb98-1bdad3a31024",
+                            Name = "Vendedor",
+                            NormalizedName = "VENDEDOR"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            ConcurrencyStamp = "fd734eb1-d558-4d89-a238-547f83e5df0a",
+                            Name = "Finanzas",
+                            NormalizedName = "FINANZAS"
                         });
                 });
 
@@ -986,11 +1163,35 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Department", b =>
+                {
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Headquarter", "Headquarter")
+                        .WithMany()
+                        .HasForeignKey("HeadquarterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Equipment", b =>
                 {
-                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Organizations", "Organization")
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("OrganizationId")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.EquipmentUser", "EquipmentUser")
+                        .WithMany()
+                        .HasForeignKey("EquipmentUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Headquarter", b =>
+                {
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Organizations", "Organizations")
+                        .WithMany()
+                        .HasForeignKey("OrganizationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -95,6 +95,55 @@ namespace ComsiteDesk.ERP.DB.Core
                         Name = "User",
                         NormalizedName = "USER",
                         ConcurrencyStamp = "bc346c93-7929-43e0-b168-f25e755074f1"
+                    },
+                    new Role
+                    {
+                        Id = 5,
+                        Name = "Tecnico Soporte I",
+                        NormalizedName = "TECNICO SOPORTE I",
+                        ConcurrencyStamp = "78c9b629-f045-47cf-954c-17e5907dac94"
+                    },
+                    new Role
+                    {
+                        Id = 6,
+                        Name = "Tecnico Soporte II",
+                        NormalizedName = "TECNICO SOPORTE II",
+                        ConcurrencyStamp = "92f79ac3-ad69-4425-bca5-d91d330d74fc"
+                    },
+                    new Role
+                    {
+                        Id = 7,
+                        Name = "Tecnico Soporte III",
+                        NormalizedName = "TECNICO SOPORTE III",
+                        ConcurrencyStamp = "77c80bfc-a386-4633-8a04-bf0e539dc2c7"
+                    },
+                    new Role
+                    {
+                        Id = 8,
+                        Name = "Gerente Soporte",
+                        NormalizedName = "GERENTE SOPORTE",
+                        ConcurrencyStamp = "ab6bea7a-64a7-4d88-a85d-8eb490d57cc9"
+                    },
+                    new Role
+                    {
+                        Id = 9,
+                        Name = "Asistente Administrativo",
+                        NormalizedName = "ASISTENTE ADMINISTRATIVO",
+                        ConcurrencyStamp = "a80892a0-fb99-4928-b6b6-86aae2fe2ffc"
+                    },
+                    new Role
+                    {
+                        Id = 10,
+                        Name = "Vendedor",
+                        NormalizedName = "VENDEDOR",
+                        ConcurrencyStamp = "d96eaba3-0ea0-4521-bb98-1bdad3a31024"
+                    },
+                    new Role
+                    {
+                        Id = 11,
+                        Name = "Finanzas",
+                        NormalizedName = "FINANZAS",
+                        ConcurrencyStamp = "fd734eb1-d558-4d89-a238-547f83e5df0a"
                     }
                 );
             #endregion
