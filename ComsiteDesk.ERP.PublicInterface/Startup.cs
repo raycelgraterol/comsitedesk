@@ -108,6 +108,15 @@ namespace ComsiteDesk.ERP.PublicInterface
             services.AddTransient<IChangeLogService, ChangeLogService>();
             services.AddTransient<IChangeLogRepo, ChangeLogRepo>();
 
+            services.AddTransient<IHeadquarterService, HeadquarterService>();
+            services.AddTransient<IHeadquarterRepo, HeadquarterRepo>();
+
+            services.AddTransient<IDepartmentService, DepartmentService>();
+            services.AddTransient<IDepartmentRepo, DepartmentRepo>();
+
+            services.AddTransient<IEquipmentUserService, EquipmentUserService>();
+            services.AddTransient<IEquipmentUserRepo, EquipmentUserRepo>();
+
             // configure jwt authentication
             var key = Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]);
             services.AddAuthentication(options =>
