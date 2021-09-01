@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'tickets-management', loadChildren: () => import('./ticket-management/ticket-management.module').then(m => m.TicketManagementModule) },
   { path: 'projects', loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule) },
   { path: 'assignments', loadChildren: () => import('./assignment/assignment.module').then(m => m.AssignmentModule) },
+  { path: 'configuration', loadChildren: () => import('./configuration/configuration.module').then(m => m.ConfigurationModule) },
   { path: 'apps', loadChildren: () => import('./apps/apps.module').then(m => m.AppsModule) },
   { path: 'ui', loadChildren: () => import('./ui/ui.module').then(m => m.UiModule) },
   { path: 'icons', loadChildren: () => import('./icons/icons.module').then(m => m.IconsModule) },

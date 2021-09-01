@@ -11,5 +11,6 @@ namespace ComsiteDesk.ERP.Service.HelperModel
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public int HeadquarterId { get; set; }
+        public string HeadquarterName { get; set; }
     }
 }

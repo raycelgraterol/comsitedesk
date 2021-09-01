@@ -19,46 +19,47 @@ namespace ComsiteDesk.ERP.Data
         {
             try
             {
+
                 return GetAll()
                             .Include(x => x.TicketStatus)
                             .Include(x => x.TicketCategory)
                             .Include(x => x.TicketType)
                             .Include(x => x.TicketProcess)
-                            .Join(
-                            _applicationDbContext.TicketsUsers
-                            .Where(x => x.IsActive).Include(x => x.User),
-                                    tickets => tickets.Id,
-                                    ticketUser => ticketUser.TicketsId,
-                                    (tickets, ticketUser) => new { Ti = tickets, TiUser = ticketUser })
-                            .ToList()
-                            .GroupBy(
-                                p => p.Ti,
-                                p => p.TiUser,
-                                (key, g) => new { Tickets = key, Users = g.ToList() }
-                             )
                             .Select(
                                 x => new Tickets()
                                 {
-                                    Id = x.Tickets.Id,
-                                    Title = x.Tickets.Title,
-                                    TicketDate = x.Tickets.TicketDate,
-                                    HoursWorked = x.Tickets.HoursWorked,
-                                    ReportedFailure = x.Tickets.ReportedFailure,
-                                    TechnicalFailure = x.Tickets.TechnicalFailure,
-                                    SolutionDone = x.Tickets.SolutionDone,
-                                    Notes = x.Tickets.Notes,
-                                    StartTime = x.Tickets.StartTime,
-                                    EndTime = x.Tickets.EndTime,
-                                    TicketStatusId = x.Tickets.TicketStatusId,
-                                    TicketStatus = x.Tickets.TicketStatus,
-                                    TicketCategoryId = x.Tickets.TicketCategoryId,
-                                    TicketCategory = x.Tickets.TicketCategory,
-                                    TicketTypeId = x.Tickets.TicketTypeId,
-                                    TicketType = x.Tickets.TicketType,
-                                    TicketProcessId = x.Tickets.TicketProcessId,
-                                    TicketProcess = x.Tickets.TicketProcess,
-                                    OrganizationId = x.Tickets.OrganizationId,
-                                    Users = x.Users
+                                    Id = x.Id,
+                                    Title = x.Title,
+                                    TicketDate = x.TicketDate,
+                                    HoursWorked = x.HoursWorked,
+                                    ReportedFailure = x.ReportedFailure,
+                                    TechnicalFailure = x.TechnicalFailure,
+                                    SolutionDone = x.SolutionDone,
+                                    Notes = x.Notes,
+                                    StartTime = x.StartTime,
+                                    EndTime = x.EndTime,
+                                    TicketStatusId = x.TicketStatusId,
+                                    TicketStatus = x.TicketStatus,
+                                    TicketCategoryId = x.TicketCategoryId,
+                                    TicketCategory = x.TicketCategory,
+                                    TicketTypeId = x.TicketTypeId,
+                                    TicketType = x.TicketType,
+                                    TicketProcessId = x.TicketProcessId,
+                                    TicketProcess = x.TicketProcess,
+                                    OrganizationId = x.OrganizationId,
+                                    Users = _applicationDbContext.TicketsUsers
+                                                            .Include(u => u.User)
+                                                            .Where(y => y.IsActive && y.TicketsId == x.Id)
+                                                            .Select(tu => new TicketsUsers() {
+                                                                TicketsId = tu.TicketsId,
+                                                                UserId = tu.UserId,
+                                                                CreatedBy = tu.CreatedBy,
+                                                                DateModified = tu.DateModified,
+                                                                IsActive = tu.IsActive,
+                                                                ModifiedBy = tu.ModifiedBy,
+                                                                User = tu.User
+                                                            })
+                                                            .ToList()
                                 }
                             ).AsQueryable();
             }

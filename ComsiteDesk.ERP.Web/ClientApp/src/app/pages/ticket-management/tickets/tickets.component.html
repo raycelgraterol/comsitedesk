@@ -2,14 +2,15 @@
   <app-page-title title="Tickets" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
-    <div class="col-md-6 col-xl-3" *ngFor="let carddata of balances">
+    <div class="col-md-3 col-xl-3" *ngFor="let carddata of balances">
       <div class="widget-rounded-circle card-box">
         <div class="row">
           <div class="col-6">
             <div class="avatar-lg rounded-circle bg-primary" [ngClass]="{
               'bg-warning': carddata.statusAlert === 'warning',
               'bg-success': carddata.statusAlert === 'success',
-              'bg-danger': carddata.statusAlert === 'danger'
+              'bg-danger': carddata.statusAlert === 'danger',
+              'bg-info': carddata.statusAlert === 'info'
             }">
               <i class="{{ carddata.icon }} font-22 avatar-title text-white"></i>
             </div>
@@ -125,7 +126,8 @@
                       <span class="badge" [ngClass]="{
                         'badge-warning': ticket.ticketStatusName == 'En Proceso',
                         'badge-success': ticket.ticketStatusName == 'Cerrado',
-                        'badge-danger': ticket.ticketStatusName == 'Escalado'
+                        'badge-danger': ticket.ticketStatusName == 'Escalado',
+                        'badge-info': ticket.ticketStatusName == 'Abierto'
                       }">
                         <ngb-highlight [result]="ticket.ticketStatusName" [term]="service.searchTerm"></ngb-highlight>
                       </span>
@@ -333,7 +335,6 @@
               <label>Notas</label>
               <div class="input-group mb-2">
                 <textarea type="text" class="form-control" name="notes" formControlName="notes" value="" rows="5">
-
                 </textarea>
               </div>
             </div>

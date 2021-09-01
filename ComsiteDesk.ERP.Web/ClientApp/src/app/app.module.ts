@@ -22,6 +22,11 @@ import { TicketCategoriesService } from './core/services/ticket-categories.servi
 import { TicketProcessesService } from './core/services/ticket-processes.service';
 import { TicketStatusService } from './core/services/ticket-status.service';
 
+import { HeadquarterService } from './core/services/headquarter.service';
+import { DepartmentService } from './core/services/department.service';
+import { EquipmentUserService } from './core/services/equipment-user.service';
+import { EquipmentService } from './core/services/equipment.service';
+
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -58,7 +63,10 @@ export function provideConfig() {
     TicketCategoriesService,
     TicketProcessesService,
     TicketStatusService,
-    
+    HeadquarterService,
+    DepartmentService,
+    EquipmentUserService,
+    EquipmentService
     // provider used to create fake backend
     //FakeBackendProvider    
   ],

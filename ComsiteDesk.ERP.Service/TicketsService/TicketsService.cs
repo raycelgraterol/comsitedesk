@@ -38,10 +38,11 @@ namespace ComsiteDesk.ERP.Service
             {
                 new TicketsBalancesModel()
                 {
-                    StatusAlert = statusAlert.primary.ToString(),
-                    Title = "Total",
-                    Icon = "fe-tag",
+                    StatusAlert = statusAlert.info.ToString(),
+                    Title = statusTicket.Abierto.ToString(),
+                    Icon = "fe-book-open",
                     Total = _uow.TicketsRepo.GetAll()
+                            .Where(x => x.TicketStatusId == (int)statusTicket.Abierto)
                             .Count()
                 },
                 new TicketsBalancesModel()
@@ -103,7 +104,7 @@ namespace ComsiteDesk.ERP.Service
                             ("t-" + s.Id).ToString().Contains(searchParameters.searchTerm.ToLower())) &&
                             (s.TicketStatusId == searchParameters.TicketStatusId || searchParameters.TicketStatusId == 0) &&
                             (s.StartTime >= searchParameters.StartDate   || searchParameters.StartDate == DateTime.MinValue) &&
-                            (s.Users.Any(x => x.UserId == searchParameters.AssignedTo) || searchParameters.AssignedTo == 0));
+                            (s.Users.Any(y => y.UserId == searchParameters.AssignedTo) || searchParameters.TicketStatusId == 0));
 
                 if (searchParameters.sortColumn != null)
                 {
