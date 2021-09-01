@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using dbCore = ComsiteDesk.ERP.DB.Core.Models;
 
 namespace ComsiteDesk.ERP.DB.Core
 {
@@ -26,6 +27,11 @@ namespace ComsiteDesk.ERP.DB.Core
         public DbSet<Task> Tasks { get; set; }
         public DbSet<TaskStatus> TaskStatus { get; set; }
         public DbSet<ChangeLog> ChangeLogs { get; set; }
+
+        public DbSet<Module> Modules { get; set; }
+        public DbSet<Form> Forms { get; set; }
+        public DbSet<dbCore.Action> Actions { get; set; }
+        public DbSet<RoleFormAction> RoleFormAction { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -63,6 +69,30 @@ namespace ComsiteDesk.ERP.DB.Core
                 .HasOne(x => x.Equipment)
                 .WithMany(e => e.Tickets)
                 .HasForeignKey(x => x.EquipmentId);
+
+            builder.Entity<FormAction>()
+                .HasIndex(x => new { x.FormId, x.ActionId })
+                .IsUnique();
+
+            builder.Entity<FormAction>()
+                .HasOne(x => x.Form)
+                .WithMany(m => m.Actions)
+                .HasForeignKey(x => x.FormId);
+            builder.Entity<FormAction>()
+                .HasOne(x => x.Action)
+                .WithMany(e => e.Forms)
+                .HasForeignKey(x => x.ActionId);
+
+            builder.Entity<RoleFormAction>()
+                .HasKey(x => new { x.RoleId, x.FormActionId });
+            builder.Entity<RoleFormAction>()
+                .HasOne(x => x.Role)
+                .WithMany(m => m.FormActions)
+                .HasForeignKey(x => x.RoleId);
+            builder.Entity<RoleFormAction>()
+                .HasOne(x => x.FormAction)
+                .WithMany(e => e.Roles)
+                .HasForeignKey(x => x.FormActionId);
 
 
             #region All Roles
@@ -228,6 +258,318 @@ namespace ComsiteDesk.ERP.DB.Core
                       IsActive = true
                   }
               );
+
+            #region Segurity - Modules
+
+            builder.Entity<Module>()
+              .HasData(
+                  new Module
+                  {
+                      Id = 1,
+                      Name = "Seguridad",
+                      Description = "Seguridad",
+                      URI = "/security",
+                      IsActive = true,
+                      CreatedBy = 1,
+                      DateCreated = Convert.ToDateTime("01/01/2021")
+                  },
+                  new Module
+                  {
+                      Id = 2,
+                      Name = "Configuracion",
+                      Description = "Configuracion",
+                      URI = "/configuration",
+                      IsActive = true,
+                      CreatedBy = 1,
+                      DateCreated = Convert.ToDateTime("01/01/2021")
+                  },
+                  new Module
+                  {
+                      Id = 3,
+                      Name = "Proyectos",
+                      Description = "Proyectos",
+                      URI = "/projects",
+                      IsActive = true,
+                      CreatedBy = 1,
+                      DateCreated = Convert.ToDateTime("01/01/2021")
+                  },
+                  new Module
+                  {
+                      Id = 4,
+                      Name = "Tickets",
+                      Description = "Tickets",
+                      URI = "/tickets-management",
+                      IsActive = true,
+                      CreatedBy = 1,
+                      DateCreated = Convert.ToDateTime("01/01/2021")
+                  },
+                  new Module
+                  {
+                      Id = 5,
+                      Name = "Tareas",
+                      Description = "Tareas",
+                      URI = "/assignment",
+                      IsActive = true,
+                      CreatedBy = 1,
+                      DateCreated = Convert.ToDateTime("01/01/2021")
+                  },
+                  new Module
+                  {
+                      Id = 6,
+                      Name = "Dashboard",
+                      Description = "Dashboard",
+                      URI = "/",
+                      CreatedBy = 1,
+                      DateCreated = Convert.ToDateTime("01-01-2021"),
+                      IsActive = true
+                  }
+
+              );
+
+            #endregion
+
+            #region Segurity - Actions
+            builder.Entity<dbCore.Action>()
+               .HasData(
+                   new dbCore.Action
+                   {
+                       Id = 1,
+                       Name = "Visualizar",
+                       Description = "Visualizar",
+                       IsActive = true,
+                       DateCreated = Convert.ToDateTime("01-01-2021"),
+                       CreatedBy = 1
+                   },
+                   new dbCore.Action
+                   {
+                       Id = 2,
+                       Name = "Listar",
+                       Description = "Listar",
+                       IsActive = true,
+                       DateCreated = Convert.ToDateTime("01-01-2021"),
+                       CreatedBy = 1
+                   },
+                   new dbCore.Action
+                   {
+                       Id = 3,
+                       Name = "Crear",
+                       Description = "Crear",
+                       IsActive = true,
+                       DateCreated = Convert.ToDateTime("01-01-2021"),
+                       CreatedBy = 1
+                   },
+                   new dbCore.Action
+                   {
+                       Id = 4,
+                       Name = "Modificar",
+                       Description = "Modificar",
+                       IsActive = true,
+                       DateCreated = Convert.ToDateTime("01-01-2021"),
+                       CreatedBy = 1
+                   },
+                   new dbCore.Action
+                   {
+                       Id = 5,
+                       Name = "Eliminar",
+                       Description = "Eliminar",
+                       IsActive = true,
+                       DateCreated = Convert.ToDateTime("01-01-2021"),
+                       CreatedBy = 1
+                   },
+                   new dbCore.Action
+                   {
+                       Id = 6,
+                       Name = "Activar",
+                       Description = "Activar",
+                       IsActive = true,
+                       DateCreated = Convert.ToDateTime("01-01-2021"),
+                       CreatedBy = 1
+                   }
+               );
+            #endregion
+
+            #region Segurity - Views
+            builder.Entity<Form>()
+                .HasData(
+                    new Form
+                    {
+                        Id = 1,
+                        Name = "Usuarios",
+                        Description = "Usuarios",
+                        URI = "/users",
+                        ModuleId = 1,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 2,
+                        Name = "Roles",
+                        Description = "Roles",
+                        URI = "/roles",
+                        ModuleId = 1,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },//SECURITY
+                    new Form
+                    {
+                        Id = 3,
+                        Name = "Sedes",
+                        Description = "Sedes",
+                        URI = "/headquarter",
+                        ModuleId = 2,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 4,
+                        Name = "Departamentos",
+                        Description = "Departamentos",
+                        URI = "/department",
+                        ModuleId = 2,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 5,
+                        Name = "Equipos",
+                        Description = "Equipos",
+                        URI = "/equipment",
+                        ModuleId = 2,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 6,
+                        Name = "Usuarios de Equipos",
+                        Description = "Usuarios de Equipos",
+                        URI = "/equipmentUser",
+                        ModuleId = 2,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },//PROJECTS
+                    new Form
+                    {
+                        Id = 7,
+                        Name = "Proyectos",
+                        Description = "Proyectos",
+                        URI = "/list",
+                        ModuleId = 3,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 8,
+                        Name = "Estatus de Proyectos",
+                        Description = "Estatus de Proyectos",
+                        URI = "/status",
+                        ModuleId = 3,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },//TICKETS
+                    new Form
+                    {
+                        Id = 9,
+                        Name = "Tickets",
+                        Description = "Tickets",
+                        URI = "/tickets",
+                        ModuleId = 4,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 10,
+                        Name = "Tipos de tickets",
+                        Description = "Tipos de tickets",
+                        URI = "/types",
+                        ModuleId = 4,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 11,
+                        Name = "Categorias de tickets",
+                        Description = "Categorias de tickets",
+                        URI = "/categories",
+                        ModuleId = 4,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 12,
+                        Name = "Procesos de tickets",
+                        Description = "Procesos de tickets",
+                        URI = "/processes",
+                        ModuleId = 4,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 13,
+                        Name = "Estatus de tickets",
+                        Description = "Estatus de tickets",
+                        URI = "/status",
+                        ModuleId = 4,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },//Assignment
+                    new Form
+                    {
+                        Id = 14,
+                        Name = "Lista de tareas",
+                        Description = "Lista de tareas",
+                        URI = "/list",
+                        ModuleId = 5,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },
+                    new Form
+                    {
+                        Id = 15,
+                        Name = "Estatus de tareas",
+                        Description = "Estatus de tareas",
+                        URI = "/status",
+                        ModuleId = 5,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    },//DashBoard
+                    new Form
+                    {
+                        Id = 16,
+                        Name = "Panel principal",
+                        Description = "Panel principal",
+                        URI = "/dashboard",
+                        ModuleId = 6,
+                        DateCreated = Convert.ToDateTime("01-01-2021"),
+                        CreatedBy = 1,
+                        IsActive = true
+                    }
+
+                );
+            #endregion
         }
     }
 }

@@ -23,6 +23,12 @@ namespace ComsiteDesk.ERP.Service
         private IHeadquarterRepo _headquarterRepo { get; }
         private IEquipmentUserRepo _equipmentUserRepo { get; }
 
+        private IModuleRepo _moduleRepo { get; set; }
+        private IFormRepo _formRepo { get; set; }
+        private IActionRepo _actionRepo { get; set; }
+        private IFormActionRepo _formActionRepo { get; set; }
+        private IRoleFormActionRepo _roleFormActionRepo { get; set; }
+
         public UnitOfWork(ApplicationDbContext db,
             IOrganizationsRepo organizationsRepo,
             ITicketTypesRepo ticketTypesRepo,
@@ -39,7 +45,12 @@ namespace ComsiteDesk.ERP.Service
             IChangeLogRepo changeLogRepo,
             IDepartmentRepo departmentRepo,
             IHeadquarterRepo headquarterRepo,
-            IEquipmentUserRepo equipmentUserRepo)
+            IEquipmentUserRepo equipmentUserRepo,
+            IModuleRepo moduleRepo,
+            IFormRepo formRepo,
+            IActionRepo actionRepo,
+            IFormActionRepo formActionRepo,
+            IRoleFormActionRepo roleFormActionRepo)
         {
             _db = db;
             _organizationsRepo = organizationsRepo;
@@ -59,6 +70,11 @@ namespace ComsiteDesk.ERP.Service
             _departmentRepo = departmentRepo;
             _headquarterRepo = headquarterRepo;
             _equipmentUserRepo = equipmentUserRepo;
+            _moduleRepo = moduleRepo;
+            _formRepo = formRepo;
+            _actionRepo = actionRepo;
+            _formActionRepo = formActionRepo;
+            _roleFormActionRepo = roleFormActionRepo;
         }
 
         private ApplicationDbContext _db { get; set; }
@@ -78,6 +94,11 @@ namespace ComsiteDesk.ERP.Service
         public IDepartmentRepo DepartmentRepo => _departmentRepo;
         public IHeadquarterRepo HeadquarterRepo => _headquarterRepo;
         public IEquipmentUserRepo EquipmentUserRepo => _equipmentUserRepo;
+        public IModuleRepo ModuleRepo => _moduleRepo;
+        public IFormRepo FormRepo => _formRepo;
+        public IActionRepo ActionRepo => _actionRepo;
+        public IFormActionRepo FormActionRepo => _formActionRepo;
+        public IRoleFormActionRepo RoleFormActionRepo => _roleFormActionRepo;
 
         public void Commit()
         {

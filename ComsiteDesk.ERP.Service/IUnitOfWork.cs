@@ -24,5 +24,10 @@ namespace ComsiteDesk.ERP.Service
         IHeadquarterRepo HeadquarterRepo { get; }
         IDepartmentRepo DepartmentRepo { get; }
         IEquipmentUserRepo EquipmentUserRepo  { get; }
+        IModuleRepo ModuleRepo { get; }
+        IFormRepo FormRepo { get; }
+        IActionRepo ActionRepo { get; }
+        IFormActionRepo FormActionRepo { get; }
+        IRoleFormActionRepo RoleFormActionRepo { get; }
     }
 }

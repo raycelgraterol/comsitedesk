@@ -100,6 +100,97 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Action", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Actions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Visualizar",
+                            IsActive = true,
+                            Name = "Visualizar"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Listar",
+                            IsActive = true,
+                            Name = "Listar"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Crear",
+                            IsActive = true,
+                            Name = "Crear"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Modificar",
+                            IsActive = true,
+                            Name = "Modificar"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Eliminar",
+                            IsActive = true,
+                            Name = "Eliminar"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Activar",
+                            IsActive = true,
+                            Name = "Activar"
+                        });
+                });
+
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.ChangeLog", b =>
                 {
                     b.Property<long>("Id")
@@ -329,6 +420,266 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.ToTable("EquipmentUser");
                 });
 
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Form", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("URI")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("Forms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Usuarios",
+                            IsActive = true,
+                            ModuleId = 1,
+                            Name = "Usuarios",
+                            URI = "/users"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Roles",
+                            IsActive = true,
+                            ModuleId = 1,
+                            Name = "Roles",
+                            URI = "/roles"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Sedes",
+                            IsActive = true,
+                            ModuleId = 2,
+                            Name = "Sedes",
+                            URI = "/headquarter"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Departamentos",
+                            IsActive = true,
+                            ModuleId = 2,
+                            Name = "Departamentos",
+                            URI = "/department"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Equipos",
+                            IsActive = true,
+                            ModuleId = 2,
+                            Name = "Equipos",
+                            URI = "/equipment"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Usuarios de Equipos",
+                            IsActive = true,
+                            ModuleId = 2,
+                            Name = "Usuarios de Equipos",
+                            URI = "/equipmentUser"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Proyectos",
+                            IsActive = true,
+                            ModuleId = 3,
+                            Name = "Proyectos",
+                            URI = "/list"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Estatus de Proyectos",
+                            IsActive = true,
+                            ModuleId = 3,
+                            Name = "Estatus de Proyectos",
+                            URI = "/status"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tickets",
+                            IsActive = true,
+                            ModuleId = 4,
+                            Name = "Tickets",
+                            URI = "/tickets"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tipos de tickets",
+                            IsActive = true,
+                            ModuleId = 4,
+                            Name = "Tipos de tickets",
+                            URI = "/types"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Categorias de tickets",
+                            IsActive = true,
+                            ModuleId = 4,
+                            Name = "Categorias de tickets",
+                            URI = "/categories"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Procesos de tickets",
+                            IsActive = true,
+                            ModuleId = 4,
+                            Name = "Procesos de tickets",
+                            URI = "/processes"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Estatus de tickets",
+                            IsActive = true,
+                            ModuleId = 4,
+                            Name = "Estatus de tickets",
+                            URI = "/status"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Lista de tareas",
+                            IsActive = true,
+                            ModuleId = 5,
+                            Name = "Lista de tareas",
+                            URI = "/list"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Estatus de tareas",
+                            IsActive = true,
+                            ModuleId = 5,
+                            Name = "Estatus de tareas",
+                            URI = "/status"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Panel principal",
+                            IsActive = true,
+                            ModuleId = 6,
+                            Name = "Panel principal",
+                            URI = "/dashboard"
+                        });
+                });
+
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.FormAction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ActionId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FormId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActionId");
+
+                    b.HasIndex("FormId", "ActionId")
+                        .IsUnique();
+
+                    b.ToTable("FormAction");
+                });
+
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Headquarter", b =>
                 {
                     b.Property<int>("Id")
@@ -371,6 +722,107 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.HasIndex("OrganizationsId");
 
                     b.ToTable("Headquarter");
+                });
+
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Module", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("URI")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Modules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Seguridad",
+                            IsActive = true,
+                            Name = "Seguridad",
+                            URI = "/security"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Configuracion",
+                            IsActive = true,
+                            Name = "Configuracion",
+                            URI = "/configuration"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Proyectos",
+                            IsActive = true,
+                            Name = "Proyectos",
+                            URI = "/projects"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tickets",
+                            IsActive = true,
+                            Name = "Tickets",
+                            URI = "/tickets-management"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tareas",
+                            IsActive = true,
+                            Name = "Tareas",
+                            URI = "/assignment"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedBy = 1L,
+                            DateCreated = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Dashboard",
+                            IsActive = true,
+                            Name = "Dashboard",
+                            URI = "/"
+                        });
                 });
 
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.OrganizationTypes", b =>
@@ -560,6 +1012,36 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.HasIndex("ProjectStatusId");
 
                     b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.RoleFormAction", b =>
+                {
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("FormActionId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("RoleId", "FormActionId");
+
+                    b.HasIndex("FormActionId");
+
+                    b.ToTable("RoleFormAction");
                 });
 
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Task", b =>
@@ -1187,6 +1669,30 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Form", b =>
+                {
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Module", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.FormAction", b =>
+                {
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Action", "Action")
+                        .WithMany("Forms")
+                        .HasForeignKey("ActionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Form", "Form")
+                        .WithMany("Actions")
+                        .HasForeignKey("FormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.Headquarter", b =>
                 {
                     b.HasOne("ComsiteDesk.ERP.DB.Core.Models.Organizations", "Organizations")
@@ -1220,6 +1726,21 @@ namespace ComsiteDesk.ERP.DB.Core.Migrations
                     b.HasOne("ComsiteDesk.ERP.DB.Core.Models.ProjectStatus", "ProjectStatus")
                         .WithMany()
                         .HasForeignKey("ProjectStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ComsiteDesk.ERP.DB.Core.Models.RoleFormAction", b =>
+                {
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Models.FormAction", "FormAction")
+                        .WithMany("Roles")
+                        .HasForeignKey("FormActionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComsiteDesk.ERP.DB.Core.Authentication.Role", "Role")
+                        .WithMany("FormActions")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
