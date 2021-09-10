@@ -39,7 +39,7 @@ namespace ComsiteDesk.ERP.Service
 
         public OrganizationModel GetMainOrganization()
         {
-            var result = _uow.OrganizationsRepo.GetAll().FirstOrDefault(x => x.OrganizationTypesId == 1);
+            var result = _uow.OrganizationsRepo.GetAll().FirstOrDefault();
 
             OrganizationModel organization =
                 CoreMapper.MapObject<Organizations, OrganizationModel>(result);

@@ -83,6 +83,21 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             return Ok(new { data = result, count = result.Count() });
         }
 
+        // POST api/Tickets/GetAllEquipmentsByTicket
+        [HttpPost]
+        [Route("GetAllEquipmentsByTicket")]
+        public async Task<ActionResult> GetListEquipmentsByTicket([FromBody] TicketModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _ticketsService.GetAllEquipmentsByTicket(value.Id);
+
+            return Ok(new { data = result, count = result.Count() });
+        }
+
         // POST: api/Tickets
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] TicketModel value)
@@ -101,6 +116,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
 
                 value.CreatedBy = userId;
                 value.DateCreated = DateTime.Now;
+                value.TicketDate = DateTime.Now;
 
                 var id = await _ticketsService.Add(value);
                 await _changeLogService.Add(new ChangeLogModel() { GroupGUID = g.ToString(), EventLocation = "Post", EventType = "TicketsController", ExceptionMessage = "", LoginName = userId.ToString(), EventDate = DateTime.Now });
@@ -132,6 +148,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
 
             value.DateCreated = currentValue.DateCreated;
             value.CreatedBy = currentValue.CreatedBy;
+            value.TicketDate = currentValue.TicketDate;
 
             value.ModifiedBy = userId;
             value.DateModified = DateTime.Now;

@@ -26,6 +26,9 @@ namespace ComsiteDesk.ERP.Service
             _item.IsActive = true;
             await _uow.ProjectsRepo.Insert(_item);
             _uow.Commit();
+            itemModel.Id = _item.Id;
+
+            await InserProjectUsersAsync(itemModel);
             return Convert.ToInt32(_item.Id);
         }
 
@@ -33,6 +36,16 @@ namespace ComsiteDesk.ERP.Service
         {
             List<ProjectModel> items =
                 CoreMapper.MapList<Projects, ProjectModel>(await _uow.ProjectsRepo.GetAll().ToListAsync());
+
+            return items;
+        }
+
+        public async Task<List<ProjectUserModel>> GetAllUsersByTicket(int projectId)
+        {
+            var result = _uow.ProjectsUsersRepo.GetAll().Where(x => x.ProjectsId == projectId);
+
+            List<ProjectUserModel> items =
+                CoreMapper.MapList<ProjectsUsers, ProjectUserModel>(await result.ToListAsync());
 
             return items;
         }
@@ -48,7 +61,9 @@ namespace ComsiteDesk.ERP.Service
                                 .Select(x => 
                                 {
                                     x.TotalTasks = _uow.TasksRepo.GetAll().Count(t => t.ProjectsId == x.Id);
-                                    return x; 
+                                    x.Users = _uow.ProjectsUsersRepo.GetAll().Include(u => u.User).Include(y => y.Projects)
+                                                    .Where(p => p.ProjectsId == x.Id).ToList();
+                                    return x;
                                 })
                                 .AsQueryable();
 
@@ -117,13 +132,74 @@ namespace ComsiteDesk.ERP.Service
             return Convert.ToInt32(item.Id);
         }
 
-        public int Update(ProjectModel itemModel)
+        public async Task<int> Update(ProjectModel itemModel)
         {
             Projects item = CoreMapper.MapObject<ProjectModel, Projects>(itemModel);
             item.IsActive = true;
             _uow.ProjectsRepo.Edit(item);
+
+            await InserProjectUsersAsync(itemModel);
+
             _uow.Commit();
             return Convert.ToInt32(item.Id);
+        }
+
+        private async System.Threading.Tasks.Task InserProjectUsersAsync(ProjectModel itemModel)
+        {
+            try
+            {
+                itemModel.UsersIds = itemModel.UsersIds == null ? new long[0] : itemModel.UsersIds;
+
+                var existingItems = _uow.ProjectsUsersRepo.GetAll()
+                                        .Where(x => x.ProjectsId == itemModel.Id)
+                                        .ToList();
+
+                //Set is active false for all exist items 
+                foreach (var currentItems in existingItems)
+                {
+                    _uow.ProjectsUsersRepo.Delete(currentItems);
+                    _uow.Commit();
+                }
+
+                //Loop for all formAction ids that come from the user
+                foreach (var userId in itemModel.UsersIds)
+                {
+                    //check if the item exist to update else it is created.
+                    var item = _uow.ProjectsUsersRepo.GetAll()
+                                        .FirstOrDefault(x => x.UserId == userId && x.ProjectsId == itemModel.Id);
+
+                    if (item != null)
+                    {
+                        var projectsUsers = new ProjectsUsers()
+                        {
+                            ProjectsId = item.ProjectsId,
+                            UserId = item.UserId,
+                            IsActive = true
+                        };
+
+                        _uow.ProjectsUsersRepo.Edit(projectsUsers);
+                        _uow.Commit();
+                    }
+                    else
+                    {
+                        var projectsUsers = new ProjectsUsers()
+                        {
+                            ProjectsId = itemModel.Id,
+                            UserId = userId,
+                            CreatedBy = itemModel.CreatedBy,
+                            DateCreated = DateTime.Now,
+                            IsActive = true
+                        };
+
+                        await _uow.ProjectsUsersRepo.Insert(projectsUsers);
+                        _uow.Commit();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

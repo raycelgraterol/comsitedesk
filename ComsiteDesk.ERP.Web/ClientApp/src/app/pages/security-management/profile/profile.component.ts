@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators';
 
 import { Interconnect, IMessageStream } from 'ng-interconnect';
 
-import { AuthenticationService } from '../../../core/services/auth.service';
+import { AuthenticationService } from '../../../core/services/security/auth.service';
 import Swal from 'sweetalert2';
 import { User } from 'src/app/core/models/auth.models';
 

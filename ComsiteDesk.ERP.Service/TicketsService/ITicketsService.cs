@@ -16,6 +16,7 @@ namespace ComsiteDesk.ERP.Service
         List<TicketModel> GetAllWithPager(TicketsSearchModel searchParameters);
         Task<TicketModel> GetById(int itemId);
         Task<List<TicketUserModel>> GetAllUsersByTicket(int TicketId);
+        Task<List<TicketEquipmentModel>> GetAllEquipmentsByTicket(int TicketId);
         int Remove(TicketModel itemModel);
     }
 }

@@ -15,9 +15,17 @@ import { TicketStatusComponent } from './ticket-status/ticket-status.component';
 import { TicketProcessesComponent } from './ticket-processes/ticket-processes.component';
 import { TicketCategoriesComponent } from './ticket-categories/ticket-categories.component';
 import { AdvancedSortableDirective } from './advanced-sortable.directive';
+import { MyTicketsComponent } from './my-tickets/my-tickets.component';
 
 @NgModule({
-  declarations: [AdvancedSortableDirective, TicketTypesComponent, TicketsComponent, TicketStatusComponent, TicketProcessesComponent, TicketCategoriesComponent],
+  declarations: [
+    AdvancedSortableDirective,
+    TicketTypesComponent,
+    TicketsComponent,
+    TicketStatusComponent,
+    TicketProcessesComponent,
+    TicketCategoriesComponent,
+    MyTicketsComponent],
   imports: [
     CommonModule,
     UIModule,

@@ -22,5 +22,7 @@ namespace ComsiteDesk.ERP.Service.HelperModel
 
         public ProjectStatus ProjectStatus { get; set; }
         public int TotalTasks { get; set; }
+        public long[] UsersIds { get; set; }
+        public ProjectUserModel[] Users { get; set; }
     }
 }

@@ -8,7 +8,11 @@ import Swal from 'sweetalert2';
 
 import { HeadquarterModel, SearchResult, } from 'src/app/core/models/headquarter.models';
 import { HeadquarterService } from 'src/app/core/services/headquarter.service';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
+
+import { ClientService } from 'src/app/core/services/client.service';
+import { ClientModel } from 'src/app/core/models/client.models';
+
+import { AuthenticationService } from 'src/app/core/services/security/auth.service';
 
 @Component({
   selector: 'app-headquarter',
@@ -32,7 +36,7 @@ export class HeadquarterComponent implements OnInit {
   innerform: FormGroup;
   queryId: number;
   user: any;
-  organizationId: number;
+  clients: Array<ClientModel>;
 
   tables$: Observable<HeadquarterModel[]>;
   total$: Observable<number>;
@@ -43,11 +47,9 @@ export class HeadquarterComponent implements OnInit {
     public service: HeadquarterService,
     public formBuilder: FormBuilder,
     private authService: AuthenticationService,
+    private clientService: ClientService,
     private modalService: NgbModal) {
       this.user = this.authService.currentUser();
-      if (this.user.organization != undefined) {
-        this.organizationId = this.user.organization.id;
-      }
   }
   ngOnInit() {
 
@@ -71,9 +73,14 @@ export class HeadquarterComponent implements OnInit {
       id: [0],
       name: ["", [Validators.required]],
       phoneNumber: [""],
-      address: ["", [Validators.required]],
-      organizationsId: ["", [Validators.required]],
+      address: [""],
+      clientId: [0, [Validators.required]],
     });
+
+    this.clientService.getAllItems()
+    .subscribe(result => {
+      this.clients = result.data;
+    }, error => console.error(error));
 
   }
 
@@ -111,7 +118,6 @@ export class HeadquarterComponent implements OnInit {
     
     this.innerform.reset();
     this.innerform.controls.id.setValue(0);
-    this.innerform.controls.organizationsId.setValue(this.user.organization.id);
 
     if (Id != null && Id != 0) {
       this.IsEdit = true;
@@ -123,7 +129,7 @@ export class HeadquarterComponent implements OnInit {
             this.innerform.controls.name.setValue(this.item.name);
             this.innerform.controls.phoneNumber.setValue(this.item.phoneNumber);
             this.innerform.controls.address.setValue(this.item.address);
-            this.innerform.controls.organizationsId.setValue(this.item.organizationsId);
+            this.innerform.controls.clientId.setValue(this.item.clientId);
           }      
         }, error => {
           console.error(error);
@@ -152,7 +158,7 @@ export class HeadquarterComponent implements OnInit {
     this.item.name = this.form.name.value;
     this.item.phoneNumber = this.form.phoneNumber.value;
     this.item.address = this.form.address.value;
-    this.item.organizationsId = this.form.organizationsId.value;
+    this.item.clientId = this.form.clientId.value;
     
     if(this.item.id == 0 || this.item.id == null){
 

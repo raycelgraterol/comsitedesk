@@ -14,7 +14,7 @@ namespace ComsiteDesk.ERP.Service.HelperModel
         public int ProjectsId { get; set; }
         public int TaskStatusId { get; set; }
         public string TaskStatusName { get; set; }
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         public string UserName { get; set; }
         public string UserImageUrl { get; set; }
     }

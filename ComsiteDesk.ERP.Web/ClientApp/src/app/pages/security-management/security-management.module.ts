@@ -14,8 +14,26 @@ import { UsersComponent } from './users/users.component';
 import { RolesComponent } from './roles/roles.component';
 import { ProfileComponent } from './profile/profile.component';
 
+import { ModulesComponent } from './modules/modules.component';
+import { ActionsComponent } from './actions/actions.component';
+import { FormviewsComponent } from './formviews/formviews.component';
+import { ViewsactionsComponent } from './viewsactions/viewsactions.component';
+import { FormURIDirective } from './form-uri.directive';
+import { RolFormActionsComponent } from './rol-form-actions/rol-form-actions.component';
+
 @NgModule({
-  declarations: [AdvancedSortableDirective, UsersComponent, RolesComponent, ProfileComponent],
+  declarations: [
+    AdvancedSortableDirective, 
+    UsersComponent, 
+    RolesComponent, 
+    ProfileComponent,
+    ModulesComponent, 
+    ActionsComponent, 
+    FormviewsComponent, 
+    ViewsactionsComponent,
+    FormURIDirective,
+    RolFormActionsComponent
+  ],
   imports: [
     CommonModule,
     UIModule,

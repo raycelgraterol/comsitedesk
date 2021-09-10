@@ -1,0 +1,244 @@
+<div class="container-fluid">
+  <app-page-title title="Mis Tickets" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="header-title">Listado</h4>
+          <p class="text-muted font-13 mb-4">
+
+          </p>
+          <div class="row mb-md-2">
+            <div class="col-sm-12 col-md-5">
+              <div class="dataTables_length" id="tickets-table_length"><label
+                  class="d-inline-flex align-items-center">Mostrar
+                  <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
+                    [(ngModel)]="service.pageSize"
+                    class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                    <option [ngValue]="100">100</option>
+                  </select> registros</label></div>
+            </div>
+            <!-- Search -->
+            <div class="col-sm-12 col-md-4">
+              <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label
+                  class="d-inline-flex align-items-center">Buscar:
+                  <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                    aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label></div>
+            </div>
+            <!-- End search -->
+            <div class="col-sm-12 col-md-3">
+              <button type="button" class="btn btn-sm btn-blue float-right" (click)="ticketPedingModal(TicketData)">
+                <i class="mdi mdi-lan-pending"></i> Ver Tickets Libres
+              </button>
+            </div>
+            
+          </div>
+          <!-- Table with pager -->
+          <ng-template [ngTemplateOutlet]="tableContent"></ng-template>
+          <!-- End table -->          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Responsive Modal -->
+<ng-template #TicketData let-modal="close">
+  <app-ui-preloader [display]="dataLoading | async"></app-ui-preloader>
+  <div class="modal-header">
+    <h4 class="modal-title">Ticket sin asignar</h4>
+    <button id="ticketModal" type="button" class="close" (click)="closeModalTickets()" aria-hidden="true">×</button>
+  </div>
+  <div class="body">
+    <div class="modal-body p-4">
+      <ng-template [ngTemplateOutlet]="tableContent"></ng-template>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect btn-sm"
+        (click)="closeModalTickets()">Cerrar</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #tableContent>
+  <div class="table-responsive">
+    <app-ui-preloader [display]="dataLoading | async"></app-ui-preloader>
+    <table id="ticket-table" class="table datatables dt-responsive nowrap">
+      <thead>
+        <tr>
+          <th sortable="id" (sort)="onSort($event)">Codigo</th>
+          <th sortable="title" (sort)="onSort($event)">Titulo</th>
+          <th sortable="reportedFailure" (sort)="onSort($event)">Falla reportada</th>
+          <th sortable="ticketStatusName" (sort)="onSort($event)">Estatus</th>
+          <th sortable="ticketDate" (sort)="onSort($event)">Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tr *ngFor="let table of tables$ | async">
+          <td>
+            <ngb-highlight [result]="table.id" [term]="service.searchTerm"></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight [result]="table.title" [term]="service.searchTerm"></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight [result]="table.reportedFailure" [term]="service.searchTerm"></ngb-highlight>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'badge-warning': table.ticketStatusName == 'En Proceso',
+              'badge-success': table.ticketStatusName == 'Cerrado',
+              'badge-danger': table.ticketStatusName == 'Escalado',
+              'badge-info': table.ticketStatusName == 'Abierto'
+            }">
+              <ngb-highlight [result]="table.ticketStatusName" [term]="service.searchTerm"></ngb-highlight>
+            </span>
+          </td>
+          <td>
+            <ngb-highlight [result]="table.ticketDate | date:'dd-MM-yyyy'" [term]="service.searchTerm"></ngb-highlight>
+          </td>                  
+          <td>
+            <button type="button" class="btn btn-xs btn-outline-info btn-rounded" ngbTooltip="Ver Ticket"
+              (click)="responsiveModal(responsiveData, table.id)">
+              <i class="fe-edit"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row justify-content-md-between align-items-md-center mt-2">
+    <div class="col-sm-12 col-md-5">
+      <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Mostrando
+        {{service.startIndex}} hasta
+        {{service.endIndex}} de {{service.totalRecords}}
+        registros
+      </div>
+    </div>
+    <!-- Pagination -->
+    <div class="col-sm-12 col-md-5">
+      <div class="text-md-right float-md-right pagination-rounded">
+        <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
+        </ngb-pagination>
+      </div>
+    </div>
+    <!-- End Pagination -->
+  </div>
+</ng-template>
+<!-- Responsive Modal -->
+<ng-template #responsiveData let-modal="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Ticket</h4>
+    <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+  </div>
+  <form class="needs-validation" (ngSubmit)="validSubmit()" [formGroup]="innerform">
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <div class="modal-body p-4">
+      <div class="center-div">
+        <div class="row">
+          <div class="col-md-12 col-xs-12">
+            <div class="form-group">
+              <input type="hidden" class="form-control" name="id" formControlName="id" value="0">
+              <label>Titulo<span class="text-danger">*</span></label>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" name="title" formControlName="title" value=""
+                  [ngClass]="{'is-invalid': submit && form.title.errors}">
+                <div *ngIf="submit && form.title.errors" class="invalid-feedback">
+                  <span *ngIf="form.title.errors.required">El Titulo es requerido</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Fecha de inicio</label>
+              <div class="input-group mb-2">
+                <input type="date" class="form-control" name="startTime" formControlName="startTime">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Fecha fin</label>
+              <div class="input-group mb-2">
+                <input type="date" class="form-control" name="endTime" formControlName="endTime">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Horas trabajadas</label>
+              <div class="input-group mb-2">
+                <input type="number" class="form-control" name="hoursWorked" formControlName="hoursWorked"
+                  value="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-xs-12">
+            <div class="form-group">
+              <label>Clientes<span class="text-danger">*</span></label>
+              <ng-select [items]="clients" bindValue="id" bindLabel="businessName" placeholder="Seleccionar"
+                name="clientId" formControlName="clientId" class="custom-select2"
+                [ngClass]="{'is-invalid': submit && form.clientId.errors}"></ng-select>
+              <div *ngIf="submit && form.clientId.errors" class="invalid-feedback">
+                <span *ngIf="form.clientId.errors.required">El Cliente es requerido.</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-xs-12">
+            <div class="form-group">
+              <label>Equipos</label>
+              <ng-select [items]="equipments" [multiple]="true" bindValue="id" bindLabel="name"
+                placeholder="Seleccionar" name="equipmentIds" formControlName="equipmentIds" class="custom-select2">
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Falla reportada</label>
+              <div class="input-group mb-2">
+                <textarea type="text" class="form-control" name="reportedFailure" formControlName="reportedFailure"
+                  rows="5" value=""></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Falla tecnica</label>
+              <div class="input-group mb-2">
+                <textarea type="text" class="form-control" name="technicalFailure" formControlName="technicalFailure"
+                  rows="5" value=""></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Solucion realizada</label>
+              <div class="input-group mb-2">
+                <textarea type="text" class="form-control" name="solutionDone" formControlName="solutionDone" value=""
+                  rows="5">
+                </textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Notas</label>
+              <div class="input-group mb-2">
+                <textarea type="text" class="form-control" name="notes" formControlName="notes" value="" rows="5">
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect btn-sm" (click)="modal('Cross click')">Cerrar</button>
+    </div>
+  </form>
+</ng-template>

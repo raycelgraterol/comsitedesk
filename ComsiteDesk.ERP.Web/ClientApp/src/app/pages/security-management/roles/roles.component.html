@@ -61,6 +61,10 @@
                       (click)="responsiveModal(responsiveData, table.id)">
                         <i class="fe-edit"></i>
                     </button>
+                    <a type="button" class="btn btn-xs btn-outline-success btn-rounded" ngbTooltip="Vistas Acciones"
+                      [routerLink]="['/security/rol-views-actions', table.id]">
+                        <i class="fe-award"></i>
+                    </a>
                   </td>
                 </tr>
               </tbody>

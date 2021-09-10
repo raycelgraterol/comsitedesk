@@ -15,8 +15,9 @@ import { projectData } from './data';
 import { ProjectStatusService } from 'src/app/core/services/project-status.service';
 import { ProjectStatusModel } from 'src/app/core/models/projectStatus.models';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { AuthenticationService } from 'src/app/core/services/security/auth.service';
 import { User } from 'src/app/core/models/auth.models';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-list',
@@ -38,6 +39,7 @@ export class ListComponent implements OnInit {
   user: User;
   
   innerform: FormGroup;
+  memberform: FormGroup;
   queryId: number;
 
   tables$: Observable<ProjectModel[]>;
@@ -45,8 +47,11 @@ export class ListComponent implements OnInit {
   dataLoading$: Observable<Boolean>;
   item: ProjectModel;
 
-  projectStatus: ProjectStatusModel;
+  projectStatus: Array<ProjectStatusModel>;
+  users: Array<User>;
   currentStatus: string;
+
+  public urlAPI: string = `${environment.apiUrl}\\`;
 
   @ViewChildren(AdvancedSortableDirective) headers: QueryList<AdvancedSortableDirective>;
 
@@ -70,7 +75,7 @@ export class ListComponent implements OnInit {
     // tslint:disable-next-line: max-line-length
     this.breadCrumbItems = [
       { label: 'ComSite', path: '/' }, 
-      { label: 'Projects', path: '/', active: true }];
+      { label: 'Proyectos', path: '/', active: true }];
 
     /**
      * fetches data
@@ -91,7 +96,16 @@ export class ListComponent implements OnInit {
       startDate: ["", [Validators.required]],
       endDate: [""],
       organizationId: [1, [Validators.required]],
-      projectStatusId: [0, [Validators.required]]
+      projectStatusId: [0, [Validators.required]],
+      usersIds: [[]]
+    });
+
+    /**
+    * Bootstrap validation form data
+    */
+     this.memberform = this.formBuilder.group({
+      idProject: [0,[Validators.required]],
+      usersIds: [[]]
     });
 
   }
@@ -104,6 +118,11 @@ export class ListComponent implements OnInit {
     this.projectStatusService.getAllItems()
       .subscribe(result => {
         this.projectStatus = result.data;
+      }, error => console.error(error));
+
+    this.authService.getAllUsers()
+      .subscribe(result => {
+        this.users = result.data;
       }, error => console.error(error));
 
     this.projectData = projectData;
@@ -142,6 +161,13 @@ export class ListComponent implements OnInit {
   }
 
   /**
+   * Returns addMemberform
+   */
+   get addMemberform() {
+    return this.memberform.controls;
+  }
+
+  /**
    * Responsive modal open
    * @param responsiveData responsive modal data
    */
@@ -167,6 +193,17 @@ export class ListComponent implements OnInit {
             this.innerform.controls.organizationId.setValue(this.item.organizationId);
             this.innerform.controls.projectStatusId.setValue(this.item.projectStatusId);
 
+            this.service.GetListUsersByProject(this.item.id)
+              .subscribe(result => {
+                if (result) {
+                  let userIds = result.data.map(x => x.userId);
+                  this.innerform.controls.usersIds.setValue(userIds);
+                }
+              }, error => {
+                console.error(error);
+              }
+            );
+
           }
         }, error => {
           console.error(error);
@@ -178,6 +215,76 @@ export class ListComponent implements OnInit {
     }
 
     this.modalService.open(responsiveData, { size: 'lg', centered: true, backdrop: 'static', keyboard: false });
+  }
+
+  /**
+   * Responsive modal open
+   * @param responsiveData responsive modal data
+   */
+   addOrEditMember(AddMember: string, Id: number = 0) {
+    this.memberform.reset();
+
+    if (Id != null && Id != 0) {
+
+      this.memberform.controls.idProject.setValue(Id);
+
+      this.service.GetListUsersByProject(Id)
+        .subscribe(result => {
+          if (result) {
+            let userIds = result.data.map(x => x.userId);
+            this.addMemberform.usersIds.setValue(userIds);
+          }
+        }, error => {
+          console.error(error);
+        }
+      );
+    }
+
+    this.modalService.open(AddMember, { size: 'lg', centered: true, backdrop: 'static', keyboard: false });
+  }
+
+  /**
+   * 
+   */
+   async addMemberSubmit() {
+
+    if (this.memberform.invalid) {
+      return;
+    }
+
+    this.item.id = this.addMemberform.idProject.value;
+
+    let result = await this.service.getById(this.item.id).toPromise();
+
+    this.item = result.data;
+    this.item.usersIds = this.addMemberform.usersIds.value;
+
+    if (this.item.id != 0 || this.item.id != null) {
+
+      this.service.edit(this.item)
+        .subscribe(result => {
+          if (result) {
+            console.log(result);
+            this.service.getAll();
+          }
+          this.modalService.dismissAll();
+
+          Swal.fire({
+            position: 'center',
+            type: "success",
+            title: "Miembros agregados con exito!",
+            showConfirmButton: false,
+            timer: 1500
+          });
+
+
+        }, error => {
+          console.error(error);
+        }
+        );
+
+    } 
+
   }
 
   /**
@@ -199,6 +306,7 @@ export class ListComponent implements OnInit {
     this.item.endDate = this.form.endDate.value == "" ? null : this.form.endDate.value;
     this.item.organizationId = this.form.organizationId.value;
     this.item.projectStatusId = this.form.projectStatusId.value;
+    this.item.usersIds = this.form.usersIds.value;
 
     if (this.item.id == 0 || this.item.id == null) {
 

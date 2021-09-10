@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 
 import { AssignmentStatusService } from 'src/app/core/services/assignment-status.service';
-import { UserProfileService } from 'src/app/core/services/user.service';
+import { UserProfileService } from 'src/app/core/services/security/user.service';
 import { AssignmentStatus } from 'src/app/core/models/assignmentStatus.models';
 import { DatePipe } from '@angular/common';
 import { User } from 'src/app/core/models/auth.models';
@@ -58,7 +58,7 @@ export class TaskSidebarComponent implements OnInit {
       description: [""],
       projectsId: [0, [Validators.required]],
       taskStatusId: [0, [Validators.required]],
-      userId: [0, [Validators.required]]
+      userId: [0]
     });
   }
 
@@ -96,7 +96,11 @@ export class TaskSidebarComponent implements OnInit {
         this.form.taskStatusId.setValue(this.currentTask.taskStatusId);
         this.form.userId.setValue(this.currentTask.userId);
       }else{
-        this.form.projectsId.setValue(data.project.id);
+        this.innerform.reset();
+        this.form.title.clearValidators();
+        this.form.dueDate.clearValidators();
+        this.form.taskStatusId.clearValidators();
+        this.form.projectsId.setValue(data.project.id);        
       }
 
     });
@@ -141,7 +145,7 @@ export class TaskSidebarComponent implements OnInit {
       return;
     }
 
-    this.currentTask.id = parseInt(this.form.id.value);
+    this.currentTask.id = this.form.id.value;
     this.currentTask.title = this.form.title.value;
     this.currentTask.dueDate = this.form.dueDate.value;
     this.currentTask.description = this.form.description.value;

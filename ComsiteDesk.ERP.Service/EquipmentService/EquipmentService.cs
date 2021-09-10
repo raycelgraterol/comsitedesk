@@ -22,11 +22,19 @@ namespace ComsiteDesk.ERP.Service
 
         public async Task<int> Add(EquipmentModel itemModel)
         {
-            Equipment _item = CoreMapper.MapObject<EquipmentModel, Equipment>(itemModel);
-            _item.IsActive = true;
-            await _uow.EquipmentRepo.Insert(_item);
-            _uow.Commit();
-            return Convert.ToInt32(_item.Id);
+            try
+            {
+                Equipment _item = CoreMapper.MapObject<EquipmentModel, Equipment>(itemModel);
+                _item.IsActive = true;
+                await _uow.EquipmentRepo.Insert(_item);
+                _uow.Commit();
+                return Convert.ToInt32(_item.Id);
+            }
+            catch (Exception ex )
+            {
+
+                throw ex;
+            }
         }
 
         public async Task<List<EquipmentModel>> GetAllAsync()

@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { AuthenticationService } from 'src/app/core/services/security/auth.service';
 
 @Component({
   selector: 'app-passwordreset',

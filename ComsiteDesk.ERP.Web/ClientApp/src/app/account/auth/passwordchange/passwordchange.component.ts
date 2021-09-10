@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AuthenticationService } from '../../../core/services/auth.service';
+import { AuthenticationService } from '../../../core/services/security/auth.service';
 import Swal from 'sweetalert2';
 
 import { MustMatch } from './validation.mustmatch';

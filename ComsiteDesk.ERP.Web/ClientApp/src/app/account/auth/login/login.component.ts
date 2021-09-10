@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AuthenticationService } from '../../../core/services/auth.service';
+import { AuthenticationService } from '../../../core/services/security/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from "angularx-social-login";

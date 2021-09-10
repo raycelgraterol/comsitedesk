@@ -9,6 +9,8 @@ export class ProjectModel {
     projectStatusName: string;
     organizationName: string;
     totalTasks: number;
+    usersIds: Array<number>;
+    users: any;
 }
 
 // Search Data

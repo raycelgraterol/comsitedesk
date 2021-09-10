@@ -1,14 +1,14 @@
 import { Injectable, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 
-import { SortDirection } from '../../pages/security-management/advanced-sortable.directive';
-import { Rol, SearchResult } from '../models/rol.models';
+import { SortDirection } from '../../../pages/security-management/advanced-sortable.directive';
+import { Rol, SearchResult } from '../../models/rol.models';
 
 
 interface State {

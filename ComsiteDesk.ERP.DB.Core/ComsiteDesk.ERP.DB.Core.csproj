@@ -19,6 +19,12 @@
     <Compile Remove="Migrations\20210823201730_test.Designer.cs" />
     <Compile Remove="Migrations\20210826113257_Roles last update.cs" />
     <Compile Remove="Migrations\20210826113257_Roles last update.Designer.cs" />
+    <Compile Remove="Migrations\20210908160628_Organization change only one.cs" />
+    <Compile Remove="Migrations\20210908160628_Organization change only one.Designer.cs" />
+    <Compile Remove="Migrations\20210908174807_Client in tables without organization..cs" />
+    <Compile Remove="Migrations\20210908174807_Client in tables without organization..Designer.cs" />
+    <Compile Remove="Migrations\20210910111228_Rename table clients.cs" />
+    <Compile Remove="Migrations\20210910111228_Rename table clients.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

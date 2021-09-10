@@ -3,6 +3,7 @@ using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
+using System;
 
 namespace ComsiteDesk.ERP.Service
 {
@@ -19,11 +20,16 @@ namespace ComsiteDesk.ERP.Service
         {
             try
             {
+                from = string.IsNullOrEmpty(_configuration["smtp:SmtpUser"]) ? from : _configuration["smtp:SmtpUser"];
+
                 // create message
                 var email = new MimeMessage();
-                email.From.Add(MailboxAddress.Parse(from));
+                var address = MailboxAddress.Parse(from);
+                address.Name = "Comsite HelpDesk Website";
+                email.From.Add(address);
                 email.To.Add(MailboxAddress.Parse(to));
                 email.Subject = subject;
+                email.Headers.Add("X-Mailer-Machine", Environment.MachineName);
                 email.Body = new TextPart(TextFormat.Html) { Text = html };
 
                 // send email

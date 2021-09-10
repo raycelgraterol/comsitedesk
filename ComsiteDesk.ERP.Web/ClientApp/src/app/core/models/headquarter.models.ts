@@ -4,7 +4,7 @@ export class HeadquarterModel {
     phoneNumber: string;
     address: string;
 
-    organizationsId: number;
+    clientId: number;
 }
 
 // Search Data

@@ -47,6 +47,21 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             return Ok(new { data = items, count = items.Count });
         }
 
+        // POST api/Projects/GetListUsersByProject
+        [HttpPost]
+        [Route("GetListUsersByProject")]
+        public async Task<ActionResult> GetListUsersByProject([FromBody] TicketModel value)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _projectsService.GetAllUsersByTicket(value.Id);
+
+            return Ok(new { data = result, count = result.Count() });
+        }
+
         // GET: api/Projects/5
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
@@ -102,7 +117,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
             value.ModifiedBy = userId;
             value.DateModified = DateTime.Now;
 
-            var item = _projectsService.Update(value);
+            var item = await _projectsService.Update(value);
 
             return Ok(new { data = item });
         }

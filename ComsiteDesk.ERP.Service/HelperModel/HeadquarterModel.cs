@@ -12,6 +12,6 @@ namespace ComsiteDesk.ERP.Service.HelperModel
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
 
-        public int OrganizationsId { get; set; }
+        public int ClientId { get; set; }
     }
 }

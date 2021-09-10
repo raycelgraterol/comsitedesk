@@ -6,7 +6,7 @@ import { User } from '../../core/models/auth.models';
 import { Interconnect } from "ng-interconnect";
 
 
-import { AuthenticationService } from '../../core/services/auth.service';
+import { AuthenticationService } from '../../core/services/security/auth.service';
 
 @Component({
   selector: 'app-topbar',

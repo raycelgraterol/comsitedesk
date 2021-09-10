@@ -13,6 +13,7 @@ namespace ComsiteDesk.ERP.DB.Core.Models
 
         [Key]
         public int Id { get; set; }
+        [Required]
         [StringLength(255)]
         public string Name { get; set; }
         [StringLength(255)]
@@ -21,7 +22,6 @@ namespace ComsiteDesk.ERP.DB.Core.Models
         public string Make { get; set; }
         [StringLength(255)]
         public string Model { get; set; }
-        [Required]
         [StringLength(100)]
         public string Serial { get; set; }
         [StringLength(500)]

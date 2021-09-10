@@ -21,13 +21,6 @@ namespace ComsiteDesk.ERP.DB.Core.Models
         public string PhoneNumber { get; set; }
         [StringLength(255)]
         public string Address { get; set; }
-        [Required]
-        public int OrganizationTypesId { get; set; }
-        public OrganizationTypes OrganizationTypes { get; set; }
-
-        public int? ParentOrganizationId { get; set; }
-        [ForeignKey("ParentOrganizationId")]
-        public Organizations ParentOrganization { get; set; }
 
         public DateTime DateCreated { get; set; }
         public int CreatedBy { get; set; }

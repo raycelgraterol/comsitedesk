@@ -39,6 +39,7 @@ namespace ComsiteDesk.ERP.DB.Core.Authentication
         public Organizations Organization { get; set; }
 
         public List<TicketsUsers> Tickets { get; set; }
+        public List<ProjectsUsers> Projects { get; set; }
 
     }
 }

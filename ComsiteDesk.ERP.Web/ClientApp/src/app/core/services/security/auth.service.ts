@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
-import { CookieService } from '../services/cookie.service';
-import { User } from '../models/auth.models';
+import { CookieService } from '../../services/cookie.service';
+import { User } from '../../models/auth.models';
 import { SocialUser } from 'angularx-social-login';
+import { Rol } from '../../models/rol.models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -53,6 +54,14 @@ export class AuthenticationService {
      */
     getUserType() {
         return (this.user === undefined || this.user.roles.length == 0) ? '' :  this.user.roles[0];
+    }
+
+    /**
+     * 
+     * @returns Role
+     */
+     getMainRole(){
+        return (this.user === undefined || this.user.role === undefined) ? new Rol() :  this.user.role;
     }
 
     /**

@@ -3,12 +3,11 @@ import { DecimalPipe } from '@angular/common';
 import { environment } from '../../../environments/environment';
 
 import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
-import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 
 import { SortDirection } from '../../pages/security-management/advanced-sortable.directive';
-import { User, SearchResult } from '../models/auth.models';
+import { ClientModel, SearchResult } from '../models/client.models';
 
 
 interface State {
@@ -28,12 +27,12 @@ function compare(v1, v2) {
 }
 
 /**
- * Sort the table data
- * @param tabless Table field value
- * @param column Fetch the column
- * @param direction Sort direction Ascending or Descending
- */
-function sort(tables: User[], column: string, direction: string): User[] {
+* Sort the table data
+* @param tabless Table field value
+* @param column Fetch the column
+* @param direction Sort direction Ascending or Descending
+*/
+function sort(tables: ClientModel[], column: string, direction: string): ClientModel[] {
     if (direction === '') {
         return tables;
     } else {
@@ -45,26 +44,28 @@ function sort(tables: User[], column: string, direction: string): User[] {
 }
 
 /**
- * Table Data Match with Search input
- * @param tables Table field value fetch
- * @param term Search the value
- */
-function matches(tables: User, term: string, pipe: PipeTransform) {
+* Table Data Match with Search input
+* @param tables Table field value fetch
+* @param term Search the value
+*/
+function matches(tables: ClientModel, term: string, pipe: PipeTransform) {
     term = term.toLocaleLowerCase();
-    return tables.fullName.toLowerCase().includes(term)
-        || tables.phoneNumber.toLowerCase().includes(term)
+    return tables.businessName.toLowerCase().includes(term)
         || pipe.transform(tables.id).includes(term);
 }
 
-@Injectable({ providedIn: 'root' })
-export class UserProfileService {
+@Injectable({
+    providedIn: 'root'
+})
+export class ClientService {
+
 
     // tslint:disable-next-line: variable-name
     private _loading$ = new BehaviorSubject<boolean>(true);
     // tslint:disable-next-line: variable-name
     private _search$ = new Subject<void>();
     // tslint:disable-next-line: variable-name
-    private _tables$ = new BehaviorSubject<User[]>([]);
+    private _tables$ = new BehaviorSubject<ClientModel[]>([]);
     // tslint:disable-next-line: variable-name
     private _total$ = new BehaviorSubject<number>(0);
 
@@ -83,8 +84,8 @@ export class UserProfileService {
 
     searchSubscription: Subscription;
 
-    tableData: Array<User>;
-    item: User;
+    tableData: Array<ClientModel>;
+    item: ClientModel;
 
     constructor(private pipe: DecimalPipe, private http: HttpClient) {
 
@@ -146,8 +147,8 @@ export class UserProfileService {
     }
 
     // tslint:disable-next-line: adjacent-overload-signatures
-    set parentId(parentId) { 
-        this._set({ parentId }); 
+    set parentId(parentId) {
+        this._set({ parentId });
     }
 
     private _set(patch: Partial<State>) {
@@ -161,7 +162,7 @@ export class UserProfileService {
     private _search(): Observable<SearchResult> {
         const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 
-        let tables = new Array<User>();
+        let tables = new Array<ClientModel>();
 
         if (this.tableData !== undefined) {
             tables = this.tableData;
@@ -181,17 +182,15 @@ export class UserProfileService {
     }
 
     /**
-     * Get all Clients
+     * Get all
      * 
      */
     public getAll() {
-
-        this.http.get<any>(`${environment.apiUrl}/api/Authenticate/users?Page=` + this.page
+        this.http.get<any>(`${environment.apiUrl}/api/Client?Page=` + this.page
             + `&PageSize=` + this.pageSize
             + `&searchTerm=` + this.searchTerm
             + `&sortColumn=` + this.sortColumn
-            + `&sortDirection=` + this.sortDirection
-            + `&organizationId=` + this.parentId)
+            + `&sortDirection=` + this.sortDirection)
             .subscribe(result => {
                 this._tables$.next(result.data);
                 this._total$.next(result.count);
@@ -205,14 +204,6 @@ export class UserProfileService {
                 this._loading$.next(false);
             }
             );
-    }
-
-
-    /**
-     * Get all ProviderTypes
-     */
-    getAllClients() {
-        return this.http.get<any>(`${environment.apiUrl}/api/Authenticate/all`);
     }
 
     /**
@@ -234,31 +225,33 @@ export class UserProfileService {
      * Get by id
      */
     public getById(id: number) {
-        return this.http.get<any>(`${environment.apiUrl}/api/Authenticate/` + id);
+        return this.http.get<any>(`${environment.apiUrl}/api/Client/` + id);
     }
 
     /**
      * Add item
      */
-    public add(_user: User) {
+    public add(_clientModel: ClientModel) {
         //Map
-        let userName = _user.userName;
-        let firstName = _user.firstName;
-        let lastName = _user.lastName;
-        let phoneNumber = _user.phoneNumber;
-        let email = _user.email;
-        let password = _user.password;
-        let organizationId = _user.organizationId;
-        let rolName = _user.rolName;
+        let businessName = _clientModel.businessName;
+        let firstName = _clientModel.firstName;
+        let lastName = _clientModel.lastName;
+        let idNumer = _clientModel.idNumer;
+        let email = _clientModel.email;
+        let phoneNumber = _clientModel.phoneNumber;
+        let address = _clientModel.address;
+        let clientTypesId = _clientModel.clientTypesId;
+        let organizationId = _clientModel.organizationId;
 
-        return this.http.post<any>(`${environment.apiUrl}/api/authenticate/register`, { 
-            firstName, 
-            lastName, 
-            userName,
-            email,           
+        return this.http.post<any>(`${environment.apiUrl}/api/Client/`, {
+            businessName,
+            firstName,
+            lastName,
+            idNumer,
+            email,
             phoneNumber,
-            password,
-            rolName,
+            address,
+            clientTypesId,
             organizationId
         });
     }
@@ -266,40 +259,47 @@ export class UserProfileService {
     /**
      * Edit item
      */
-    public edit(_user: User) {
+    public edit(_clientModel: ClientModel) {
 
         //Map
-        let id = _user.id;
-        let userName = _user.userName;
-        let firstName = _user.firstName;
-        let lastName = _user.lastName;
-        let phoneNumber = _user.phoneNumber;
-        let email = _user.email;
-        let rolName = _user.rolName;
+        let id = _clientModel.id;
+        let businessName = _clientModel.businessName;
+        let firstName = _clientModel.firstName;
+        let lastName = _clientModel.lastName;
+        let idNumer = _clientModel.idNumer;
+        let email = _clientModel.email;
+        let phoneNumber = _clientModel.phoneNumber;
+        let address = _clientModel.address;
+        let clientTypesId = _clientModel.clientTypesId;
+        let organizationId = _clientModel.organizationId;
 
-        return this.http.put<any>(`${environment.apiUrl}/api/Authenticate/` + id, {
-            userName,
+        return this.http.put<any>(`${environment.apiUrl}/api/Client/` + id, {
+            id,
+            businessName,
             firstName,
             lastName,
-            phoneNumber,
+            idNumer,
             email,
-            rolName
+            phoneNumber,
+            address,
+            clientTypesId,
+            organizationId
         });
     }
 
     /**
-      * Get all users
+      * Get all items
       */
-    getAllUsers() {
-        return this.http.get<any>(`${environment.apiUrl}/api/Authenticate/users`);
-    }    
+    getAllItems() {
+        return this.http.get<any>(`${environment.apiUrl}/api/Client/All`);
+    }
 
     /**
      * Delete record
      * @param id 
      */
     delete(id: number) {
-        return this.http.delete<any>(`${environment.apiUrl}/api/Authenticate/` + id);
+        return this.http.delete<any>(`${environment.apiUrl}/api/Client/` + id);
     }
 
 }

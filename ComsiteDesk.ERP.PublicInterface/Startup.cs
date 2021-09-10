@@ -86,6 +86,7 @@ namespace ComsiteDesk.ERP.PublicInterface
             services.AddTransient<ITicketsRepo, TicketsRepo>();
 
             services.AddTransient<ITicketsUsersRepo, TicketsUsersRepo>();
+            services.AddTransient<ITicketsEquipmentsRepo, TicketsEquipmentsRepo>();
 
             services.AddTransient<ITicketStatusService, TicketStatusService>();
             services.AddTransient<ITicketStatusRepo, TicketStatusRepo>();
@@ -116,6 +117,26 @@ namespace ComsiteDesk.ERP.PublicInterface
 
             services.AddTransient<IEquipmentUserService, EquipmentUserService>();
             services.AddTransient<IEquipmentUserRepo, EquipmentUserRepo>();
+
+            services.AddTransient<IModuleRepo, ModuleRepo>();
+            services.AddTransient<IModuleService, ModuleService>();
+
+            services.AddTransient<IFormRepo, FormRepo>();
+            services.AddTransient<IFormService, FormService>();
+
+            services.AddTransient<IActionRepo, ActionRepo>();
+            services.AddTransient<IActionService, ActionService>();
+
+            services.AddTransient<IFormActionRepo, FormActionRepo>();
+            services.AddTransient<IFormActionService, FormActionService>();
+
+            services.AddTransient<IRoleFormActionRepo, RoleFormActionRepo>();
+            services.AddTransient<IRoleFormActionService, RoleFormActionService>();
+
+            services.AddTransient<IProjectsUsersRepo, ProjectsUsersRepo>();
+
+            services.AddTransient<IClientRepo, ClientRepo>();
+            services.AddTransient<IClientService, ClientService>();
 
             // configure jwt authentication
             var key = Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]);

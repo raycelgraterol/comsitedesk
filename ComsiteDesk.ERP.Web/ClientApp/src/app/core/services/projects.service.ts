@@ -233,6 +233,18 @@ export class ProjectsService {
   }
 
   /**
+     * Get 
+     */
+  public GetListUsersByProject(_ProjectId: number) {
+
+    let id = _ProjectId;
+
+    return this.http.post<any>(`${environment.apiUrl}/api/Projects/GetListUsersByProject`, {
+      id
+    });
+  }
+
+  /**
    * Add item
    */
   public add(_projects: ProjectModel) {
@@ -243,6 +255,7 @@ export class ProjectsService {
     let endDate = _projects.endDate;
     let organizationId = _projects.organizationId;
     let projectStatusId = _projects.projectStatusId;
+    let usersIds = _projects.usersIds;
 
     return this.http.post<any>(`${environment.apiUrl}/api/Projects/`, {
       title,
@@ -250,7 +263,8 @@ export class ProjectsService {
       startDate,
       endDate,
       organizationId,
-      projectStatusId
+      projectStatusId,
+      usersIds
     });
   }
 
@@ -267,6 +281,7 @@ export class ProjectsService {
     let endDate = _projects.endDate;
     let organizationId = _projects.organizationId;
     let projectStatusId = _projects.projectStatusId;
+    let usersIds = _projects.usersIds;
 
     return this.http.put<any>(`${environment.apiUrl}/api/Projects/` + id, {
       id,
@@ -275,7 +290,8 @@ export class ProjectsService {
       startDate,
       endDate,
       organizationId,
-      projectStatusId
+      projectStatusId,
+      usersIds
     });
   }
 

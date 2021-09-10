@@ -1,3 +1,5 @@
+import { Rol } from "./rol.models";
+
 export class User {
     id: number;
     userName: string;
@@ -9,6 +11,7 @@ export class User {
     rolName: string;
     phoneNumber: string;
     fullName: string;
+    role : Rol;
     imageUrl: string;
     organizationId: number;
     organization: any;

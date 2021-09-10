@@ -9,7 +9,7 @@ namespace ComsiteDesk.ERP.Service.HelperModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public DateTime TicketDate { get; set; }
+        public DateTime? TicketDate { get; set; }
         public int HoursWorked { get; set; }
         public string ReportedFailure { get; set; }
         public string TechnicalFailure { get; set; }
@@ -28,12 +28,10 @@ namespace ComsiteDesk.ERP.Service.HelperModel
         public string TicketTypeName { get; set; }
         public string TicketProcessName { get; set; }
 
-        public int OrganizationId { get; set; }
-        public OrganizationModel Organization { get; set; }
-        public int[] UsersIds { get; set; }
+        public int ClientId { get; set; }
+        public string ClientName { get; set; }
+        public long[] UsersIds { get; set; }
+        public int[] EquipmentIds { get; set; }
         public TicketUserModel[] Users { get; set; }
-
-        //public List<TicketsEquipments> Equipments { get; set; }
-
     }
 }

@@ -117,7 +117,6 @@
           <div class="col-md-6 col-xs-12">
             <div class="form-group">
               <input type="hidden" class="form-control" name="id" formControlName="id" value="0">
-              <input type="hidden" class="form-control" name="organizationsId" formControlName="organizationsId" value="0">
               <label>Nombre</label>
               <div class="input-group mb-2">
                 <input type="text" class="form-control" name="name" formControlName="name" value=""
@@ -125,6 +124,17 @@
                 <div *ngIf="submit && form.name.errors" class="invalid-feedback">
                   <span *ngIf="form.name.errors.required">El Nombre es requerido</span>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-xs-12">
+            <div class="form-group">
+              <label>Clientes<span class="text-danger">*</span></label>
+              <ng-select [items]="clients" bindValue="id" bindLabel="businessName" placeholder="Seleccionar"
+                name="clientId" formControlName="clientId" class="custom-select2"
+                [ngClass]="{'is-invalid': submit && form.clientId.errors}"></ng-select>
+              <div *ngIf="submit && form.clientId.errors" class="invalid-feedback">
+                <span *ngIf="form.clientId.errors.required">El Cliente es requerido.</span>
               </div>
             </div>
           </div>
@@ -138,13 +148,10 @@
           </div>
           <div class="col-md-12 col-xs-12">
             <div class="form-group">
-              <label>Direccion</label>              
+              <label>Direccion</label>  
               <div class="input-group mb-2">
-                <input type="text" class="form-control" name="address" formControlName="address" value=""
-                  [ngClass]="{'is-invalid': submit && form.address.errors}">
-                <div *ngIf="submit && form.address.errors" class="invalid-feedback">
-                  <span *ngIf="form.address.errors.required">La Direccion es requerido</span>
-                </div>
+                <textarea type="text" class="form-control" name="address" formControlName="address"
+                  rows="4" value=""></textarea>
               </div>
             </div>
           </div>

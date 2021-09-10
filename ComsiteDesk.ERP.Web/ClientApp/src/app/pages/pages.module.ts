@@ -15,10 +15,10 @@ import { ErrorModule } from './error/error.module';
 import { SecurityManagementModule } from './security-management/security-management.module';
 import { TicketManagementModule } from './ticket-management/ticket-management.module';
 
-
 import { PagesRoutingModule } from './pages-routing.module';
 import { AssignmentModule } from './assignment/assignment.module';
 import { ProjectsModule } from './projects/projects.module';
+import { AdministrationModule } from './administration/administration.module';
 
 @NgModule({
   declarations: [],
@@ -37,7 +37,8 @@ import { ProjectsModule } from './projects/projects.module';
     SecurityManagementModule,
     TicketManagementModule,
     AssignmentModule,
-    ProjectsModule
+    ProjectsModule,
+    AdministrationModule
   ]
 })
 export class PagesModule { }

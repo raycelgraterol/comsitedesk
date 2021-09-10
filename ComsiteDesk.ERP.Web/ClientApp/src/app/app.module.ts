@@ -9,9 +9,9 @@ import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { LayoutsModule } from './layouts/layouts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserProfileService } from './core/services/user.service';
+import { UserProfileService } from './core/services/security/user.service';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { RolesService } from './core/services/roles.service';
+import { RolesService } from './core/services/security/roles.service';
 
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { environment } from '../environments/environment'
@@ -26,6 +26,10 @@ import { HeadquarterService } from './core/services/headquarter.service';
 import { DepartmentService } from './core/services/department.service';
 import { EquipmentUserService } from './core/services/equipment-user.service';
 import { EquipmentService } from './core/services/equipment.service';
+
+import { FormViewsService } from './core/services/security/form-views.service';
+import { FormActionsService } from './core/services/security/form-actions.service';
+import { SecurityModulesService } from './core/services/security/security-modules.service';
 
 let config = new AuthServiceConfig([
   {
@@ -57,6 +61,10 @@ export function provideConfig() {
     DecimalPipe,
     DatePipe,
     UserProfileService,
+    RolesService,
+    FormViewsService,
+    FormActionsService,
+    SecurityModulesService,
     RolesService,
     TicketTypesService,
     TicketService,

@@ -13,6 +13,7 @@ namespace ComsiteDesk.ERP.Service
         ITicketStatusRepo TicketStatusRepo { get; }
         ITicketsRepo TicketsRepo { get; }
         ITicketsUsersRepo TicketsUsersRepo { get; }
+        ITicketsEquipmentsRepo TicketsEquipmentsRepo { get; }
         ITicketProcessesRepo TicketProcessesRepo { get; }
         ITicketCategoriesRepo TicketCategoriesRepo { get; }
         IEquipmentRepo EquipmentRepo { get; }
@@ -29,5 +30,7 @@ namespace ComsiteDesk.ERP.Service
         IActionRepo ActionRepo { get; }
         IFormActionRepo FormActionRepo { get; }
         IRoleFormActionRepo RoleFormActionRepo { get; }
+        IProjectsUsersRepo ProjectsUsersRepo { get; }
+        IClientRepo ClientRepo { get; }
     }
 }

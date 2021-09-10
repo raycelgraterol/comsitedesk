@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { AuthenticationService } from 'src/app/core/services/security/auth.service';
 
 import { WizardComponent as BaseWizardComponent } from 'angular-archwizard';
 import Swal from 'sweetalert2';

@@ -11,6 +11,7 @@ namespace ComsiteDesk.ERP.Service
         private ITicketStatusRepo _ticketStatusRepo { get; set; }
         private ITicketsRepo _ticketsRepo { get; set; }
         private ITicketsUsersRepo _ticketsUsersRepo { get; set; }
+        private ITicketsEquipmentsRepo _ticketsEquipmentsRepo { get; set; }
         private ITicketProcessesRepo _ticketProcessesRepo { get; set; }
         private ITicketCategoriesRepo _ticketCategoriesRepo { get; set; }
         private IEquipmentRepo _equipmentRepo { get; set; }
@@ -22,12 +23,13 @@ namespace ComsiteDesk.ERP.Service
         private IDepartmentRepo _departmentRepo { get; }
         private IHeadquarterRepo _headquarterRepo { get; }
         private IEquipmentUserRepo _equipmentUserRepo { get; }
-
         private IModuleRepo _moduleRepo { get; set; }
         private IFormRepo _formRepo { get; set; }
         private IActionRepo _actionRepo { get; set; }
         private IFormActionRepo _formActionRepo { get; set; }
         private IRoleFormActionRepo _roleFormActionRepo { get; set; }
+        private IProjectsUsersRepo _projectsUsersRepo { get; set; }
+        private IClientRepo _clientRepo { get; set; }
 
         public UnitOfWork(ApplicationDbContext db,
             IOrganizationsRepo organizationsRepo,
@@ -35,6 +37,7 @@ namespace ComsiteDesk.ERP.Service
             ITicketStatusRepo ticketStatusRepo,
             ITicketsRepo ticketsRepo,
             ITicketsUsersRepo ticketsUsersRepo,
+            ITicketsEquipmentsRepo ticketsEquipmentsRepo,
             ITicketProcessesRepo ticketProcessesRepo,
             ITicketCategoriesRepo ticketCategoriesRepo,
             IEquipmentRepo equipmentRepo,
@@ -50,7 +53,9 @@ namespace ComsiteDesk.ERP.Service
             IFormRepo formRepo,
             IActionRepo actionRepo,
             IFormActionRepo formActionRepo,
-            IRoleFormActionRepo roleFormActionRepo)
+            IRoleFormActionRepo roleFormActionRepo,
+            IProjectsUsersRepo projectsUsersRepo,
+            IClientRepo clientRepo)
         {
             _db = db;
             _organizationsRepo = organizationsRepo;
@@ -58,6 +63,7 @@ namespace ComsiteDesk.ERP.Service
             _ticketStatusRepo = ticketStatusRepo;
             _ticketsRepo = ticketsRepo;
             _ticketsUsersRepo = ticketsUsersRepo;
+            _ticketsEquipmentsRepo = ticketsEquipmentsRepo;
             _ticketProcessesRepo = ticketProcessesRepo;
             _ticketCategoriesRepo = ticketCategoriesRepo;
             _ticketCategoriesRepo = ticketCategoriesRepo;
@@ -75,6 +81,8 @@ namespace ComsiteDesk.ERP.Service
             _actionRepo = actionRepo;
             _formActionRepo = formActionRepo;
             _roleFormActionRepo = roleFormActionRepo;
+            _projectsUsersRepo = projectsUsersRepo;
+            _clientRepo = clientRepo;
         }
 
         private ApplicationDbContext _db { get; set; }
@@ -83,6 +91,7 @@ namespace ComsiteDesk.ERP.Service
         public ITicketStatusRepo TicketStatusRepo => _ticketStatusRepo;
         public ITicketsRepo TicketsRepo => _ticketsRepo;
         public ITicketsUsersRepo TicketsUsersRepo => _ticketsUsersRepo;
+        public ITicketsEquipmentsRepo TicketsEquipmentsRepo => _ticketsEquipmentsRepo;
         public ITicketProcessesRepo TicketProcessesRepo => _ticketProcessesRepo;
         public ITicketCategoriesRepo TicketCategoriesRepo => _ticketCategoriesRepo;
         public IEquipmentRepo EquipmentRepo => _equipmentRepo;
@@ -99,6 +108,8 @@ namespace ComsiteDesk.ERP.Service
         public IActionRepo ActionRepo => _actionRepo;
         public IFormActionRepo FormActionRepo => _formActionRepo;
         public IRoleFormActionRepo RoleFormActionRepo => _roleFormActionRepo;
+        public IProjectsUsersRepo ProjectsUsersRepo => _projectsUsersRepo;
+        public IClientRepo ClientRepo => _clientRepo;
 
         public void Commit()
         {

@@ -17,7 +17,7 @@ namespace ComsiteDesk.ERP.DB.Core.Models
         public string Address { get; set; }
 
         [Required]
-        public int OrganizationsId { get; set; }
-        public Organizations Organizations { get; set; }
+        public int ClientId { get; set; }
+        public Client Client { get; set; }
     }
 }

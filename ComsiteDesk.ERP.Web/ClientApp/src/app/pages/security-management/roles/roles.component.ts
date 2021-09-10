@@ -10,7 +10,7 @@ import { AdvancedSortableDirective, SortEvent } from '../advanced-sortable.direc
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 
-import { RolesService } from '../../../core/services/roles.service';
+import { RolesService } from '../../../core/services/security/roles.service';
 
 @Component({
   selector: 'app-roles',

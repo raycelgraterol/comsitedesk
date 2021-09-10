@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 
 import { EquipmentUserModel, SearchResult } from 'src/app/core/models/equipmentUser.models';
 import { EquipmentUserService } from 'src/app/core/services/equipment-user.service';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { AuthenticationService } from 'src/app/core/services/security/auth.service';
 
 @Component({
   selector: 'app-equipment-user',

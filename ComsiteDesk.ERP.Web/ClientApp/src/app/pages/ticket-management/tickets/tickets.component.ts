@@ -10,6 +10,9 @@ import { environment } from '../../../../environments/environment';
 import { Tickets, SearchResult, CardData } from 'src/app/core/models/tickets.models';
 import { TicketService } from 'src/app/core/services/ticket.service';
 
+import { ClientService } from 'src/app/core/services/client.service';
+import { ClientModel } from 'src/app/core/models/client.models';
+
 import { TicketTypes } from 'src/app/core/models/ticket-types.models';
 import { TicketTypesService } from 'src/app/core/services/ticket-types.service';
 
@@ -21,10 +24,12 @@ import { TicketCategoriesService } from 'src/app/core/services/ticket-categories
 
 import { TicketProcesses } from 'src/app/core/models/ticket-processes.models';
 import { TicketProcessesService } from 'src/app/core/services/ticket-processes.service';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { AuthenticationService } from 'src/app/core/services/security/auth.service';
 import { DatePipe } from '@angular/common';
 import { User } from 'src/app/core/models/auth.models';
 import { take } from 'rxjs/operators';
+import { EquipmentService } from 'src/app/core/services/equipment.service';
+import { EquipmentModel } from 'src/app/core/models/equipment.models';
 
 @Component({
   selector: 'app-tickets',
@@ -47,7 +52,6 @@ export class TicketsComponent implements OnInit {
   innerform: FormGroup;
   queryId: number;
   user: any;
-  organizationId: number;
 
   tables$: Observable<Tickets[]>;
   total$: Observable<number>;
@@ -58,7 +62,9 @@ export class TicketsComponent implements OnInit {
   status: Array<TicketStatus>;
   categories: Array<TicketCategories>;
   processes: Array<TicketProcesses>;
+  equipments: Array<EquipmentModel>;
   users: Array<User>;
+  clients: Array<ClientModel>;
 
   public urlAPI: string = `${environment.apiUrl}\\`;
 
@@ -70,16 +76,12 @@ export class TicketsComponent implements OnInit {
     public statusService: TicketStatusService,
     public categoriesService: TicketCategoriesService,
     public processesService: TicketProcessesService,
+    public equipmentService: EquipmentService,
     private authService: AuthenticationService,
+    private clientService: ClientService,
     public formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private modalService: NgbModal) {
-
-    this.user = this.authService.currentUser();
-    if (this.user.organization != undefined) {
-      this.organizationId = this.user.organization.id;
-    }
-
   }
   ngOnInit() {
 
@@ -110,7 +112,6 @@ export class TicketsComponent implements OnInit {
     this.innerform = this.formBuilder.group({
       id: [0],
       title: ["", [Validators.required]],
-      ticketDate: ["", [Validators.required]],
       hoursWorked: [0],
       reportedFailure: [""],
       technicalFailure: [""],
@@ -122,14 +123,20 @@ export class TicketsComponent implements OnInit {
       ticketCategoryId: [0],
       ticketTypeId: [0, [Validators.required]],
       ticketProcessId: [0],
-      organizationId: [0, [Validators.required]],
-      usersIds: [[], [Validators.required]]
+      clientId: [0, [Validators.required]],
+      usersIds: [[], [Validators.required]],
+      equipmentIds: [[]]
     });
 
   }
 
   loadDropDownList() {
 
+    this.clientService.getAllItems()
+      .subscribe(result => {
+        this.clients = result.data;
+      }, error => console.error(error));
+    
     this.authService.getAllUsers()
       .subscribe(result => {
         this.users = result.data;
@@ -153,6 +160,11 @@ export class TicketsComponent implements OnInit {
     this.processesService.getAllItems()
       .subscribe(result => {
         this.processes = result.data;
+      }, error => console.error(error));
+
+    this.equipmentService.getAllItems()
+      .subscribe(result => {
+        this.equipments = result.data;
       }, error => console.error(error));
   }
 
@@ -190,7 +202,6 @@ export class TicketsComponent implements OnInit {
 
     this.innerform.reset();
     this.innerform.controls.id.setValue(0);
-    this.innerform.controls.organizationId.setValue(this.organizationId);
 
     if (Id != null && Id != 0) {
       this.IsEdit = true;
@@ -201,7 +212,6 @@ export class TicketsComponent implements OnInit {
             this.innerform.controls.id.setValue(this.item.id);
 
             this.form.title.setValue(this.item.title);
-            this.form.ticketDate.setValue(this.datePipe.transform(this.item.ticketDate, 'yyyy-MM-dd'));
             this.form.hoursWorked.setValue(this.item.hoursWorked);
             this.form.reportedFailure.setValue(this.item.reportedFailure);
             this.form.technicalFailure.setValue(this.item.technicalFailure);
@@ -212,13 +222,24 @@ export class TicketsComponent implements OnInit {
             this.form.ticketTypeId.setValue(this.item.ticketTypeId);
             this.form.ticketCategoryId.setValue(this.item.ticketCategoryId);
             this.form.ticketProcessId.setValue(this.item.ticketProcessId);
-            this.form.organizationId.setValue(this.item.organizationId);
+            this.form.clientId.setValue(this.item.clientId);
             
             this.service.GetListUsersByTicket(this.item.id)
               .subscribe(result => {
                 if (result) {
                   let userIds = result.data.map(x => x.userId);
                   this.form.usersIds.setValue(userIds);
+                }
+              }, error => {
+                console.error(error);
+              }
+              );
+
+            this.service.GetListEquipmentsByTicket(this.item.id)
+              .subscribe(result => {
+                if (result) {
+                  let equipmentIds = result.data.map(x => x.equipmentId);
+                  this.form.equipmentIds.setValue(equipmentIds);
                 }
               }, error => {
                 console.error(error);
@@ -251,7 +272,6 @@ export class TicketsComponent implements OnInit {
 
     this.item.id = parseInt(this.form.id.value);
     this.item.title = this.form.title.value;
-    this.item.ticketDate = this.form.ticketDate.value;
     this.item.hoursWorked = parseInt(this.form.hoursWorked.value == null ? "0" : this.form.hoursWorked.value);
     this.item.reportedFailure = this.form.reportedFailure.value;
     this.item.technicalFailure = this.form.technicalFailure.value;
@@ -262,8 +282,9 @@ export class TicketsComponent implements OnInit {
     this.item.ticketTypeId = parseInt(this.form.ticketTypeId.value);
     this.item.ticketCategoryId = parseInt(this.form.ticketCategoryId.value);
     this.item.ticketProcessId = this.form.ticketProcessId.value == null ? null : parseInt(this.form.ticketProcessId.value);
-    this.item.organizationId = parseInt(this.form.organizationId.value);
+    this.item.clientId = parseInt(this.form.clientId.value);
     this.item.usersIds = this.form.usersIds.value;
+    this.item.equipmentIds = this.form.equipmentIds.value;
 
     if (this.item.id == 0 || this.item.id == null) {
 

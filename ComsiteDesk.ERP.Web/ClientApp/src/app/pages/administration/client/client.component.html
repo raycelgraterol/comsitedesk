@@ -1,0 +1,211 @@
+<div class="container-fluid">
+  <app-page-title title="Clientes" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="header-title">Listado</h4>
+          <p class="text-muted font-13 mb-4">
+
+          </p>
+          <div class="row mb-md-2">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="tickets-table_length"><label
+                  class="d-inline-flex align-items-center">Mostrar
+                  <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
+                    [(ngModel)]="service.pageSize"
+                    class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                    <option [ngValue]="100">100</option>
+                  </select> registros</label></div>
+            </div>
+            <!-- Search -->
+            <div class="col-sm-12 col-md-4">
+              <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label
+                  class="d-inline-flex align-items-center">Buscar:
+                  <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                    aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label></div>
+            </div>
+            <div class="col-sm-12 col-md-2">
+              <div class="button-list text-right">
+                <!-- Responsive modal -->
+                <button type="button" class="btn btn-info btn-sm" (click)="responsiveModal(responsiveData)">
+                  Agregar Cliente</button>
+              </div>
+            </div>
+            <!-- End search -->
+          </div>
+          <!-- Table -->
+          <div class="table-responsive">
+            <app-ui-preloader [display]="dataLoading | async"></app-ui-preloader>
+            <table id="cost-category-table" class="table datatables dt-responsive nowrap">
+              <thead>
+                <tr>
+                  <th sortable="id" (sort)="onSort($event)">Codigo</th>
+                  <th sortable="name" (sort)="onSort($event)">Nombre</th>
+                  <th sortable="type" (sort)="onSort($event)">RIF/CI</th>
+                  <th sortable="serial" (sort)="onSort($event)">phoneNumber</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr tr *ngFor="let table of tables$ | async">
+                  <td>
+                    <ngb-highlight [result]="table.id" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <ngb-highlight [result]="table.businessName" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <ngb-highlight [result]="table.idNumer" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <ngb-highlight [result]="table.phoneNumber" [term]="service.searchTerm"></ngb-highlight>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-xs btn-outline-info btn-rounded" ngbTooltip="Editar Cliente"
+                      (click)="responsiveModal(responsiveData, table.id)">
+                      <i class="fe-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-xs btn-outline-danger btn-rounded"
+                      ngbTooltip="Eliminar Cliente" (click)="deleteItem(table.id)">
+                      <i class="fe-trash-2"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- End table -->
+          <div class="row justify-content-md-between align-items-md-center mt-2">
+            <div class="col-sm-12 col-md-5">
+              <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Mostrando
+                {{service.startIndex}} hasta
+                {{service.endIndex}} de {{service.totalRecords}}
+                registros
+              </div>
+            </div>
+            <!-- Pagination -->
+            <div class="col-sm-12 col-md-5">
+              <div class="text-md-right float-md-right pagination-rounded">
+                <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
+                </ngb-pagination>
+              </div>
+            </div>
+            <!-- End Pagination -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Responsive Modal -->
+<ng-template #responsiveData let-modal="close">
+  <div class="modal-header">
+    <h4 class="modal-title" *ngIf="IsEdit">Editar Cliente</h4>
+    <h4 class="modal-title" *ngIf="!IsEdit">Crear Cliente</h4>
+    <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+  </div>
+  <form class="needs-validation" (ngSubmit)="validSubmit()" [formGroup]="innerform">
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <div class="modal-body p-4">
+      <div class="center-div">
+        <div class="row">
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <input type="hidden" class="form-control" name="id" formControlName="id" value="0">
+              <input type="hidden" class="form-control" name="organizationId" formControlName="organizationId" value="0">
+              <label>Nombre Empresa</label>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" name="businessName" formControlName="businessName" value=""
+                  [ngClass]="{'is-invalid': submit && form.businessName.errors}">
+                <div *ngIf="submit && form.businessName.errors" class="invalid-feedback">
+                  <span *ngIf="form.businessName.errors.required">El Nombre es requerido</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Nombre</label>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" name="firstName" formControlName="firstName" value=""
+                  [ngClass]="{'is-invalid': submit && form.firstName.errors}">
+                <div *ngIf="submit && form.firstName.errors" class="invalid-feedback">
+                  <span *ngIf="form.firstName.errors.required">El Nombre es requerido</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Apellido</label>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" name="lastName" formControlName="lastName" value=""
+                  [ngClass]="{'is-invalid': submit && form.lastName.errors}">
+                <div *ngIf="submit && form.lastName.errors" class="invalid-feedback">
+                  <span *ngIf="form.lastName.errors.required">El Apellido es requerido</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>RIF/CI</label>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" name="idNumer" formControlName="idNumer" value=""
+                  [ngClass]="{'is-invalid': submit && form.idNumer.errors}">
+                <div *ngIf="submit && form.idNumer.errors" class="invalid-feedback">
+                  <span *ngIf="form.idNumer.errors.required">El RIF/CI es requerido</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Correo</label>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" name="email" formControlName="email" value="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Telefono</label>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" name="phoneNumber" formControlName="phoneNumber" value="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Tipo de Cliente<span class="text-danger">*</span></label>
+              <ng-select [items]="clientType" bindValue="id" bindLabel="name" placeholder="Seleccionar"
+                name="clientTypesId" formControlName="clientTypesId" class="custom-select2"
+                [ngClass]="{'is-invalid': submit && form.clientTypesId.errors}"></ng-select>
+              <div *ngIf="submit && form.clientTypesId.errors" class="invalid-feedback">
+                <span *ngIf="form.clientTypesId.errors.required">El Tipo es requerido.</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label>Direccion</label>
+              <div class="input-group mb-2">
+                <textarea type="text" class="form-control" name="address" formControlName="address"
+                  rows="4" value=""></textarea>
+              </div>              
+            </div>
+          </div>                           
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect btn-sm" (click)="modal('Cross click')">Cerrar</button>
+      <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+    </div>
+  </form>
+</ng-template>

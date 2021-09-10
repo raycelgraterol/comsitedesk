@@ -10,7 +10,7 @@
     <div class="col-sm-8">
       <div class="text-sm-right">
         <div class="btn-group mb-1">
-          <button type="button" *ngFor="let status of projectStatus" (click)="changeStatus(status.id, status.name)" 
+          <button type="button" *ngFor="let status of projectStatus" (click)="changeStatus(status.id, status.name)"
             class="btn ml-1" [ngClass]="currentStatus == status.name ? 'btn-primary' : 'btn-light'">
             {{status.name}}
           </button>
@@ -54,6 +54,13 @@
               <b> {{project.comments}}</b> Comentarios
             </span>
           </p>
+          <!-- Team-->
+          <div class="avatar-group mb-3">
+            <div href="javascript: void(0);" class="avatar-group-item" *ngFor="let user of project.users">
+              <img [src]="user.userImageUrl ? urlAPI + user.userImageUrl : 'assets/images/users/user.png'"
+                alt="{{user.userName}}" ngbTooltip="{{user.userName}}" class="rounded-circle avatar-sm" alt="friend" />
+            </div>
+          </div>
           <!-- Progress-->
           <p class="mb-2 font-weight-bold">Tareas completadas: <span
               class="float-right">{{project.totalTasks}}/{{project.totalTasks}}</span></p>
@@ -91,7 +98,8 @@
       <a class="dropdown-item" href="javascript: void(0);"
         (click)="responsiveModal(responsiveData, project.id)">Editar</a>
       <a class="dropdown-item" href="javascript: void(0);" (click)="deleteItem(project.id)">Eliminar</a>
-      <a class="dropdown-item" href="javascript: void(0);">Agregar miembros</a>
+      <a class="dropdown-item" href="javascript: void(0);" (click)="addOrEditMember(AddMember, project.id)">Agregar
+        miembros</a>
       <a class="dropdown-item" href="javascript: void(0);">Agrega Vencimiento</a>
     </div>
   </div> <!-- end dropdown -->
@@ -163,6 +171,49 @@
                 <span *ngIf="form.projectStatusId.errors.required">El Estatus es requerido.</span>
               </div>
             </div>
+          </div>
+          <div class="col-md-12 col-xs-12">
+            <div class="form-group">
+              <label>Miembros</label>
+              <ng-select [items]="users" [multiple]="true" bindValue="id" bindLabel="fullName" placeholder="Seleccionar"
+                name="usersIds" formControlName="usersIds" class="custom-select2"></ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect btn-sm" (click)="modal('Cross click')">Cerrar</button>
+      <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+    </div>
+  </form>
+</ng-template>
+
+
+<!-- Responsive Modal AddMember -->
+<ng-template #AddMember let-modal="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Participantes</h4>
+    <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+  </div>
+  <form class="needs-validation" (ngSubmit)="addMemberSubmit()" [formGroup]="memberform">
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <div class="modal-body pb-2">
+      <div class="center-div">
+        <div class="row">
+          <div class="col-12 pb-2">
+            <h4>Agregar miembros a este Proyecto</h4>
+          </div>
+          <div class="col-md-12 col-xs-12">
+            <input type="hidden" class="form-control" name="idProject" formControlName="idProject" value="0">
+            <div class="form-group">
+              <label>Miembros</label>
+              <ng-select [items]="users" [multiple]="true" bindValue="id" bindLabel="fullName" placeholder="Seleccionar"
+                name="usersIds" formControlName="usersIds" class="custom-select2"></ng-select>
+            </div>
+          </div>
+          <div class="col-12 pb-2">
+            <h4></h4>
           </div>
         </div>
       </div>

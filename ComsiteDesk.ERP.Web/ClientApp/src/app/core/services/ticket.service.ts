@@ -108,7 +108,10 @@ export class TicketService {
     get loading$() { return this._loading$.asObservable(); }
     get page() { return this._state.page; }
     get pageSize() { return this._state.pageSize; }
-    get searchTerm() { return this._state.searchTerm; }
+    get searchTerm() 
+    { 
+        return this._state.searchTerm == null ? "" : this._state.searchTerm; 
+    }
     get startIndex() { return this._state.startIndex; }
     get endIndex() { return this._state.endIndex; }
     //sorting
@@ -217,7 +220,7 @@ export class TicketService {
      * 
      */
     public getAll() {
-        
+        this._loading$.next(true);
         let assignedTo = this.assignedTo == null ? 0 : this.assignedTo;
         let fromDate = this.fromDate == null ? '0001-01-01' : this.fromDate;
         let ticketStatusId = this.ticketStatusId == null ? 0 : this.ticketStatusId;
@@ -287,12 +290,23 @@ export class TicketService {
     }
 
     /**
+     * Get 
+     */
+     public GetListEquipmentsByTicket(_ticketId: number) {
+        
+        let id = _ticketId;
+
+        return this.http.post<any>(`${environment.apiUrl}/api/Tickets/GetAllEquipmentsByTicket`, {
+            id
+        });
+    }
+
+    /**
      * Add item
      */
     public add(_tickets: Tickets) {
         //Map
         let title = _tickets.title;
-        let ticketDate = _tickets.ticketDate;
         let hoursWorked = _tickets.hoursWorked;
         let reportedFailure = _tickets.reportedFailure;
         let technicalFailure = _tickets.technicalFailure;
@@ -303,12 +317,13 @@ export class TicketService {
         let ticketCategoryId = _tickets.ticketCategoryId;
         let ticketTypeId = _tickets.ticketTypeId;
         let ticketProcessId = _tickets.ticketProcessId;
-        let organizationId = _tickets.organizationId;
+        let clientId = _tickets.clientId;
         let usersIds = _tickets.usersIds;
+        let equipmentIds = _tickets.equipmentIds;
+        
 
         return this.http.post<any>(`${environment.apiUrl}/api/Tickets/`, {
             title,
-            ticketDate,
             hoursWorked,
             reportedFailure,
             technicalFailure,
@@ -319,8 +334,9 @@ export class TicketService {
             ticketCategoryId,
             ticketTypeId,
             ticketProcessId,
-            organizationId,
-            usersIds
+            clientId,
+            usersIds,
+            equipmentIds
         });
     }
 
@@ -332,7 +348,6 @@ export class TicketService {
         //Map
         let id = _tickets.id;
         let title = _tickets.title;
-        let ticketDate = _tickets.ticketDate;
         let hoursWorked = _tickets.hoursWorked;
         let reportedFailure = _tickets.reportedFailure;
         let technicalFailure = _tickets.technicalFailure;
@@ -343,13 +358,13 @@ export class TicketService {
         let ticketCategoryId = _tickets.ticketCategoryId;
         let ticketTypeId = _tickets.ticketTypeId;
         let ticketProcessId = _tickets.ticketProcessId;
-        let organizationId = _tickets.organizationId;
+        let clientId = _tickets.clientId;
         let usersIds = _tickets.usersIds;
+        let equipmentIds = _tickets.equipmentIds;
 
         return this.http.put<any>(`${environment.apiUrl}/api/Tickets/` + id, {
             id,
             title,
-            ticketDate,
             hoursWorked,
             reportedFailure,
             technicalFailure,
@@ -360,8 +375,9 @@ export class TicketService {
             ticketCategoryId,
             ticketTypeId,
             ticketProcessId,
-            organizationId,
-            usersIds
+            clientId,
+            usersIds,
+            equipmentIds
         });
     }
 

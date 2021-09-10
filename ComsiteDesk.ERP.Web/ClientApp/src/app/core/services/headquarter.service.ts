@@ -236,13 +236,13 @@ export class HeadquarterService {
       let name = _headquarterModel.name;
       let phoneNumber = _headquarterModel.phoneNumber;
       let address = _headquarterModel.address;
-      let organizationsId = _headquarterModel.organizationsId;
+      let clientId = _headquarterModel.clientId;
 
       return this.http.post<any>(`${environment.apiUrl}/api/Headquarter/`, { 
           name,
           phoneNumber,
           address,
-          organizationsId
+          clientId
       });
   }
 
@@ -256,14 +256,14 @@ export class HeadquarterService {
       let name = _headquarterModel.name;
       let phoneNumber = _headquarterModel.phoneNumber;
       let address = _headquarterModel.address;
-      let organizationsId = _headquarterModel.organizationsId;
+      let clientId = _headquarterModel.clientId;
 
       return this.http.put<any>(`${environment.apiUrl}/api/Headquarter/` + id, {
         id,
         name,
         phoneNumber,
         address,
-        organizationsId
+        clientId
       });
   }
 

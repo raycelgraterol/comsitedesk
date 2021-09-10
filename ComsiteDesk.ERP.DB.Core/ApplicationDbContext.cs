@@ -14,7 +14,7 @@ namespace ComsiteDesk.ERP.DB.Core
 
         public DbSet<Organizations> Organizations { get; set; }
         public DbSet<ClientTypes> ClientTypes { get; set; }
-        public DbSet<OrganizationTypes> OrganizationTypes { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public DbSet<TicketTypes> TicketTypes { get; set; }
         public DbSet<TicketStatus> TicketStatus { get; set; }
         public DbSet<TicketProcesses> TicketProcesses { get; set; }
@@ -93,6 +93,17 @@ namespace ComsiteDesk.ERP.DB.Core
                 .HasOne(x => x.FormAction)
                 .WithMany(e => e.Roles)
                 .HasForeignKey(x => x.FormActionId);
+
+            builder.Entity<ProjectsUsers>()
+                .HasKey(x => new { x.ProjectsId, x.UserId });
+            builder.Entity<ProjectsUsers>()
+                .HasOne(x => x.Projects)
+                .WithMany(m => m.Users)
+                .HasForeignKey(x => x.ProjectsId);
+            builder.Entity<ProjectsUsers>()
+                .HasOne(x => x.User)
+                .WithMany(e => e.Projects)
+                .HasForeignKey(x => x.UserId);
 
 
             #region All Roles
@@ -194,25 +205,6 @@ namespace ComsiteDesk.ERP.DB.Core
                    }
                );
 
-            builder.Entity<OrganizationTypes>()
-               .HasData(
-                   new OrganizationTypes
-                   {
-                       Id = 1,
-                       Name = "Organizacion Matriz"
-                   },
-                   new OrganizationTypes
-                   {
-                       Id = 2,
-                       Name = "Organizacion Principal",
-                   },
-                   new OrganizationTypes
-                   {
-                       Id = 3,
-                       Name = "Organizacion Secundaria",
-                   }
-               );
-
             builder.Entity<Organizations>()
                .HasData(
                    new Organizations
@@ -223,8 +215,6 @@ namespace ComsiteDesk.ERP.DB.Core
                        Email = "daniel@comsite.com.ve",
                        PhoneNumber = "02126616922",
                        Address = "Av. La Colina Edf. Florencia Local 2 Los Chaguaramos Caracas – Venezuela",
-                       OrganizationTypesId = 1,
-                       ParentOrganizationId = null,
                        CreatedBy = 1,
                        DateCreated = Convert.ToDateTime("03/01/2021"),
                        IsActive = true

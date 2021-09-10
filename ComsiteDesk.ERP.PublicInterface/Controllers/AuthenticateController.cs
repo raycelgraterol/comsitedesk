@@ -236,8 +236,8 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
                 }
 
                 var mailTo = user.Email;
-                var subject = string.Format("Usuario {0} Creado Exitosamente", model.RolName);
-                var html = string.Format("El usuario: {0} fue creado exitosamente. <br/> Con la contraseña: {1} <br/>", model.UserName , model.Password);
+                var subject = string.Format("Usuario {0} Creado Exitosamente Comsite Helpdesk", model.RolName);
+                var html = EmailRegister(user.UserName, model.Password);
 
                 _emailService.Send(mailTo, subject, html);
 
@@ -333,7 +333,7 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
 
                 var mailTo = user.Email;
                 var subject = "Usuario Administrador Creado Exitosamente";
-                var html = string.Format("El usuario: {0} fue creado exitosamente. <br/> Con la contraseña: {1} <br/>", user.UserName, model.Password);
+                var html = EmailRegister(user.UserName, model.Password);
 
                 _emailService.Send(mailTo, subject, html);
 
@@ -649,6 +649,38 @@ namespace ComsiteDesk.ERP.PublicInterface.Controllers
         }
 
         #region Private Methods
+
+        private string EmailRegister(string userName, string password)
+        {
+            var title = "¡Bienvenido a Comsite HelpDesk!";
+            var link = "https://www.comsite.com.ve/";
+
+            var stringHTML = string.Format(
+                    @"
+                    <div style='text-align: center; padding:5px; margin-bottom:10px'>
+                        <img width='auto' height='auto' src='https://www.comsite.com.ve/wp-content/uploads/2019/12/logo_consite.png' alt='' />
+                    </div>
+                    <div style='text-align: center; padding:5px;'>                        
+                        <h2>{0}</h2>
+                        <p style='font-size: 16px;'>Gracias por haberte inscrito en el sistema Comsite Helpdesk.</p>
+                        <p style='font-size: 16px;'>Aca estan tu datos de acceso</p>
+                        <p style='font-size: 16px;font-weight: bold;'>Usuario: {2}</p>
+                        <p style='font-size: 16px;font-weight: bold;'>Clave: {3}</p>
+                        <br />
+                        <p style='font-size: 16px;'>Guarda este correo en tus destacados para que te puedas conectar en pocos minutos y tengas toda la información al alcance de tu mano.</p>
+                        <br />
+                        <p style='font-size: 16px; margin-top: 30px;'>Cualquier duda, estamos pendientes a través de este medio o de nuestra pagina web</p>
+                        <a href='{1}' style='color: #fff;background-color: #17a2b8;border-color: #17a2b8;text-decoration: none;padding: 10px;border-radius: .25rem;margin-bottom:10px;'>
+                        comsite.com.ve
+                        </a>
+                        <br />
+                        <p style='font-size: 16px;font-weight: bold;'>© 2021 ComSite. Todos los derechos reservados.</p>
+                        <br />
+                    </div>
+                    ", title, link, userName, password);
+
+            return stringHTML;
+        }
         private async Task<UserModel> GenerateUserToken(User user)
         {
             try

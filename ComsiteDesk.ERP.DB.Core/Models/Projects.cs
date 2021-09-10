@@ -44,5 +44,7 @@ namespace ComsiteDesk.ERP.DB.Core.Models
 
         [NotMapped]
         public int TotalTasks { get; set; }
+
+        public List<ProjectsUsers> Users { get; set; }
     }
 }

@@ -10,9 +10,9 @@ import { AdvancedSortableDirective, SortEvent } from '../advanced-sortable.direc
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 
-import { UserProfileService } from '../../../core/services/user.service';
-import { AuthenticationService } from '../../../core/services/auth.service';
-import { RolesService } from '../../../core/services/roles.service';
+import { UserProfileService } from '../../../core/services/security/user.service';
+import { AuthenticationService } from '../../../core/services/security/auth.service';
+import { RolesService } from '../../../core/services/security/roles.service';
 
 @Component({
   selector: 'app-users',

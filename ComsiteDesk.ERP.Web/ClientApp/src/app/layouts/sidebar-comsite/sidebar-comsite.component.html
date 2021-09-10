@@ -15,7 +15,10 @@
             <ul class="nav-second-level collapse" aria-expanded="false">
                 <li>
                     <a routerLink="/tickets-management/tickets" routerLinkActive="active" class="side-nav-link-ref">Tickets</a>
-                </li>                  
+                </li>
+                <li>
+                    <a routerLink="/tickets-management/my-tickets" routerLinkActive="active" class="side-nav-link-ref">Mis Tickets</a>
+                </li>                    
             </ul>
           </li> 
           
@@ -59,6 +62,19 @@
 
           <li>
             <a href="javascript: void(0);" class="waves-effect">
+                <i class="mdi mdi-ballot-outline"></i>
+                <span> Administracion </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <ul class="nav-second-level collapse" aria-expanded="false">
+                <li>
+                    <a routerLink="/administration/client" routerLinkActive="active" class="side-nav-link-ref">Clientes</a>
+                </li>                                 
+            </ul>
+          </li>
+
+          <li>
+            <a href="javascript: void(0);" class="waves-effect">
                 <i class="mdi mdi-office-building"></i>
                 <span> Configuraciones </span>
                 <span class="menu-arrow"></span>
@@ -87,11 +103,36 @@
             </a>
             <ul class="nav-second-level collapse" aria-expanded="false">
                 <li>
-                    <a routerLink="/security/users" routerLinkActive="active" class="side-nav-link-ref">Usuarios</a>
+                    <a routerLink="/security/users" routerLinkActive="active" class="side-nav-link-ref">
+                        Usuarios</a>
                 </li>
                 <li>
-                    <a routerLink="/security/roles" routerLinkActive="active" class="side-nav-link-ref">Roles</a>
-                </li>                    
+                    <a routerLink="/security/roles" routerLinkActive="active" class="side-nav-link-ref">
+                        Roles</a>
+                </li>
+
+                <li>
+                    <a routerLink="/security/roles" routerLinkActive="active" class="side-nav-link-ref">
+                        Roles Vistas Acciones</a>
+                </li>
+
+                <div class="dropdown-divider"></div>  
+
+                <li>
+                    <a routerLink="/security/modules" routerLinkActive="active"
+                        class="side-nav-link-ref">Modulos</a>
+                </li>
+                
+                <li>
+                    <a routerLink="/security/formviews" routerLinkActive="active"
+                        class="side-nav-link-ref">Vistas</a>
+                </li>
+
+                <li>
+                    <a routerLink="/security/actions" routerLinkActive="active"
+                        class="side-nav-link-ref">Acciones</a>
+                </li>
+
             </ul>
           </li>
 

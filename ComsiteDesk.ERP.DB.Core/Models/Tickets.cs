@@ -74,11 +74,19 @@ namespace ComsiteDesk.ERP.DB.Core.Models
         public TicketProcesses TicketProcess { get; set; }
 
         [Required]
-        public int OrganizationId { get; set; }
-        public Organizations Organization { get; set; }
+        public int ClientId { get; set; }
+        public Client Client { get; set; }
+
+        [NotMapped]
+        public string ClientName
+        {
+            get
+            {
+                return Client != null ? Client.BusinessName : "";
+            }
+        }
 
         public List<TicketsUsers> Users { get; set; }
-
         public List<TicketsEquipments> Equipments { get; set; }
     }
 }

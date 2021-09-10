@@ -46,7 +46,7 @@ namespace ComsiteDesk.ERP.Data
                                     TicketType = x.TicketType,
                                     TicketProcessId = x.TicketProcessId,
                                     TicketProcess = x.TicketProcess,
-                                    OrganizationId = x.OrganizationId,
+                                    ClientId = x.ClientId,
                                     Users = _applicationDbContext.TicketsUsers
                                                             .Include(u => u.User)
                                                             .Where(y => y.IsActive && y.TicketsId == x.Id)

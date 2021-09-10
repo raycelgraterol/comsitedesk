@@ -8,11 +8,17 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { TicketStatusComponent } from './ticket-status/ticket-status.component';
 import { TicketProcessesComponent } from './ticket-processes/ticket-processes.component';
 import { TicketCategoriesComponent } from './ticket-categories/ticket-categories.component';
+import { MyTicketsComponent } from './my-tickets/my-tickets.component';
 
 const routes: Routes = [
   {
     path: 'tickets',
     component: TicketsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'my-tickets',
+    component: MyTicketsComponent,
     canActivate: [AuthGuard]
   },
   {

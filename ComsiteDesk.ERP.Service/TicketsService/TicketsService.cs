@@ -14,6 +14,7 @@ namespace ComsiteDesk.ERP.Service
     public class TicketsService : ITicketsService
     {
         public IUnitOfWork _uow;
+
         public TicketsService(IUnitOfWork uow)
         {
             _uow = uow;
@@ -28,6 +29,7 @@ namespace ComsiteDesk.ERP.Service
             itemModel.Id = _item.Id;
 
             await InserTicketUsersAsync(itemModel);
+            await InserTicketEquipmentsAsync(itemModel);
 
             return Convert.ToInt32(_item.Id);
         }
@@ -89,22 +91,30 @@ namespace ComsiteDesk.ERP.Service
         {
             try
             {
-                IQueryable<Tickets> result = _uow.TicketsRepo.GetAllTicketsUsers();
-
-                //count all items
-                searchParameters.totalCount = result.Count();
+                var result = _uow.TicketsRepo.GetAllTicketsUsers();               
 
                 searchParameters.searchTerm =
                     searchParameters.searchTerm == null ? "" : searchParameters.searchTerm;
 
+                if (searchParameters.AssignedTo != 0)
+                {
+                    var resulList = result.Join(_uow.TicketsUsersRepo.GetAll(),
+                                      ticket => ticket.Id,        
+                                      ticketU => ticketU.TicketsId,   
+                                      (ticket, ticketU) => new { Ticket = ticket, TicketU = ticketU }) 
+                                   .Where(t => t.TicketU.UserId == searchParameters.AssignedTo);    
+
+                    result = resulList.Select(x => x.Ticket);
+                }
+
                 //Filters
                 result = result.Where(s =>
-                            ((searchParameters.searchTerm == "") ||
-                            s.Title.ToLower().Contains(searchParameters.searchTerm.ToLower()) ||
-                            ("t-" + s.Id).ToString().Contains(searchParameters.searchTerm.ToLower())) &&
+                            (s.Title.ToLower().Contains(searchParameters.searchTerm.ToLower()) || s.Id.ToString().Contains(searchParameters.searchTerm.ToLower()) || (searchParameters.searchTerm == "")) &&
                             (s.TicketStatusId == searchParameters.TicketStatusId || searchParameters.TicketStatusId == 0) &&
-                            (s.StartTime >= searchParameters.StartDate   || searchParameters.StartDate == DateTime.MinValue) &&
-                            (s.Users.Any(y => y.UserId == searchParameters.AssignedTo) || searchParameters.TicketStatusId == 0));
+                            (s.StartTime >= searchParameters.StartDate || searchParameters.StartDate == DateTime.MinValue));
+
+                //count all items
+                searchParameters.totalCount = result.Count();
 
                 if (searchParameters.sortColumn != null)
                 {
@@ -114,7 +124,7 @@ namespace ComsiteDesk.ERP.Service
                 }
                 else
                 {
-                    result = result.OrderBy(x => x.Id);
+                    result = result.OrderByDescending(x => x.Id);
                 }
 
                 result = result
@@ -152,6 +162,16 @@ namespace ComsiteDesk.ERP.Service
             return items;
         }
 
+        public async Task<List<TicketEquipmentModel>> GetAllEquipmentsByTicket(int TicketId)
+        {
+            var result = _uow.TicketsEquipmentsRepo.GetAll().Where(x => x.TicketsId == TicketId);
+
+            List<TicketEquipmentModel> items =
+                CoreMapper.MapList<TicketsEquipments, TicketEquipmentModel>(await result.ToListAsync());
+
+            return items;
+        }
+
         public int Remove(TicketModel itemModel)
         {
             Tickets item = CoreMapper.MapObject<TicketModel, Tickets>(itemModel);
@@ -166,6 +186,7 @@ namespace ComsiteDesk.ERP.Service
             Tickets item = CoreMapper.MapObject<TicketModel, Tickets>(itemModel);
 
             await InserTicketUsersAsync(itemModel);
+            await InserTicketEquipmentsAsync(itemModel);
 
             item.IsActive = true;
             _uow.TicketsRepo.Edit(item);
@@ -219,6 +240,62 @@ namespace ComsiteDesk.ERP.Service
                         };
 
                         await _uow.TicketsUsersRepo.Insert(ticketUser);
+                        _uow.Commit();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private async System.Threading.Tasks.Task InserTicketEquipmentsAsync(TicketModel itemModel)
+        {
+            try
+            {
+                var existingItems = _uow.TicketsEquipmentsRepo.GetAll()
+                                        .Where(x => x.TicketsId == itemModel.Id)
+                                        .ToList();
+
+                //Set is active false for all exist items 
+                foreach (var currentItems in existingItems)
+                {
+                    _uow.TicketsEquipmentsRepo.Delete(currentItems);
+                    _uow.Commit();
+                }
+
+                //Loop for all formAction ids that come from the user
+                foreach (var equipmentId in itemModel.EquipmentIds)
+                {
+                    //check if the item exist to update else it is created.
+                    var item = _uow.TicketsEquipmentsRepo.GetAll()
+                                        .FirstOrDefault(x => x.EquipmentId == equipmentId && x.TicketsId == itemModel.Id);
+
+                    if (item != null)
+                    {
+                        var ticketsEquipment = new TicketsEquipments()
+                        {
+                            TicketsId = item.TicketsId,
+                            EquipmentId = equipmentId,
+                            IsActive = true
+                        };
+
+                        _uow.TicketsEquipmentsRepo.Edit(ticketsEquipment);
+                        _uow.Commit();
+                    }
+                    else
+                    {
+                        var ticketsEquipment = new TicketsEquipments()
+                        {
+                            TicketsId = itemModel.Id,
+                            EquipmentId = equipmentId,
+                            CreatedBy = itemModel.CreatedBy,
+                            DateCreated = DateTime.Now,
+                            IsActive = true
+                        };
+
+                        await _uow.TicketsEquipmentsRepo.Insert(ticketsEquipment);
                         _uow.Commit();
                     }
                 }
